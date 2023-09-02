@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        .box {
+            display: flex;
+            justify-content: space-between;
+            width: 800px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        .box>div {
+            flex: 1;
+        }
+
+        .box .center {
+            flex: 2;
+        }
+
+        .box .center input {
+            width: 70%;
+        }
+
+        .list {
+            list-style: none;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="left">
+            <div class="num">在线人数：1</div>
+        </div>
+
+        <div class="center">
+            <h1 style="margin-bottom: 20px;">简易聊天室</h1>
+
+            <!-- 输入框 -->
+            <input type="text" class="ipt">
+
+            <!-- 发送 -->
+            <button class="btn">发送消息</button>
+
+            <!-- 输入框 -->
+            <input type="text" class="joinNum">
+
+            <!-- 加入房间 -->
+            <button class="joinBtn">加入房间</button>
+
+            <ul class="list" style="margin-top: 40px;">
+                <!-- <li class="list-group-item">An item</li> -->
+            </ul>
+        </div>
+
+        <div class="right">
+            <!-- <div>xxx已进入</div> -->
+        </div>
+    </div>
+
+    <script>
+        let num = document.querySelector('.num')
+        let ipt = document.querySelector('.ipt')
+        let btn = document.querySelector('.btn')
+
+        let joinNum = document.querySelector('.joinNum')
+        let joinBtn = document.querySelector('.joinBtn')
+
+        let list = document.querySelector('.list')
+
+        let left = document.querySelector('.left')
+        let center = document.querySelector('.center')
+        let right = document.querySelector('.right')
+
+        let socket = io()
+
+        const name = prompt('请输入你的名称：')
+        
+        //把用户名称传递给服务端
+        socket.emit('join', name)
+
+        // 监听用户已进入 | 已退出
+        socket.on('join', (obj) => {
+            right.innerHTML += `<div>${obj.name} ${obj.status}</div>`
+        })
+
+        // 监听用户在线人数
+        socket.on('userNum', (n) => {
+            num.innerHTML = `在线人数：${n} 个人`
+        })
+
+        // 点击发送按钮 发送消息
+        btn.addEventListener('click', function () {
+            // 将数据传递给服务端
+            socket.emit('value', ipt.value)
+        })
+
+        // 键盘按下回车 发送消息
+        ipt.addEventListener('keydown', function (e) {
+            if (e.key !== 'Enter') return
+
+            // 将数据传递给服务端
+            socket.emit('value', ipt.value)
+        })
+
+        // 加入房间
+        joinBtn.addEventListener('click', function () {
+            socket.emit("joinRoom", { room: joinNum.value, value: ipt.value })
+        })
+
+        // 服务端再把数据响应回来
+        socket.on('value', (value) => {
+            list.innerHTML += `<li>${value}</li>`
+            ipt.value = ''
+        })
+    </script>
+</body>
+
+</html>

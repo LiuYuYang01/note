@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="./bootstrap/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .box {
+            width: 500px;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <!-- 输入框 -->
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">内容：</label>
+            <input type="text" class="form-control" id="ipt">
+        </div>
+
+        <!-- 发送 -->
+        <button class="btn btn-primary" id="btn">发送消息</button>
+
+
+        <ul class="list-group list" style="margin-top: 40px;">
+            <!-- <li class="list-group-item">An item</li> -->
+        </ul>
+    </div>
+
+    <script>
+        let ipt = document.querySelector('#ipt')
+        let btn = document.querySelector('#btn')
+        let list = document.querySelector('.list')
+
+        // 发送数据
+        btn.addEventListener('click', function () {
+            let ws = new WebSocket('ws://localhost:5000')
+
+            // 连接成功后
+            ws.onopen = function (evt) {
+                console.log('连接开启');
+                ws.send(ipt.value)
+            }
+
+            // 传递和接收服务器数据的方法
+            ws.onmessage = function (evt) {
+                list.innerHTML += `<li class="list-group-item">我：${ipt.value}</li>`
+
+                // 延迟回复
+                setTimeout(function () {
+                    list.innerHTML += `<li class="list-group-item">机器人：${evt.data}</li>`
+                }, 1000)
+
+                // 关闭
+                ws.close()
+            }
+        })
+    </script>
+
+    <script src="./bootstrap/bootstrap.min.js"></script>
+</body>
+
+</html>

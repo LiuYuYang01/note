@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Hello World!</h1>
+
+    <script>
+        let ws = new WebSocket('ws://localhost:5000')
+
+        // 连接成功后
+        ws.onopen = function (evt) {
+            console.log('连接开启');
+            ws.send('hello 我是客户端')
+        }
+
+        // 传递和接收服务器数据的方法
+        ws.onmessage = function (evt) {
+            // 客户端向服务端发送消息
+            ws.send(`我是客户端`)
+            console.log('服务端向客户端发送的消息：', evt.data);
+            ws.close()
+        }
+    </script>
+</body>
+
+</html>

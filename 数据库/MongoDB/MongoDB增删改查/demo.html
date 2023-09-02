@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <script src="./bootstrap.bundle.min.js"></script>
+    <title>MongoDB增删改查</title>
+</head>
+
+<body>
+    <div class="box" style="width: 500px;height:300px;margin:50px auto">
+        <form class="row g-3 needs-validation" novalidate id="form">
+            <!-- 姓名 -->
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">姓名：</label>
+                <input type="text" class="form-control" id="validationCustom01" name="name" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <!-- 年龄 -->
+            <div class="col-md-4">
+                <label for="validationCustom02" class="form-label">年龄</label>
+                <input type="text" class="form-control" id="validationCustom02" name="age" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <!-- 性别 -->
+            <div class="col-md-3">
+                <label for="validationCustom04" class="form-label">性别</label>
+                <select class="form-select" id="validationCustom04" name="sex" required>
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                    <option selected value="未知">未知</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select a valid state.
+                </div>
+            </div>
+
+            <!-- 用户名 -->
+            <div class="col-md-4">
+                <label for="validationCustomUsername" class="form-label">用户名</label>
+                <div class="input-group has-validation">
+                    <input type="text" class="form-control" id="validationCustomUsername"
+                        aria-describedby="inputGroupPrepend" name="user" required>
+                    <div class="invalid-feedback">
+                        Please choose a username.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 密码 -->
+            <div class="col-md-6">
+                <label for="validationCustom03" class="form-label">密码</label>
+                <input type="text" class="form-control" id="validationCustom03" name="password" required>
+                <div class="invalid-feedback">
+                    Please provide a valid city.
+                </div>
+            </div>
+
+            <!-- 同意条款和条件 -->
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                    <label class="form-check-label" for="invalidCheck">
+                        同意条款和条件
+                    </label>
+                    <div class="invalid-feedback">
+                        You must agree before submitting.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 新增 查询 -->
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit">新增</button>
+                <button class="btn btn-secondary" type="button" style="margin-left: 30px;">查询</button>
+            </div>
+        </form>
+
+        <!-- 查询的数据 -->
+        <ul class="list-group" style="margin-top: 20px;"></ul>
+
+        <!-- 修改弹出框 -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">修改数据</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="update_info">
+                            <div class="mb-3">
+                                <label for="name" class="col-form-label">姓名:</label>
+                                <input type="text" class="form-control" id="name" name="name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="age" class="col-form-label">年龄:</label>
+                                <input type="text" class="form-control" id="age" name="age">
+                            </div>
+                            <div class="mb-3">
+                                <label for="sex" class="col-form-label">性别:</label>
+                                <input type="text" class="form-control" id="sex" name="sex">
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">确定</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.querySelector('#form');
+        // 新增数据
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            let fd = new FormData(form);
+
+            let data = {
+                name: fd.get("name"),
+                age: fd.get("age"),
+                sex: fd.get("sex"),
+                user: fd.get("user"),
+                password: fd.get("password"),
+            }
+
+            let res = await http('POST', 'http://127.0.0.1:3000/add', JSON.stringify(data));
+            console.log(res);
+        })
+
+
+        const btn = document.querySelector('.btn-secondary');
+        const ul = document.querySelector('.list-group');
+        // 查询的数据
+        btn.addEventListener('click', async function () {
+            ul.innerHTML = '';
+
+            let res = await http('GET', 'http://127.0.0.1:3000/find');
+            console.log(res);
+
+            res.data.forEach(item => {
+                ul.innerHTML += `<li class="list-group-item">姓名：${item.name} | 年龄：${item.age} | 性别：| ${item.sex} <a href="javascript:;" style="float:right;margin-left:20px" id="listRemove" data-id="${item._id}">删除</a> <a href="javascript:;" style="float:right;" id="listUpdate" data-id="${item._id}" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">修改</a></li>`
+            });
+
+
+            // 删除数据
+            const listRemove = document.querySelectorAll('#listRemove');
+            for (let i = 0; i < listRemove.length; i++) {
+                listRemove[i].onclick = async function (e) {
+                    let id = this.dataset['id'];
+
+                    let data = await http('POST', 'http://localhost:3000/remove', id)
+                    console.log(data);
+                }
+            }
+
+
+            // 修改数据
+            const listUpdate = document.querySelectorAll('#listUpdate');
+            const update_info = document.querySelector('#update_info');
+            for (let i = 0; i < listUpdate.length; i++) {
+                listUpdate[i].onclick = function (e) {
+                    let id = this.dataset['id'];
+
+                    update_info.addEventListener('submit', async function (e) {
+                        e.preventDefault();
+
+                        let fd = new FormData(update_info);
+                        let obj = JSON.stringify({
+                            id,
+                            name: fd.get("name"),
+                            age: fd.get("age"),
+                            sex: fd.get("sex")
+                        })
+
+                        let data = await http('POST', 'http://127.0.0.1:3000/update', obj)
+                        console.log(data);
+                    })
+                }
+            }
+        })
+    </script>
+
+    <script>
+        // 封装一个Ajax网络请求
+        function http(mode, url, parameter) {
+            return new Promise(function (resolve, reject) {
+                const xhr = new XMLHttpRequest();
+
+                xhr.open(mode, url);
+                xhr.send(parameter)
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        resolve(JSON.parse(xhr.responseText))
+                    }
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
