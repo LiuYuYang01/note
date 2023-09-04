@@ -16,7 +16,9 @@ public class Main {
 
 ### 输出语句
 
-**print：** 输出不换行
+#### print
+
+输出不换行
 
 ```java
 System.out.print("Hello");
@@ -26,13 +28,56 @@ System.out.print(" Java!");
 
 
 
-**println：** 输出并换行
+#### println 
+
+输出并换行
 
 ```java
 System.out.println("Hello");
 System.out.println("Java!");
 # Hello
 # Java!
+```
+
+
+
+#### format
+
+如果不使用字符串格式化输出，在数据拼接时候就会显得非常麻烦
+
+```java
+ System.out.println("zs " + 20 + " 男"); // zs 20 男
+```
+
+
+
+所以就需要用到字符串格式化输出
+
+```java
+System.out.format("%s %d %c", "zs", 20, '男'); // zs 20 男
+```
+
+
+
+也可以将格式化后的数据作为返回值使用
+
+```java
+import static java.lang.String.format;
+
+public class Main {
+    public static void main(String[] args) {
+        String s = format("%s %d %c", "zs", 20, '男');
+        System.out.printf(s); // zs 20 男
+    }
+}
+```
+
+
+
+#### printf
+
+```java
+System.out.printf("%s %d %c", "zs", 20, '男'); // zs 20 男
 ```
 
 
