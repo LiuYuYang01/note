@@ -578,6 +578,10 @@ System.out.println(a.equals(b)); // true
 
 
 
+**注意：** 如果创建两个字符串是同样的值，那么第二个字符串并不会重新创建一个内存，而是从第一个字符串的常量池中获取
+
+
+
 ### chatAt
 
 获取指定位置的字符串
@@ -587,6 +591,48 @@ String s = new String("Hello World!");
 
 System.out.println(s.charAt(0)); // H
 System.out.println(s.charAt(s.length() - 1)); // !
+```
+
+
+
+### toCharArray
+
+将字符串转换为字符数组并返回
+
+```java
+String s = "Hello World";
+
+char[] list = s.toCharArray();
+
+System.out.println(list); // Hello World
+System.out.println(list[0]); // H
+System.out.println(list[1]); // e
+```
+
+
+
+### equals
+
+比较两个字符串是否相等，区分大小写字符串
+
+```java
+String s = "Hello";
+
+// 区分大小写
+System.out.println("Hello".equals(s)); // t
+System.out.println("hello".equals(s)); // f
+```
+
+
+
+使用 `equalsIgnoreCase` 不区分大小写
+
+```java
+String s = "Hello";
+
+// 区分大小写
+System.out.println("Hello".equalsIgnoreCase(s)); // t
+System.out.println("hello".equalsIgnoreCase(s)); // t
 ```
 
 
@@ -1573,6 +1619,12 @@ public class Phone {
 
 ### static
 
+类的静态属性、方法在多次 `new` 实例后在内存中只会创建一个内存空间，而实例属性在每次 `new` 时候就会创建一个新的空间
+
+静态成员属于类的，实例成员属于每个实例出来的对象的
+
+
+
 #### 静态属性
 
 当类的属性或方法被 `static` 修饰后，说明这个成员变量是属于类的，它称为类变量或静态成员变量。在使用时通过类名.属性名访问。因为类只有一个，所以静态成员变量在内存中也存在一份，所有的对象都可以使用这个变量
@@ -1633,7 +1685,7 @@ public class User {
 
 
 
-需要注意的是静态成员能够被实例访问也可以通过类名访问，而实例成员只能实例访问，不能通过类名访问
+需要注意的是静态成员能够被实例访问也可以通过类名访问（不建议），而实例成员只能实例访问，不能通过类名访问
 
 ```java
 public class User {
@@ -1645,6 +1697,37 @@ public class User {
     }
 }
 ```
+
+
+
+### 代码块
+
+```java
+public class Student {
+    static String name = "zs";
+    int age = 20;
+
+    // 静态代码块：随着类的加载而执行,并且只执行一次
+    static {
+        // 只能访问静态属性、方法
+        System.out.format("%s %s\n", "静态代码块", name);
+    }
+
+    // 构造代码块：每次调用构造方法时,都会执行一次,优先于构造方法执行
+    {
+        // 只能访问实例属性、方法
+        System.out.format("%s %d\n", "构造代码块", age);
+    }
+}
+```
+
+**静态代码块：** 随着类的加载而执行，并且只执行一次，一般用于加载驱动，或者放只需要执行一次的代码
+
+**构造代码块：** 每次调用构造方法时，都会执行一次,优先于构造方法执行，一般用于统计创建了多少个对象
+
+
+
+**注意：** 静态代码块 优先于 构造代码块执行，构造代码块 优先于 构造方法执行
 
 
 
@@ -2252,202 +2335,52 @@ if (p instanceof Student s) {
 
 
 
-### 练习
+## 包
 
-**1. 双人对战小游戏**
+1. 如果当前程序中要调用自己所在包下的其他程序，那么可以直接调用（同一个包下的类可以相互直接调用）
+2. 如果当前程序中要调用其他包下的程序，必须在当前程序中导包才能访问：`import 包名.类名`
+3. 如果当前程序中要调用 `java.lang` 包下的程序，不需要导包可以直接使用
 
-需求：
-
-​	格斗游戏，每个游戏角色的姓名，血量，都不相同，在选定人物的时候（new对象的时候），这些信息就应该被确定下来。 
-
-举例：
-
-```
-第1回合
-角色：Python 伤害：13 当前血量：87
-角色：Java 伤害：7 当前血量：93
-
-第2回合
-角色：Python 伤害：19 当前血量：68
-角色：Java 伤害：3 当前血量：90
-
-第3回合
-角色：Python 伤害：19 当前血量：49
-角色：Java 伤害：7 当前血量：83
-
-第4回合
-角色：Python 伤害：19 当前血量：30
-角色：Java 伤害：15 当前血量：68
-
-第5回合
-角色：Python 伤害：2 当前血量：28
-角色：Java 伤害：16 当前血量：52
-
-第6回合
-角色：Python 伤害：15 当前血量：13
-角色：Java 伤害：11 当前血量：41
-
-第7回合
-角色：Python 伤害：20 当前血量：0
-Java KO了 Python
-```
-
-代码示例：
+4. 如果当前程序中要调用多个不同包下的程序，且这些程序名正好相同。此时默认只能导入一个程序，另一个程序必须带包名访问，举个栗子：
 
 ```java
-// Role.java
-import java.util.Random;
-
-public class Role {
-    private String name;
-    private byte blood;
-
-    public Role(String name, byte blood) {
-        this.name = name;
-        this.blood = blood;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public byte getBlood() {
-        return blood;
-    }
-
-    public void setBlood(byte blood) {
-        this.blood = blood;
-    }
-
-    // 攻击方法
-    public void attack(Role role) {
-        // 随机伤害
-        Random r = new Random();
-        byte hurt = (byte) (r.nextInt(20) + 1);
-        byte boold = (byte) (role.getBlood() - hurt);
-
-        // 如果血量小于0就是0
-        boold = boold < 0 ? 0 :boold;
-        role.setBlood(boold);
-
-        // 对战记录
-        System.out.format("角色：%s 伤害：%d 当前血量：%d\n", role.getName(), hurt, role.getBlood());
-    }
-}
-```
-
-```java
-// Main.java
-public class Main {
-    public static void main(String[] args) {
-        Role java = new Role("Java", (byte) 100);
-        Role python = new Role("Python", (byte) 100);
-
-        // 回合数
-        byte round = 1;
-
-        while (true) {
-            System.out.println("第" + round + "回合");
-
-            java.attack(python);
-            if (python.getBlood() == 0) {
-                System.out.format("%s KO了 %s", java.getName(), python.getName());
-                break;
-            }
-
-            python.attack(java);
-            if (java.getBlood() == 0) {
-                System.out.format("%s KO了 %s", python.getName(), java.getName());
-                break;
-            }
-
-            round += 1;
-            System.out.println();
-        }
-    }
-}
-```
-
-
-
-**2. 商品数据录入**
-
-需求：
-
-定义数组存储 3 个商品的对象。
-
-商品的属性：名称、价格。
-
-创建三个商品对象，数据通过键盘录入而来，并把数据存入到数组当中。
-
-代码示例：
-
-```java
-// Goods.java
-public class Goods {
-    private String name;
-    private int price;
-
-    public Goods() {
-    }
-
-    public Goods(String name, int price) {
-        this.name = name;
-        this.price = price;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-}
-```
-
-```java
-// Main.java
-import java.util.Scanner;
+// src/Main
+import aaa.Book;
+// import bbb.Book; 不能导入两个同名的类
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        System.out.println("Hello world!");
 
-        Goods[] arr = new Goods[3];
+        // 如果有两个包重名，第一个包可以直接使用
+        Book b1 = new Book();
+        b1.func();
 
-        // 数据录入
-        for (byte i = 0; i < arr.length; i++) {
-            Goods g = new Goods();
+        // 第二个包必须加上包的全路径
+        bbb.Book b2 = new bbb.Book();
+        b2.func();
+    }
+}
+```
 
-            System.out.println("请输入商品名称：");
-            String name = sc.next();
-            g.setName(name);
+```java
+// src/aaa/Book
+package aaa;
 
-            System.out.println("请输入商品价格：");
-            int price = sc.nextInt();
-            g.setPrice(price);
+public class Book {
+    public void func() {
+        System.out.println("Book1");
+    }
+}
+```
 
-            arr[i] = g;
-        }
+```java
+// src/bbb/Book
+package bbb;
 
-        // 遍历数据
-        for (byte i = 0; i < arr.length; i++) {
-            Goods goods = arr[i];
-            System.out.println(goods.getName() + ", " + goods.getPrice());
-        }
+public class Book {
+    public void func() {
+        System.out.println("Book2");
     }
 }
 ```
@@ -2472,6 +2405,8 @@ public class Main {
 集合与数组分别的应用场景：当存储的元素个数固定不变时选择使用数组，否则使用集合
 
 
+
+### 增删改查
 
 **方法**
 
@@ -2616,7 +2551,9 @@ public class Main {
 
 
 
-### 学生管理系统
+### 电影管理系统
+
+实现电影增删改查功能
 
 ```java
 // Main.java
@@ -2624,178 +2561,258 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        ArrayList<Student> list = new ArrayList<Student>();
+    static ArrayList<Film> list = new ArrayList<Film>();
 
-        // 加载一些数据
-        init(list);
+    public static void main(String[] args) {
+        init();
 
         while (true) {
-            System.out.println("-----------------欢迎来到传智学生管理系统-------------------");
-            System.out.println("1: 添加学生");
-            System.out.println("2: 删除学生");
-            System.out.println("3: 修改学生");
-            System.out.println("4: 查询学生");
-            System.out.println("5: 退出系统");
-            System.out.print("请输入您的选择：");
+            System.out.println("============== 电影管理系统 ===============");
+            System.out.println("1 新增电影信息");
+            System.out.println("2 删除电影信息");
+            System.out.println("3 修改电影信息");
+            System.out.println("4 查询指定电影信息");
+            System.out.println("5 查询所有电影信息");
+            System.out.println("6 退出系统");
 
             Scanner sc = new Scanner(System.in);
+            System.out.print("请输入您的选择：");
             int n = sc.nextInt();
 
             switch (n) {
-                case 1:
-                    // 添加学生
-                    addStudent(list);
-                    break;
-                case 2:
-                    // 删除学生
-                    delStudent(list);
-                    break;
-                case 3:
-                    // 修改学生
-                    editStudent(list);
-                    break;
-                case 4:
-                    // 获取学生
-                    getStudent(list);
-                    break;
-                case 5:
-                    System.out.println("退出成功~");
-                    // 这里的break与结束循环的break重复了，会导致无法结束循环，所以使用return将整个函数结束掉
-                    return;
-                default:
-                    System.out.println("请输入正确的序号!");
-                    break;
+                // 添加电影信息
+                case 1 -> AddFilm();
+                // 删除电影信息
+                case 2 -> DelFilm();
+                // 修改电影信息
+                case 3 -> EdidFilm();
+                // 查询指定电影信息
+                case 4 -> {
+                    System.out.print("请输入电影名称：");
+                    String name = sc.next();
+
+                    // 传值就是查询指定电影信息
+                    QueryFilm(name);
+                }
+                // 查询所有电影信息
+                case 5 -> {
+                    // 不传值就是查询所有电影信息
+                    QueryFilm("");
+                }
+                // 退出程序
+                case 6 -> {
+                    System.exit(0);
+                }
             }
         }
     }
 
-    // 初始化一些数据
-    public static void init(ArrayList<Student> list) {
-        Student s1 = new Student((byte) 1, "zs", (byte) 13, "北京");
-        Student s2 = new Student((byte) 2, "ls", (byte) 17, "上海");
-        Student s3 = new Student((byte) 3, "ww", (byte) 19, "广州");
-        list.add(s1);
-        list.add(s2);
-        list.add(s3);
+    // 初始化数据
+    public static void init() {
+        Film f1 = new Film();
+        f1.setName("肖申克的救赎");
+        f1.setType("剧情");
+        f1.setDescribe("两个被囚禁的男人多年来建立了深厚的友谊，通过共同的善行找到了慰藉和最终的救赎。");
+        f1.setPerformer("蒂姆·罗宾斯，摩根·弗里曼");
+        f1.setPrice(9.99);
+
+        Film f2 = new Film();
+        f2.setName("教父");
+        f2.setType("犯罪");
+        f2.setDescribe("一个有组织犯罪家族的老大将他秘密的帝国的控制权转交给他不情愿的儿子。");
+        f2.setPerformer("马龙·白兰度，阿尔·帕西诺");
+        f2.setPrice(12.99);
+
+        Film f3 = new Film();
+        f3.setName("低俗小说");
+        f3.setType("犯罪");
+        f3.setDescribe("两个杀手、一个拳击手、一个黑帮妻子和一对餐馆抢劫犯的生活在四个暴力和救赎的故事中交织在一起。");
+        f3.setPerformer("约翰·特拉沃尔塔，乌玛·瑟曼");
+        f3.setPrice(10.99);
+
+        list.add(f1);
+        list.add(f2);
+        list.add(f3);
     }
 
-    // 添加学生
-    public static void addStudent(ArrayList<Student> list) {
+    // 添加电影信息
+    static void AddFilm() {
         Scanner sc = new Scanner(System.in);
-
-        System.out.print("请输入学生姓名：");
+        System.out.print("请输入电影名称：");
         String name = sc.next();
 
-        System.out.print("请输入学生年龄：");
-        byte age = sc.nextByte();
+        System.out.print("请输入电影类型：");
+        String type = sc.next();
 
-        System.out.print("请输入学生地址：");
-        String address = sc.next();
+        System.out.print("请输入电影简述：");
+        String describe = sc.next();
 
-        Student data = new Student((byte) (list.size() + 1), name, age, address);
+        System.out.print("请输入电影演员：");
+        String performer = sc.next();
 
-        list.add(data);
+        System.out.print("请输入电影票价：");
+        double price = sc.nextDouble();
 
-        System.out.println("添加成功~");
+        // 创建一个新的电影对象
+        Film f = new Film();
+        f.setName(name);
+        f.setType(type);
+        f.setDescribe(describe);
+        f.setPerformer(performer);
+        f.setPrice(price);
+
+        // 添加到集合中
+        list.add(f);
+        System.out.format("添加电影：《 %s 》成功\n", f.getName());
     }
 
-    // 删除学生
-    public static void delStudent(ArrayList<Student> list) {
+    // 删除电影信息
+    static void DelFilm() {
         Scanner sc = new Scanner(System.in);
-
-        System.out.print("请输入学生ID：");
-        byte index = sc.nextByte();
-
-        list.remove(index - 1);
-
-        System.out.println("删除学生成功~");
-    }
-
-    // 修改学生
-    public static void editStudent(ArrayList<Student> list) {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("请输入学生ID：");
-        byte index = sc.nextByte();
-
-        System.out.print("请输入学生姓名：");
+        System.out.print("请输入电影名称：");
         String name = sc.next();
 
-        System.out.print("请输入学生年龄：");
-        byte age = sc.nextByte();
+        boolean isFilm = false;
 
-        System.out.print("请输入学生地址：");
-        String address = sc.next();
+        // 判断是否存在该电影
+        for (Film item : list) {
+            if (item.getName().equals(name)) {
+                isFilm = true;
 
-        Student data = new Student(index, name, age, address);
+                // 删除电影
+                list.remove(item);
 
-        list.set(index - 1, data);
-        System.out.println("修改学生信息成功");
-    }
-
-    // 获取学生
-    public static void getStudent(ArrayList<Student> list) {
-        System.out.println("获取学生信息成功：");
-
-        // 如果集合为空就输出暂无数据
-        if (list.isEmpty()) {
-            System.out.println("暂无数据~");
-            return;
+                System.out.format("删除电影：《 %s 》成功\n\n", item.getName());
+                break;
+            }
         }
 
-        list.forEach(item -> {
-            System.out.format("ID：%d | 姓名：%s | 年龄：%d | 地址：%s \n", item.getId(), item.getName(), item.getAge(), item.getAddress());
-        });
+        if (!isFilm) {
+            System.out.format("需要删除的电影：《 %s 》不存在\n", name);
+        }
+    }
+
+    // 修改电影信息
+    static void EdidFilm() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("请输入电影名称：");
+        String name = sc.next();
+
+        // 判断是否存在该电影
+        boolean isExist = false;
+        Film f = null;
+
+        for (Film item : list) {
+            if (item.getName().equals(name)) {
+                isExist = true;
+                f = item;
+                break;
+            }
+        }
+
+        // 如果存在就修改，否则就提示不存在
+        if (isExist) {
+            System.out.print("请输入电影类型：");
+            String type = sc.next();
+
+            System.out.print("请输入电影简述：");
+            String describe = sc.next();
+
+            System.out.print("请输入电影演员：");
+            String performer = sc.next();
+
+            System.out.print("请输入电影票价：");
+            double price = sc.nextDouble();
+
+            // 创建一个新的电影对象
+            f.setName(name);
+            f.setType(type);
+            f.setDescribe(describe);
+            f.setPerformer(performer);
+            f.setPrice(price);
+
+            System.out.format("修改电影：《 %s 》成功\n\n", f.getName());
+        } else {
+            System.out.format("需要修改的电影：《 %s 》不存在\n", name);
+        }
+    }
+
+    // 查询电影信息
+    static void QueryFilm(String name) {
+        // 判断name是否为空，如果为空就是查询所有电影信息，否则就是查询指定电影信息
+        if (name.isEmpty()) {
+            for (Film item : list) {
+                System.out.println("============== 电影信息 ===============");
+                System.out.format("电影：%s\n类型：%s\n简述：%s\n演员：%s\n票价：%.2f\n", item.getName(), item.getType(), item.getDescribe(), item.getPerformer(), item.getPrice());
+                System.out.println("=====================================");
+                System.out.println();
+            }
+
+            System.out.format("查询所有电影成功 共计：%d部\n\n", list.size());
+        } else {
+            for (Film item : list) {
+                if (item.getName().equals(name)) {
+                    System.out.println("============== 电影信息 ===============");
+                    System.out.format("电影：%s\n类型：%s\n简述：%s\n演员：%s\n票价：%.2f\n", item.getName(), item.getType(), item.getDescribe(), item.getPerformer(), item.getPrice());
+                    System.out.println("=====================================");
+                    System.out.println();
+                }
+            }
+
+            System.out.format("查询电影：《 %s 》成功\n", name);
+        }
     }
 }
 ```
 
 ```java
-// Student.java
-public class Student {
-    private byte id;
+// Film.java
+public class Film {
     private String name;
-    private int age;
-    private String address;
+    private String type;
+    private String describe;
+    private String performer;
+    private double price;
 
-    public Student(byte id, String name, byte age, String address) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.address = address;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(byte id) {
-        this.id = id;
-    }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public byte getAge() {
-        return (byte) age;
+    public String getType() {
+        return this.type;
     }
 
-    public void setAge(byte age) {
-        this.age = age;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getAddress() {
-        return address;
+    public String getDescribe() {
+        return this.describe;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+    public String getPerformer() {
+        return this.performer;
+    }
+
+    public void setPerformer(String performer) {
+        this.performer = performer;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
 ```

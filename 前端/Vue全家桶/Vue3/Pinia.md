@@ -2,7 +2,7 @@
 
 - `Pinia` 是一个状态管理工具，它和 `Vuex` 一样，为 `Vue` 应用程序提供全局数据共享能力。
 - 语法和 `Vue3` 一样，它实现状态管理有两种语法：选项式API 与 组合式API，我们学习组合式 `API` 语法。
-- 它也支持 `Vue2` 也支持 `devtools`，当然它也是类型安全的，支持 `TypeScript`
+- 它支持 `Vue2` 也支持 `devtools`，当然它也是类型安全的，支持 `TypeScript`
 
 
 
@@ -24,7 +24,6 @@ npm i pinia
 
 ```javascript
 import { createApp } from "vue";
-import "./style.css";
 import App from "./App.vue";
 
 // 1. 导入pinia
@@ -250,6 +249,8 @@ export default store
 
 ## storeToRefs
 
+如果直接从 `pinia` 中解构数据，会丢失响应式， 使用 `storeToRefs` 可以保证解构出来的数据也是响应式的
+
 ```vue
 <script setup lang="ts">
 import Store from './store'
@@ -278,11 +279,15 @@ const { n } = storeToRefs(store)
 import Store from './store'
 import { storeToRefs } from 'pinia'
 
-// 方法可以直接解构，数据需要先转换为响应式的
-const { update } = Store()
+const store = Store()
+    
+// 方法可以直接解构，而普通数据需要先转换为响应式的
+const { update } = store
+
+// 不支持如下解构，会导致数据丢失响应式
+// const { n } = store
 
 // 解构数据我们可以使用 storeToRefs
-const store = Store()
 const { n } = storeToRefs(store)
 
 // 数据也可以这样导出使用
@@ -294,11 +299,16 @@ const { n } = storeToRefs(store)
 
 ## $patch
 
-通过 `$patch` 批量修改 `state` 的数据
+在 `Pinia` 中，不推荐直接修改 `store` 的值，而是使用 `$patch` 方法来确保状态变化的可追踪性和组件更新的正确性。如果直接修改 `store` 值时，`Pinia` 将无法检测到这个变化，因此无法通知相关组件进行更新。这会导致组件无法正确地响应 `store` 数据的变化，从而可能导致应用程序的状态不一致
+
+
+
+所以可以通过 `$patch` 来修改 `state` 的数据
 
 ```javascript
 store.$patch({
-  n: 300
+  n: 300,
+  // a:400 也可以修改多个
 })
 ```
 
@@ -319,7 +329,7 @@ const store = useMainStore()
 
 const btn = () => {
   // 方法一、直接接修改（不推荐）
-  store.n = 200
+  // store.n = 200
 
   // 方法二、通过$patch修改
   store.$patch({
@@ -331,7 +341,13 @@ const btn = () => {
 
 
 
+
+
 ## 状态持久化
+
+通过 `Pinia` 持久化插件可以确保应用程序的状态在页面刷新后仍然保持不变。这对于需要长期保存用户操作或应用程序配置的场景非常有用，例如保存用户的登录状态、用户的偏好设置等。
+
+
 
 ① 安装 [Pinia](https://www.npmjs.com/package/pinia-plugin-persistedstate) 状态持久化插件
 
@@ -398,7 +414,7 @@ import useUserStore from '@/stores/user'
 const store = useUserStore()
 
 const update = () => {
-  // 修改数据就会把最新的数据存储到本地
+  // 修改数据后，当数据发生变化就会把最新的数据本地存储
   store.$patch({
     nickname: "尤雨溪"
   })
@@ -414,13 +430,9 @@ const update = () => {
 
 
 
-为什么不推荐直接修改state中的数据？
+## 扩展
 
-
-
-## 选项式写法
-
-### 修改数据
+**选项式写法**
 
 `src/stores/index`
 

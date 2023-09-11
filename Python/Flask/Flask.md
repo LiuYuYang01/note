@@ -337,6 +337,502 @@ if __name__ == "__main__":
 
 
 
+## 请求钩子
+
+请求钩子可以对请求的各阶段进行监听, 方便开发者 **针对请求完成一些统一的处理**， **以便减少重复代码**
+
+![img](image/请求钩子.png)
+
+```python
+# 每次执行视图函数之前调用, 对请求进行一些准备处理, 如参数解析, 黑名单过滤, 数据统计等
+@app.before_request
+def prepare():
+    print("before_request")
+
+
+# 每次执行视图函数之后(已经包装为响应对象)调用, 对响应进行一些加工处理, 如设置统一响应头, 设置数据的外层包装
+@app.after_request
+def process(response: Response):
+    print("after_request")
+
+    print(response.headers)  # 请求头
+    print(response.data)  # 响应的数据
+    print(response.status_code)  # 状态码
+
+    return response
+
+```
+
+
+
+## SQLalchemy
+
+**安装**
+
+```python
+pip3 install flask-sqlalchemy
+```
+
+- 在安装/使用过程中，如果出现 `ModuleNotFoundError: No module named 'MySQLdb'` 错误，则表示缺少`MySQL` 依赖包，可依次尝试下列两个方案后重试：
+- 方案1：安装 `mysqlclient`依赖包 (如果失败再尝试方案2)
+
+```python
+pip3 install mysqlclient
+```
+
+- 方案2：安装`pymysql`依赖包
+
+```python
+pip3 install pymysql
+```
+
+`mysqlclient` 和 `pymysql` 都是用于mysql访问的依赖包, 前者由C语言实现的, 而后者由python实现, 前者的执行效率比后者更高, 但前者在windows系统中兼容性较差, 工作中建议优先前者
+
+
+
+### 组件初始化
+
+`flask-sqlalchemy` 的相关配置也封装到了 `flask` 的配置项中, 可以通过 `app.config` 属性 或 配置加载方案 (如 `config.from_object` ) 进行设置
+
+| 配置项                         | 说明                                                       |
+| :----------------------------- | :--------------------------------------------------------- |
+| SQLALCHEMY_DATABASE_URI        | 设置数据库的连接地址                                       |
+| SQLALCHEMY_BINDS               | 访问多个数据库时, 用于设置数据库的连接地址                 |
+| SQLALCHEMY_ECHO                | 是否打印底层执行的SQL语句                                  |
+| SQLALCHEMY_RECORD_QUERIES      | 是否记录执行的查询语句, 用于慢查询分析, 调试模式下自动启动 |
+| SQLALCHEMY_TRACK_MODIFICATIONS | 是否追踪数据库变化(触发钩子函数), 会消耗额外的内存         |
+| SQLALCHEMY_ENGINE_OPTIONS      | 设置针对 `sqlalchemy`本体的配置项                          |
+
+ 
+
+数据库URI(连接地址)格式：`协议名://用户名:密码@数据库IP:端口号/数据库名` 如：
+
+```python
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysql@127.0.0.1:3306/test31'
+```
+
+- 如果数据库驱动使用的是 **pymysql**, 则协议名需要修改为 `mysql+pymysql://xxxxxxx`
+- `sqlalchemy` 支持多种关系型数据库, 其他数据库的URI可以查阅 [官方文档](https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/#connection-uri-format)
+
+```python
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+
+# 设置数据库连接地址
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysql@127.0.0.1:3306/test31'
+# 是否追踪数据库修改(开启后会触发一些钩子函数)  一般不开启, 会影响性能
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# 是否显示底层执行的SQL语句
+app.config['SQLALCHEMY_ECHO'] = True
+
+# 初始化组件对象, 直接关联Flask应用
+db = SQLAlchemy(app)
+```
+
+
+
+### 构建模型类
+
+![img](image/ORM映射.png)
+
+```python
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+
+# 相关配置
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysql@127.0.0.1:3306/test31'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ECHO'] = True
+
+# 创建组件对象
+db = SQLAlchemy(app)
+
+
+# 构建模型类  类->表  类属性->字段  实例对象->记录
+class User(db.Model):
+    __tablename__ = 'user'  # 设置数据表名, 表名默认为类名小写
+    
+    id = db.Column(db.Integer, primary_key=True)  # 设置主键, 默认自增
+    name = db.Column('username', db.String(20), unique=True)  # 设置字段名 和 唯一约束
+    age = db.Column(db.Integer, default=10, index=True)  # 设置默认值约束 和 索引
+
+
+if __name__ == '__main__':
+    with app.app_context():
+        # 删除所有继承自db.Model的表
+    	db.drop_all()
+        # 创建所有继承自db.Model的表
+        db.create_all()
+    
+    app.run(debug=True)
+```
+
+**注意：** 第一个字段表示设置字段名，如上所述我们将该字段定义为 `username` 那么数据库中的字段名就是 `username` ，如果第一个字段不填那么字段名就是变量名 `name` 
+
+
+
+**总结**
+
+- 模型类必须继承 **db.Model** 其中 **db** 指对应的组件对象
+- 表名默认为类名小写，可以通过 `__tablename__` 类属性 进行修改
+- 类属性对应字段，必须是通过 **db.Column()** 创建的对象
+- 可以通过 `create_all()` 和 `drop_all()`方法 来创建和删除所有模型类对应的表
+
+
+
+### 字段类型
+
+| 类型名   | Python 接收的类型 | MySQL 生成的类型 | 说明                            |
+| :------- | :---------------- | :--------------- | :------------------------------ |
+| Integer  | int               | int              | 整型                            |
+| Float    | float             | float            | 浮点型                          |
+| Boolean  | bool              | tinyint          | 布尔型，只占1个字节             |
+| Text     | str               | text             | 文本类型，最大64KB              |
+| LongText | str               | longtext         | 文本类型，最大4GB               |
+| String   | str               | varchar          | 变长字符串，**必须限定长度**    |
+| Time     | datetime.time     | time             | 时间：12:30:45                  |
+| Date     | datetime.date     | date             | 日期：2023-09-09                |
+| DateTime | datetime.datetime | datetime         | 日期和时间：2023-09-09 12:30:45 |
+
+
+
+### 字段选项
+
+| 选项名      | 说明                                            |
+| :---------- | :---------------------------------------------- |
+| primary_key | 如果为 True，表示该字段为表的主键，默认自增     |
+| unique      | 如果为 True，代表这列设置唯一约束，数据不能重复 |
+| nullable    | 如果为 True，代表这列字段可以为空               |
+| default     | 为这列设置默认值，优先级大于 nullable           |
+| index       | 如果为 True，为这列创建索引，提高查询效率       |
+
+**注意：** 如果没有给对应字段的类属性设置 `default` 参数, 且添加数据时也没有给该字段赋值，则 `sqlalchemy` 会给该字段设置默认值 `None`
+
+
+
+### 增删改查
+
+#### 新增数据
+
+```python
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+
+# 相关配置
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123123@127.0.0.1:3306/ceshi'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ECHO'] = True
+
+# 创建组件对象
+db = SQLAlchemy(app)
+
+
+# 构建模型类
+class User(db.Model):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column('username', db.String(20), unique=True)
+    age = db.Column(db.Integer, index=True)
+
+
+@app.route('/')
+def index():
+    # 创建模型对象并给name与age字段添加数据
+    user = User(name='zs', age=20)
+    # or
+    # user.name = 'zs'
+    # user.age = 20
+
+    # 将模型对象添加到会话中
+    db.session.add(user)
+
+    # 也可以添加多条数据
+    # db.session.add_all([user1, user2, user3])
+
+    # 提交会话 (会提交事务)
+    db.session.commit()
+
+    return "index"
+
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.drop_all()
+        # 创建数据库表
+        db.create_all()
+        
+    app.run(debug=True)
+
+```
+
+
+
+#### 查询数据
+
+##### 查询执行器
+
+| 方法                     | 说明                                               |
+| :----------------------- | :------------------------------------------------- |
+| all()                    | 返回列表, 元素为所有符合查询的模型对象             |
+| count()                  | 返回查询结果的数量                                 |
+| first()                  | 返回符合查询的第一个模型对象，如果未查到，返回None |
+| first_or_404()           | 返回符合查询的第一个模型对象，如果未查到，返回404  |
+| get(主键)                | 返回主键对应的模型对象，如不存在，返回None         |
+| get_or_404(主键)         | 返回指定主键对应的模型对象，如不存在，返回404      |
+| paginate(页码, 每页条数) | 返回一个Paginate对象，它包含分页查询的结果         |
+
+
+
+##### 查询过滤器
+
+| 过滤器                    | 说明                                                  |
+| :------------------------ | :---------------------------------------------------- |
+| filter_by(字段名=值)      | 把等值过滤器添加到原查询上，返回BaseQuery对象         |
+| filter(函数引用/比较运算) | 把过滤器添加到原查询上，返回BaseQuery对象             |
+| limit(限定条数)           | 使用指定的值限定原查询返回的结果，返回BaseQuery对象   |
+| offset(偏移条数)          | 根据指定的值按照原查询进行偏移查询，返回BaseQuery对象 |
+| order_by(排序字段)        | 根据指定条件对原查询结果进行排序，返回BaseQuery对象   |
+| group_by(分组字段)        | 根据指定条件对原查询结果进行分组，返回BaseQuery对象   |
+| options()                 | 针对原查询限定查询的字段，返回BaseQuery对象           |
+
+
+
+##### 基本查询
+
+```python
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+
+# 相关配置
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123123@127.0.0.1:3306/ceshi'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ECHO'] = True
+
+# 创建组件对象
+db = SQLAlchemy(app)
+
+
+# 构建模型类
+class User(db.Model):
+    __tablename__ = "users"  # 表名 默认使用类名的小写
+    # 定义类属性 记录字段
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    email = db.Column(db.String(64))
+    age = db.Column(db.Integer)
+
+
+@app.route('/')
+def index():
+    # 查询所有用户数据
+    User.query.all()
+
+    # 查询有多少个用户
+    User.query.count()
+
+    # 查询第一个用户
+    User.query.first()
+
+    # 查询id为4的用户[2种方式]
+    User.query.filter_by(id=4).all()
+    User.query.filter(User.id == 4).first()
+
+    # 查询名字结尾字符为g的所有数据[开始/包含/结尾]
+    User.query.filter(User.name.startswith('w')).all()
+    User.query.filter(User.name.contains('n')).all()
+    User.query.filter(User.name.endswith('g')).all()
+    # 查询w开头 | g结尾 | 并且包含n的所有数据
+    User.query.filter(User.name.like('w%n%g')).all()
+
+    # 查询名称与邮箱都以 li 开头的所有数据
+    User.query.filter(User.name.startswith('li'), User.email.startswith('li')).all()
+
+    return "index"
+
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.drop_all()
+        # 创建数据库表
+        db.create_all()
+
+        # 创建测试数据
+        user1 = User(name='wang', email='wang@163.com', age=20)
+        user2 = User(name='zhang', email='zhang@189.com', age=33)
+        user3 = User(name='chen', email='chen@126.com', age=23)
+        user4 = User(name='zhou', email='zhou@163.com', age=29)
+        user5 = User(name='tang', email='tang@itheima.com', age=25)
+        user6 = User(name='wu', email='wu@gmail.com', age=25)
+        user7 = User(name='qian', email='qian@gmail.com', age=23)
+        user8 = User(name='liu', email='liu@itheima.com', age=30)
+        user9 = User(name='li', email='li@163.com', age=28)
+        user10 = User(name='sun', email='sun@163.com', age=26)
+
+        # 一次性添加多条数据
+        db.session.add_all([user1, user2, user3, user4, user5, user6, user7, user8, user9, user10])
+
+        # 将数据提交到数据库
+        db.session.commit()
+
+    app.run(debug=True)
+
+```
+
+
+
+##### 逻辑查询
+
+```python
+	# 查询用户名称不等于wang的所有数据
+    from sqlalchemy import not_
+    User.query.filter(not_(User.name == "wang")).all()
+    User.query.filter(User.name != "wang").all()
+
+    # 查询名称为wang或者年龄为23的所有数据
+    from sqlalchemy import or_
+    User.query.filter(or_(User.name == "wang", User.age == 23)).all()
+
+    # 查询名称为wang 并且年龄为23的所有数据
+    from sqlalchemy import and_
+    User.query.filter(and_(User.name == "wang", User.age == 23)).all()
+    User.query.filter(User.name == "wang", User.age == 23).all()
+
+    # 查询id为1 3 5 7 9的数据
+    User.query.filter(User.id.in_([1, 3, 5, 7, 9])).all()
+```
+
+
+
+##### 顺序查询
+
+```python
+	# 年龄从小到大排序
+    User.query.order_by(User.age.desc()).all()
+    User.query.order_by(User.age.desc()).limit(5).all()  # 取前5个
+    # 年龄从大到小排序
+    User.query.order_by(User.age).all()  # 默认从小到大
+    User.query.order_by(User.age.asc()).all()
+
+    # 年龄从小到大排序 再按照id从大到小排序
+    User.query.order_by(User.age, User.id.desc()).all()
+    # 年龄从小到大排序 再按照id从大到小排序 取前5个
+    User.query.order_by(User.age, User.id.desc()).limit(5).all()
+
+    # 从第二条数据开始 取4条数据：2 3 4 5
+    User.query.offset(1).limit(4).all()
+    # 查询年龄从小到大排序后的第2-5个数据：2 3 4 5
+    User.query.order_by(User.age).offset(1).limit(4).all()
+```
+
+
+
+##### 分页查询
+
+```python
+	# 每页3个数据，查询第二页的数据  paginate(页数,每页数据量)
+    data = User.query.paginate(page=2, per_page=3)
+    for item in data:
+        print(item)
+```
+
+
+
+##### 分组查询
+
+
+
+#### 修改数据
+
+**方法一：** 查询和更新分两条语句，效率低。并且如果并发更新，可能出现更新丢失问题
+
+```python
+@app.route('/')
+def index():
+    # 查询数据
+    data = User.query.filter(User.name == 'wang1').first()
+
+    if not data:
+        return "修改失败：数据不存在"
+
+    # 修改数据
+    data.age = data.age + 10
+    # 提交会话
+    db.session.commit()
+
+    return "修改成功"
+```
+
+
+
+**方法二：** 推荐写法
+
+```python
+@app.route('/')
+def index():
+    # 查询数据
+    data = User.query.filter(User.name == 'wang').update({'age': User.age + 10})
+
+    if not data:
+        return "修改失败：数据不存在"
+
+    # 提交会话
+    db.session.commit()
+
+    return "修改成功"
+```
+
+
+
+#### 删除数据
+
+**方法一**
+
+```python
+@app.route('/')
+def index():
+    # 查询数据
+    data = User.query.filter(User.name == 'wang').first()
+
+    if not data:
+        return "删除失败：数据不存在"
+
+    db.session.delete(data)
+
+    # 提交会话
+    db.session.commit()
+
+    return "删除成功"
+```
+
+
+
+**方法二**
+
+```python
+@app.route('/')
+def index():
+    # 查询数据
+    data = User.query.filter(User.name == 'wang').delete()
+
+    if not data:
+        return "删除失败：数据不存在"
+
+    # 提交会话
+    db.session.commit()
+
+    return "删除成功"
+```
+
+
+
 ## 文件上传
 
 ### 本地上传
