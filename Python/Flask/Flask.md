@@ -151,6 +151,8 @@ flask的请求数据通过 `request` 对象来获取，下面是他的一些常�
 | data    | 记录请求的数据，并转换为字符串 | bytes                       |
 | json    | 记录请求体中的 json 数据       | Dict                        |
 | files   | 记录请求上传的文件             | MultiDict[str: FileStorage] |
+| url     | 获取请求的API URL完整路径      | str                         |
+| path    | 获取请求的API URL路径          | str                         |
 
 
 
@@ -177,7 +179,7 @@ def index():
 
 ### form
 
-拿到 `form-data` 或`x-www-form-urencoded` 请求中的数据
+拿到 `form-data` 或 `x-www-form-urencoded` 请求中的数据
 
 ```python
 @app.route("/", methods=["POST"])
@@ -228,6 +230,28 @@ def index():
 ```
 
 **注意：** 上传文件使用 `form-data` 方式才能被接收到
+
+
+
+### url & path
+
+获取请求的 `url` 路径
+
+```python
+# http://127.0.0.1:5000/api/article
+
+@app.route("/")
+def index():
+    print(request.url) # http://127.0.0.1:5000/api/article
+    print(request.path) # /api/article
+    
+    return f"<h1>Hello World!</h1>"
+
+```
+
+
+
+### path
 
 
 

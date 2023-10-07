@@ -1,18 +1,18 @@
+# Python基础
+
 ## 基础
 
 ### Hello World
-
-
 
 ```python
 print('Hello Python!')
 ```
 
+
+
 ### type
 
 查看数据类型
-
-
 
 ```python
 num = 10;
@@ -24,11 +24,11 @@ print(type(num), type(str))
 # <class 'int'>   <class 'str'>
 ```
 
+
+
 ### isinstance
 
 判断数据类型
-
-
 
 ```python
 A = 123
@@ -47,11 +47,11 @@ type(A)== type(1)     #True
 type(B)== type([])    #True
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#keyword)keyword
+
+
+### keyword
 
 查询Python中的关键字
-
-
 
 ```python
 # 查看关键字
@@ -62,9 +62,9 @@ print(keyword.kwlist)
 # ['False', 'None', 'True', 'and', ......]
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#n)\n
 
 
+### \n
 
 ```python
 # 使用 \n 换行输出
@@ -76,13 +76,13 @@ Hello
 """
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#格式化输出)格式化输出
+
+
+### 格式化输出
 
 **%**
 
 **基本使用**
-
-
 
 ```python
 num = 100.13
@@ -111,11 +111,11 @@ print("num=%g" % num)  # num=100.13
 print("num=%g" % num1)  # num=100
 ```
 
+
+
 **应用场景**
 
 在程序中，看到了 `%` 这样的操作符，这就是 `Python` 中格式化输出。
-
-
 
 ```python
 str = "刘宇阳"
@@ -123,9 +123,9 @@ age = 20
 print("我的名字叫：%s, 我今年：%d岁了" % (str, age))
 ```
 
+
+
 **format**
-
-
 
 ```python
 age = 20
@@ -147,9 +147,9 @@ print('num={}'.format(num))  # num=10.12345
 print('num={:.2f}'.format(num))  # num=10.12
 ```
 
+
+
 **f-string**
-
-
 
 ```python
 num = 10.123
@@ -159,20 +159,20 @@ print(f'{num:.2f}')  # 10.12
 print('{:.2f}'.format(num))  # 10.12
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#input)input
+
+
+### input
 
 输入交互
-
-
 
 ```python
 info = input('请输入你的名字：')
 print(info)
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#运算符)运算符
 
 
+### 运算符
 
 ```Python
 x = 10
@@ -186,9 +186,9 @@ print(f"x % y = {x % y}")  # x % y = 10
 print(f"x ** 2 = {x ** 2}")  # x ** 2 = 100
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#赋值运算符)赋值运算符
 
 
+### 赋值运算符
 
 ```python
 x = 20
@@ -210,11 +210,11 @@ x %= y
 print(x)  # 0.0
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#数据类型转换)数据类型转换
+
+
+### 数据类型转换
 
 **字符串转整数类型**
-
-
 
 ```python
 num = '10'
@@ -223,9 +223,9 @@ num = int(num)
 print(f'转换后的数据类型：{type(num)}')  # <class 'int'>
 ```
 
+
+
 **整数转字符串类型**
-
-
 
 ```python
 num1 = 10
@@ -234,9 +234,9 @@ num1 = str(num1)
 print(f'转换后的数据类型：{type(num1)}')  # <class 'str'>
 ```
 
+
+
 **整数 / 字符串转浮点数类型**
-
-
 
 ```python
 num2 = 10
@@ -247,18 +247,18 @@ print(f'转换后的数据类型：{type(num2)}')  # <class 'float'>
 print(f'转换后的值：{num2}')  # 10.0
 ```
 
+
+
 **元组类型 tuple**
-
-
 
 ```python
 tuple = (1, 2, 3)
 print(type(tuple))  # <class 'tuple'>
 ```
 
+
+
 **列表类型 list**
-
-
 
 ```python
 list = [1, 2, 3]
@@ -266,9 +266,9 @@ print(type(list))  # <class 'list'>
 print(list)  # [1, 2, 3]
 ```
 
+
+
 **还原 eval**
-
-
 
 ```python
 print(eval(num))
@@ -298,9 +298,9 @@ print(type(eval(dict)))
 # <class 'dict'>
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#条件判断)条件判断
 
 
+### 条件判断
 
 ```python
 if num > 5:
@@ -312,13 +312,11 @@ else:
 if 10 > 5: print('简写')
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#and)and
-
-```
-and` 只要有一个不成立，那么结果就为 `false
-```
 
 
+#### and
+
+`and` 只要有一个不成立，那么结果就为 `false`
 
 ```python
 if 2 > 1 and 3 > 2:
@@ -327,13 +325,11 @@ else:
     print('条件不成立')
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#or)or
-
-```
-or` 只要有一个成立，那么结果就为 `true
-```
 
 
+#### or
+
+`or` 只要有一个成立，那么结果就为 `true`
 
 ```python
 if 2 > 1 and 3 > 2:
@@ -341,10 +337,10 @@ if 2 > 1 and 3 > 2:
 else:
     print('条件不成立')
 ```
+
+
 
 **输入成绩案例**
-
-
 
 ```Python
 # 把输入的成绩转换为数值类型
@@ -360,9 +356,9 @@ else:
     print('成绩输入有误！')
 ```
 
+
+
 **车票案例**
-
-
 
 ```python
 # 车票
@@ -380,9 +376,9 @@ else:
     print('没有车票 不能进站')
 ```
 
+
+
 **猜拳小游戏案例**
-
-
 
 ```python
 # 导入随机数方法
@@ -407,11 +403,11 @@ else:
     print('玩家获胜！')
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#循环语句)循环语句
-
-#### [#](http://139.196.43.147/Python/Python/Python1.html#while)while
 
 
+### 循环语句
+
+#### while
 
 ```python
 i = 1;
@@ -427,9 +423,9 @@ while (i <= 10):
 print(f'1~10的和为：{sum}')
 ```
 
+
+
 **求1~100的偶数和**
-
-
 
 ```python
 i = 0
@@ -443,9 +439,9 @@ while i < 100:
 print(f'1~100的偶数和为：{sum}')
 ```
 
+
+
 **打印三角形**
-
-
 
 ```python
 # 打印正三角
@@ -461,13 +457,13 @@ while i <= 5:
     i += 1
 ```
 
+
+
 **模拟登录案例**
 
-账号：admin 密码：123456
+账号：admin    密码：123456
 
 如果输入的账号或密码不正确就不断提示登录，直到登录成功为止
-
-
 
 ```python
 username = input('请输入你的用户名：')
@@ -484,9 +480,9 @@ while 1:
         password = input('请输入你的密码：')
 ```
 
+
+
 **九九乘法表**
-
-
 
 ```python
 i = 1;
@@ -499,11 +495,11 @@ while i <= 9:
     i += 1
 ```
 
+
+
 **while else**
 
 如果 `break` 执行了，就不会执行 `else` 中的代码，反之执行 `else` 的代码
-
-
 
 ```python
 list = [100, 200, 300, 400, 500]
@@ -518,13 +514,11 @@ else:
     print("不存在")
 ```
 
+​                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 
-
-#### [#](http://139.196.43.147/Python/Python/Python1.html#for)for
+#### for
 
 循环字符串
-
-
 
 ```python
 str = '加油，未来的架构师！'
@@ -543,11 +537,11 @@ for i in str:
 # ！
 ```
 
+
+
 **continue**
 
 `continue` 跳出本次循环
-
-
 
 ```python
 str = '加油，未来的架构师！'
@@ -559,11 +553,11 @@ for i in str:
         # continue #跳出本次循环
 ```
 
+
+
 **for else**
 
 如果 `break` 执行了，就不会执行 `else` 中的代码，反之执行 `else` 的代码
-
-
 
 ```python
 list = [100, 200, 300, 400, 500]
@@ -576,18 +570,18 @@ else:
     print("不存在")
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#len)len
 
 
+### len
 
 ```python
 str = '加油，未来的架构师！'
 print(len(str)) # 10
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#三元表达式)三元表达式
 
 
+### 三元表达式
 
 ```python
 n = 20
@@ -595,13 +589,13 @@ msg = "满足条件" if n > 18 else "不满足条件"
 print(msg) # 满足条件
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#字符串)字符串
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#字符串截取)字符串截取
+
+## 字符串
+
+### 字符串截取
 
 基本操作
-
-
 
 ```python
 mystr = 'hello world and Hello python'
@@ -653,13 +647,13 @@ print(mystr[1:5:2])
 # el
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#字符串常用方法)字符串常用方法
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#find)find
+
+### 字符串常用方法
+
+#### find
 
 查询字符串是否包含在 `mystr` 中，如果是返回 `开始` 的索引值，否则返回 `-1`
-
-
 
 ```python
 mystr = 'hello world and Hello python'
@@ -670,11 +664,11 @@ print(mystr.find('Hello')) #16
 print(mystr.find('liuyuyang')) #-1
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#index)index
+
+
+#### index
 
 跟 `find` 方法一样，只不过如果字符串不在 `mystr` 中 就会报错.
-
-
 
 ```python
 mystr = 'hello world and Hello python'
@@ -686,11 +680,11 @@ print(mystr.index('and')) # 12
 print(mystr.index('dna'))
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#count)count
+
+
+#### count
 
 返回指定字符串出现的次数
-
-
 
 ```python
 mystr = 'hello world and Hello python'
@@ -702,11 +696,11 @@ print(mystr.count('h')) #2
 print(mystr.count('hh')) #0
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#split)split
+
+
+#### split
 
 `split` 以空格进行切分，转换为数组
-
-
 
 ```python
 mystr = 'hello world and Hello python'
@@ -720,9 +714,9 @@ print(type(res))
 # <class 'list'>
 ```
 
-如果是这样的字符串想要转换为数组，则不能使用 `split`
 
 
+如果是这样的字符串想要转换为数组，则不能使用 `split` 
 
 ```python
 mystr = "abcdefg"
@@ -731,9 +725,9 @@ print(mystr)
 # ValueError: empty separator
 ```
 
+
+
 我们可以使用 `list` 将字符串转换为数组
-
-
 
 ```python
 mystr = "abcdefg"
@@ -741,11 +735,11 @@ print(list(mystr))
 # ['a', 'b', 'c', 'd', 'e', 'f', 'g']
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#join)join
+
+
+#### join
 
 `join` 数组转字符串
-
-
 
 ```python
 list = ['1', '2', '3']
@@ -767,11 +761,11 @@ print(type(res1),type(res2))
 # <class 'str'>  <class 'str'>
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#swapcase)swapcase
+
+
+#### swapcase
 
 大写转小写，小写转大写
-
-
 
 ```python
 x = 'abcd'
@@ -782,11 +776,11 @@ print(f"{y} 转换为：{y.swapcase()}") # ABCD 转换为：abcd
 print(f"{z} 转换为：{z.swapcase()}") # AbCd 转换为：aBcD
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#upper)upper
+
+
+#### upper
 
 转大写
-
-
 
 ```python
 str = 'aAsmr3idd4bgs7Dlsf9eAF'
@@ -794,11 +788,11 @@ print(str.upper())
 #AASMR3IDD4BGS7DLSF9EAF
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#lower)lower
+
+
+#### lower
 
 转小写
-
-
 
 ```python
 str = 'AaSMR3IDD4BGS7dLSF9Eaf'
@@ -806,11 +800,11 @@ print(str.lower())
 # aasmr3idd4bgs7dlsf9eaf
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#isdigit)isdigit
-
-字符串有个内置判断函数，如果字符是纯数字返回 `True` 反之 `False`
 
 
+#### isdigit
+
+字符串有个内置判断函数，如果字符是纯数字返回 `True`  反之 `False`
 
 ```python
 str1 = '123'
@@ -822,11 +816,11 @@ print(str.isdigit())
 #非纯数字：False
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#replace)replace
+
+
+#### replace
 
 字符串替换
-
-
 
 ```python
 # 将str字符串中的Python替换为JavaScript
@@ -835,11 +829,11 @@ print(str.replace('Python','JavaScript'))
 #JavaScript is good
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#strip)strip
+
+
+#### strip
 
 移除字符串头尾指定的字符
-
-
 
 ```python
 # 去除前后的空格
@@ -855,11 +849,11 @@ print(str2.strip('0'))
 
 注意 `strip` 只能去除前后指定的字符，中间的字符无法去除
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#startswith)startswith
+
+
+#### startswith
 
 判断 `str` 字符串是否以 `book` 开头
-
-
 
 ```python
 str = "this is a book"
@@ -867,11 +861,11 @@ print(str.startswith('this'))
 #true
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#endswith)endswith
+
+
+#### endswith
 
 判断 `str` 字符串是否以 `book` 结尾
-
-
 
 ```python
 str = "this is a book"
@@ -879,19 +873,23 @@ print(str.endswith('book'))
 #true
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#列表)列表
 
 
+
+
+
+
+## 列表
 
 ```python
 list = [1, 'a', 5, 'b', 9, 'ten']
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#列表遍历)列表遍历
+
+
+### 列表遍历
 
 **for循环遍历**
-
-
 
 ```python
 # For循环遍历
@@ -899,9 +897,9 @@ for i in list:
     print(i)
 ```
 
+
+
 **while循环遍历**
-
-
 
 ```python
 # while循环遍历
@@ -911,11 +909,11 @@ while i < len(list):
     i += 1
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#for-else)for else
+
+
+### for else
 
 `for else` 循环完毕之后只要没有遇到 `break` 结束循环就会执行 `else` 里面的代码，如果写了 `break` 就不会执行 `else` 的代码
-
-
 
 ```python
 list = ['a', 'b', 'c', 'd', 'e']
@@ -928,11 +926,11 @@ else:
     print('不存在')
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#range)range
+
+
+### range
 
 - start: 计数从 start 开始。默认是从 0 开始。例如range（5）等价于range（0， 5）;
-
-
 
 ```python
 # range(计数)
@@ -948,21 +946,19 @@ for i in range(5):
 - stop: 计数到 stop 结束，**但不包括 stop**。例如：range（0， 5） 是[0, 1, 2, 3, 4]没有5
 - step：步长，默认为1。例如：range（0， 5） 等价于 range(0, 5, 1)
 
-
-
 ```python
 # 利用步长求1~100之间的所有偶数
 for i in range(0, 101, 2):
     print(i)
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#列表常用操作)列表常用操作
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#append)append
+
+### 列表常用操作
+
+#### append
 
 添加元素到列表中（默认添加到最后一位）
-
-
 
 ```python
 list = [1, 2, 3]
@@ -971,11 +967,11 @@ print(list)
 # [1, 2, 3, 4]
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#extend)extend
-
-将 `list1` 列表合并到 `list` 列表中
 
 
+#### extend
+
+将 `list1` 列表合并到 ` list` 列表中
 
 ```python
 l1 = [1,2,3]
@@ -1003,11 +999,11 @@ print(l1)
 # [1, 2, 3, 2, 1, [4, 5]]
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#insert)insert
+
+
+#### insert
 
 在指定的下标位置插入指定的元素
-
-
 
 ```python
 list = [1, 2, 3]
@@ -1020,9 +1016,9 @@ print(list)
 # [666, 1, 2, 3]
 ```
 
+
+
 在列表索引为1的位置添加一个值：666
-
-
 
 ```python
 arr = [1, 2, 3]
@@ -1031,13 +1027,13 @@ print(arr)
 # [1, 666, 2, 3]
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#enumerate)enumerate
+
+
+#### enumerate
 
 `enumerate` 用于在 `for` 循环中得到计数，利用它可以同时获得索引和值，即需要 `index` 和 `value` 值的时候可以使用
 
 该方法会返回一个下标，并返回元素
-
-
 
 ```python
 list = [1, 'a', 5, 'b', 9, 'ten']
@@ -1053,9 +1049,9 @@ for index,item in enumerate(list):
 # 第5位置元素为：ten
 ```
 
+
+
 指定索引从10开始
-
-
 
 ```python
 arr = [1, 2, 3]
@@ -1068,11 +1064,11 @@ for index, item in enumerate(arr, 10):
 # 12 3
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#index-1)index
+
+
+#### index
 
 获取指定元素的下标
-
-
 
 ```python
 list = ['a', 'b', 'c', 'd', 'e']
@@ -1082,11 +1078,11 @@ print(list.index('e'))
 # 4
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#count-1)count
+
+
+#### count
 
 获取指定元素在列表中出现的次数
-
-
 
 ```python
 list = ['a', 'b', 'a', 'c', 'b', 'b', 'd']
@@ -1096,11 +1092,11 @@ print(list.count('b'))
 # 3
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#pop)pop
+
+
+#### pop
 
 从后往前删除
-
-
 
 ```python
 list = ['a', 'b', 'c', 'd', 'e']
@@ -1117,11 +1113,11 @@ print(list)
 # ['a', 'b', 'd']
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#del)del
+
+
+#### del
 
 指定下标删除
-
-
 
 ```python
 list = ['a', 'b', 'c', 'd', 'e']
@@ -1132,11 +1128,11 @@ print(list)
 # ['a', 'b', 'd', 'e']
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#remove)remove
+
+
+#### remove
 
 根据指定元素删除
-
-
 
 ```python
 list = ['a', 'b', 'c', 'd', 'e']
@@ -1147,9 +1143,9 @@ print(list)
 # ['a', 'c', 'd', 'e']
 ```
 
+
+
 删除字典类型
-
-
 
 ```python
 list = [
@@ -1164,11 +1160,11 @@ print(list)
 # [{'id': 1, 'name': 'zs', 'age': 20}, {'id': 3, 'name': 'ww', 'age': 21}]
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#sort)sort
+
+
+#### sort
 
 排序
-
-
 
 ```python
 list = [1, 3, 2, 4, 6, 5]
@@ -1185,9 +1181,9 @@ print(list)
 # [6, 5, 4, 3, 2, 1]
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#reverse)reverse
 
 
+#### reverse
 
 ```python
 list = ['o', 'l', 'l', 'e', 'h']
@@ -1198,9 +1194,9 @@ print(list)
 # ['h', 'e', 'l', 'l', 'o']
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#合并数组)合并数组
 
 
+#### 合并数组
 
 ```python
 list1 = [11, 22]
@@ -1209,9 +1205,9 @@ print(list1 + list2)
 # [11, 22, 33, 44, 55]
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#拷贝数组)拷贝数组
 
 
+#### 拷贝数组
 
 ```python
 list1 = [11, 22]
@@ -1220,9 +1216,9 @@ print(list2)
 # [11, 22, 11, 22]
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#列表嵌套)列表嵌套
 
 
+### 列表嵌套
 
 ```python
 list = [[1, 2, 3], [4, 5, 6]]
@@ -1231,9 +1227,9 @@ print(list[1][2])
 # 6
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#查找元素)查找元素
 
 
+### 查找元素
 
 ```python
 list = ['a', 'b', 'c', 'd', 'e']
@@ -1251,9 +1247,9 @@ else:
     print('存在')
 ```
 
+
+
 复杂一点的查找
-
-
 
 ```python
 data = [{id: 1}, {id: 2}, {id: 3}]
@@ -1264,8 +1260,6 @@ else:
 ```
 
 **or**
-
-
 
 ```python
 list = ['a', 'b', 'c', 'd', 'e']
@@ -1280,8 +1274,6 @@ else:
 
 **or**
 
-
-
 ```python
 # 找到ID 等于 33的那一项
 data = [{'id': 11}, {'id': 22}, {'id': 33}]
@@ -1290,11 +1282,11 @@ for item in data:
         print(item) # {'id': 33}
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#公共方法)公共方法
-
-### [#](http://139.196.43.147/Python/Python/Python1.html#合并)合并
 
 
+## 公共方法
+
+### 合并
 
 ```python
 # 数组合并
@@ -1310,9 +1302,9 @@ print(str1 + str2)
 # hello world
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#复制)复制
 
 
+### 复制
 
 ```python
 # 快速复制10个-
@@ -1330,11 +1322,13 @@ str1 = 'hello '
 str2 = str1 * 2
 print(str2)
 # hello hello
+
+
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#查找)查找
 
 
+### 查找
 
 ```python
 # 数组查找
@@ -1352,9 +1346,9 @@ else:
     print('不存在')  # 不存在
 ```
 
+
+
 复杂一点的查找
-
-
 
 ```python
 data = [{id: 1}, {id: 2}, {id: 3}]
@@ -1364,31 +1358,31 @@ else:
     print('无')
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#元组)元组
+
+
+## 元组
 
 `Python` 的元组与列表类似，不同之处在于元组的元素不能修改。元组使用小括号，列表使用方括号
 
 获取李四
-
-
 
 ```python
 tuple = ('张三', '李四', '王五')
 print(tuple[1])
 ```
 
+
+
 元组里可以嵌套数组
-
-
 
 ```python
 tuple = ([1, 2, 3], 2)
 print(tuple[0])
 ```
 
+
+
 元组跟列表不同的是前者可以修改值，后者不能修改值
-
-
 
 ```python
 tuple = ([1, 2, 3], 2)
@@ -1396,11 +1390,11 @@ tuple[1] = 200 #报错
 print(tuple)
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#字典)字典
+
+
+## 字典
 
 在 `Python` 中字典相当于 `JavaScript` 中的对象
-
-
 
 ```python
 obj = {'name': "刘宇阳", 'age': 20}
@@ -1419,15 +1413,13 @@ print(obj.get('age'))
 
 **注意：** 在Python中获取对象的值不能直接点出来
 
-
-
 ```python
 obj.name # 错误
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#字典默认值)字典默认值
 
 
+### 字典默认值
 
 ```python
 # obj.get(需要获取的值,默认值)
@@ -1439,9 +1431,9 @@ print(obj.get('sex', '男'))
 # 男
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#修改-添加)修改 / 添加
 
 
+### 修改 / 添加
 
 ```python
 obj['age'] = 25 #添加字典
@@ -1449,11 +1441,11 @@ print(obj['age']) #修改字典
 # 25
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#del-1)del
+
+
+### del
 
 删除 `obj` 中的 `age` 数据
-
-
 
 ```python
 del obj['age']
@@ -1461,11 +1453,11 @@ print(obj)
 # {'name': '刘宇阳'}
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#clear)clear
+
+
+### clear
 
 清空字典
-
-
 
 ```python
 # 清空字典
@@ -1474,11 +1466,11 @@ print(obj)
 # {}
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#keys)keys
+
+
+### keys
 
 获取字典中所有键
-
-
 
 ```python
 obj = {'name': "刘宇阳", 'age': 20}
@@ -1486,11 +1478,11 @@ print(obj.keys())
 # dict_keys(['name', 'age'])
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#values)values
+
+
+### values
 
 获取字典中所有值
-
-
 
 ```python
 obj = {'name': "刘宇阳", 'age': 20}
@@ -1498,11 +1490,11 @@ print(obj.values())
 # dict_values(['刘宇阳', 20])
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#items)items
+
+
+### items
 
 获取字典中键值对
-
-
 
 ```python
 obj = {'name': "刘宇阳", 'age': 20}
@@ -1510,11 +1502,11 @@ print(obj.items())
 # dict_items([('name', '刘宇阳'), ('age', 20)])
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#update)update
+
+
+### update
 
 合并两个字典
-
-
 
 ```python
 d1 = {"name": "YuYang", "age": 20}
@@ -1528,8 +1520,6 @@ print(d2)
 
 **or**
 
-
-
 ```python
 d1 = {"name": "YuYang", "age": 20}
 d2 = {"hobby": "敲代码"}
@@ -1538,11 +1528,11 @@ print({**d1, **d2})
 # # {'name': 'YuYang', 'age': 20, 'hobby': '敲代码'}
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#综合案例)综合案例
+
+
+### 综合案例
 
 **一、** 求该字符串中每个字符串出现的次数：`ajakdlasjdkajksldjlasjdlsa`
-
-
 
 ```python
 mystr = "ajakdlasjdkajksldjlasjdlsa"
@@ -1558,9 +1548,9 @@ print(obj)
 # {'a': 6, 'j': 5, 'k': 3, 'd': 4, 'l': 4, 's': 4}
 ```
 
+
+
 **二、** 接着上一个案例求出哪个字符串出现次数最多，一共出现多少次
-
-
 
 ```python
 # 1. 求出每个字符串出现的次数
@@ -1586,9 +1576,9 @@ print(f"出现最多的是：{maxStr}  一共出现了：{max} 次")
 # 出现最多的是：a  一共出现了：6 次
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#还原)还原
 
 
+## 还原
 
 ```python
 print(type("[{},{}]"))
@@ -1599,9 +1589,9 @@ print(type(eval("[{},{}]")))
 # <class 'list'>
 ```
 
+
+
 把字符串对象还原为真正的对象
-
-
 
 ```python
 d = '{"name": "lyy", "age": 20}'
@@ -1615,11 +1605,11 @@ print(type(o))
 # <class 'dict'>
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#函数)函数
+
+
+## 函数
 
 定义一个简单的函数
-
-
 
 ```python
 # 定义函数
@@ -1631,9 +1621,9 @@ def fn():
 fn()
 ```
 
+
+
 **查看函数说明**
-
-
 
 ```python
 def info():
@@ -1649,9 +1639,9 @@ info()
 """
 ```
 
+
+
 **函数传参**
-
-
 
 ```python
 def fn(x, y):
@@ -1662,9 +1652,9 @@ def fn(x, y):
 fn(10, 30)
 ```
 
+
+
 **函数嵌套**
-
-
 
 ```python
 def fn1():
@@ -1681,9 +1671,9 @@ fn1()
 # 2
 ```
 
+
+
 **return 返回多个**
-
-
 
 ```python
 def fn(x, y):
@@ -1695,15 +1685,15 @@ res = fn(10, 20)
 print(res)  # (10, 20)
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#global)global
+
+
+### global
 
 默认情况下函数内部的局部变量不会影响到函数外部的全局变量，所以可以通过 `global` 让局部变量影响全局变量
 
 **局部变量**
 
 局部变量修改全局变量 `num` 相当于重新定义了一个 `num` 变量，修改函数的局部变量 `num` 不会影响到全局变量
-
-
 
 ```python
 num = 100
@@ -1723,11 +1713,11 @@ print('全局：',num)
 # 100
 ```
 
+
+
 **全局变量**
 
 加上 `global` 标识符可以使局部变量影响到全局变量，这样在局部变量就可以修改全局变量的值
-
-
 
 ```python
 num = 100
@@ -1749,11 +1739,11 @@ print('全局：',num)
 # 200
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#nonlocal)nonlocal
+
+
+### nonlocal
 
 通过 `nonlocal` 可以对最近一级的函数局部变量进行操作
-
-
 
 ```python
 x = 10
@@ -1783,13 +1773,13 @@ print(x)
 
 `global` 与 `nonlocal` 的区别：一个用于操作全局变量，一个用于操作函数内部的局部变量
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#参数)参数
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#参数默认值)参数默认值
+
+### 参数
+
+#### 参数默认值
 
 不传 `y` 值，则它的值为默认值 `100`
-
-
 
 ```python
 def fn(x, y=100):
@@ -1799,9 +1789,9 @@ def fn(x, y=100):
 fn(10)
 ```
 
+
+
 给 `y` 传值之后就会覆盖掉默认值
-
-
 
 ```python
 def fn(x, y=100):
@@ -1813,11 +1803,11 @@ fn(10,200)
 
 **注意：** 带有默认值的参数一定要位于参数列表的最后面
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#剩余参数)**剩余参数**
+
+
+#### **剩余参数**
 
 加了星号 `*` 的变量 `args` 会存放所有**未命名参数**，`args` 的值为元组
-
-
 
 ```python
 def fn(x, y, *args):
@@ -1829,9 +1819,9 @@ def fn(x, y, *args):
 fn(100, 200, 300, 400, 500)
 ```
 
+
+
 而加 `**` 的变量 `kwargs` 会存放**命名参数**，如：`key = value` 的参数， `kwargs` 为字典.
-
-
 
 ```python
 def fn(x, y, **kwargs):
@@ -1841,9 +1831,9 @@ def fn(x, y, **kwargs):
 fn(100, 200, a=300, b=400, c=500)
 ```
 
+
+
 如果 `*args` 与 `*kwargs` 同时存在的话，`*kwargs` **必须**写在最后
-
-
 
 ```python
 def fn(x, y, *args, **kwargs):
@@ -1860,9 +1850,9 @@ def fn(x, y, *args, **kwargs):
 fn(100, 200, 600, 700, a=300, b=400, c=500)
 ```
 
+
+
 **注意：** 如果有 `kwargs`，必须在最后
-
-
 
 ```python
 def fun(*args, **kwargs):
@@ -1873,18 +1863,16 @@ def fun(*args, **kwargs):
 fun(5, 2, 3, a=1, b=4)
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#匿名函数)匿名函数
+
+
+## 匿名函数
 
 **匿名函数：**lambda 形参1，形参2: 表达式
-
-
 
 ```python
 fn = lambda a, b: print(a * b)
 fn(10, 5)
 ```
-
-
 
 ```python
 fn = lambda a, b: a * b
@@ -1895,9 +1883,9 @@ print(res)  # 50
 - 匿名函数只能写简单的单行代码
 - 匿名函数可以不写 `return`，它运行的结果就是返回的结果
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#对比普通函数)对比普通函数
 
 
+### 对比普通函数
 
 ```python
 # 普通函数
@@ -1913,11 +1901,11 @@ fn2 = lambda a, b: print(a + b)
 fn2(10, 20)
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#应用场景)应用场景
+
+
+### 应用场景
 
 求：加减乘除
-
-
 
 ```python
 def sum(n):
@@ -1932,13 +1920,13 @@ print(sum(lambda a, b: a * b))  # 乘
 print(sum(lambda a, b: a / b))  # 除
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#内置函数)内置函数
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#reversed)reversed
+
+## 内置函数
+
+### reversed
 
 反转字符串 | 数组
-
-
 
 ```python
 # 反转数组
@@ -1952,11 +1940,11 @@ print(list(str))
 # ['g', 'f', 'e', 'd', 'c', 'b', 'a']
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#sum)sum
+
+
+### sum
 
 求数组中的累加和
-
-
 
 ```python
 arr = [1, 3, 5, 7, 9, 10]
@@ -1964,9 +1952,9 @@ sum = sum(arr)
 print(sum)  # 35
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#min-max)min & max
 
 
+### min & max
 
 ```python
 arr = [1, 3, 5, 7, 9, 10]
@@ -1975,9 +1963,9 @@ max = max(arr)
 print(min, max)  # 1 10
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#解构赋值)解构赋值
 
 
+## 解构赋值
 
 ```python
 a, b, c = 1, 2, 3
@@ -1986,9 +1974,9 @@ print(a, b, c)
 # 1 2 3
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#字典解构)字典解构
 
 
+### 字典解构
 
 ```python
 dict = {
@@ -2008,9 +1996,9 @@ print(name1, age2)
 # 刘宇阳 20
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#数组解构)数组解构
 
 
+### 数组解构
 
 ```python
 list = [1, 2, 3]
@@ -2020,9 +2008,9 @@ a, b, c = list
 print(a, b, c) # 1 2 3
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#交换变量)交换变量
 
 
+### 交换变量
 
 ```python
 # 方法一、
@@ -2058,9 +2046,9 @@ a = a - b  # 20
 print(a, b)  # 20 10
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#学生管理系统-1-0)学生管理系统 1.0
 
 
+## 学生管理系统 1.0
 
 ```python
 data = [
@@ -2202,13 +2190,14 @@ def info():
 
 
 info()
+
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#递归)递归
+
+
+## 递归
 
 阶乘
-
-
 
 ```python
 def fn(n):
@@ -2221,21 +2210,21 @@ res = fn(5)
 print('5的阶乘为：', res)
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#列表推到式)列表推到式
+
+
+## 列表推到式
 
 **语法**
 
-
-
-```text
+```
 [表达式 for 迭代变量 in 可迭代对象 [if 条件表达式] ]
 ```
 
 `[if 条件表达式]` 不是必须的，可以使用，也可以省略。
 
+
+
 **使用列表推到式过滤列表中大于5的值**
-
-
 
 ```python
 l = [4, 6, 7, 3, 2]
@@ -2246,9 +2235,9 @@ print(res)
 # [6, 7]
 ```
 
+
+
 **快速生成5个数据**
-
-
 
 ```python
 l = [4, 6, 7, 3, 2]
@@ -2259,9 +2248,9 @@ print(res)
 # [1, 2, 3, 4, 5]
 ```
 
+
+
 **对比传统方法**
-
-
 
 ```python
 l = []
@@ -2273,9 +2262,9 @@ for x in range(5):
 print(l)
 ```
 
+
+
 **利用列表推到式求奇数、偶数**
-
-
 
 ```python
 even = [x for x in range(10) if x % 2 == 0]
@@ -2285,9 +2274,9 @@ odd = [x for x in range(10) if x % 2 != 0]
 print(odd)  # [1, 3, 5, 7, 9]
 ```
 
+
+
 **列表推到式可以写多个循环**
-
-
 
 ```python
 res = [[x, y] for x in range(5) for y in range(2)]
@@ -2298,9 +2287,9 @@ print(res)
 # [[0, 0], [0, 1], [1, 0], [1, 1], [2, 0], [2, 1], [3, 0], [3, 1], [4, 0], [4, 1]]
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#数据类型转换-1)数据类型转换
 
 
+## 数据类型转换
 
 ```python
 # 列表转换
@@ -2315,9 +2304,9 @@ print(tuple(list))
 # (11, 22, 33, 11, 22)
 ```
 
+
+
 使用 `set` 数组去重
-
-
 
 ```python
 list1 = [11, 22, 33, 11, 22]
@@ -2330,20 +2319,20 @@ print(list(newList))
 # [33, 11, 22]
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#扩展)扩展
-
-### [#](http://139.196.43.147/Python/Python/Python1.html#布尔值取反)布尔值取反
 
 
+## 扩展
+
+### 布尔值取反
 
 ```python
 value = True
 print(not value) # False
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#一行代码交互两个变量的值)一行代码交互两个变量的值
 
 
+### 一行代码交互两个变量的值
 
 ```python
 a = 10
@@ -2355,7 +2344,9 @@ a, b = b, a
 print(a, b) #20 10
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#文件)文件
+
+
+## 文件
 
 **打开方式**
 
@@ -2369,17 +2360,17 @@ print(a, b) #20 10
 
 写入图片：wb
 
-
-
 ```python
 f = open("文件名", "打开方式", 编码)
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#w-写入文件数据)w_写入文件数据
+
+
+
+
+### w_写入文件数据
 
 有 `123.txt` 就打开，没有就新建
-
-
 
 ```python
 # open(文件名, 打开方式, 编码格式)
@@ -2394,11 +2385,11 @@ w.write('Hello 刘宇阳')
 w.close()
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#a-追加文件数据)a_追加文件数据
+
+
+### a_追加文件数据
 
 重新写入数据就会覆盖之前的数据，如果我们想要在原有内容上追加数据，则打开方式为：`a` 表示追加数据
-
-
 
 ```python
 a = open("123.txt", "a", encoding="utf-8")
@@ -2410,11 +2401,11 @@ a.write('Hello 刘宇阳')
 a.close()
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#r-读取文件数据)r_读取文件数据
+
+
+### r_读取文件数据
 
 **读取文件中所有数据**
-
-
 
 ```python
 # 读取文件
@@ -2429,9 +2420,9 @@ print(content)
 r.close()
 ```
 
+
+
 `123.txt` 文件中的数据
-
-
 
 ```txt
 111
@@ -2439,11 +2430,11 @@ r.close()
 333
 ```
 
+
+
 **读取文件中单行数据**
 
 `readline` 用于读取文件中单行的数据
-
-
 
 ```python
 # 读取单行
@@ -2457,9 +2448,9 @@ print(content)  # 111
 f.close()
 ```
 
+
+
 `readlines` 用于读取文件中指定行的数据，并以数组形式返回
-
-
 
 ```python
 # 读取文件中单行数据
@@ -2477,9 +2468,9 @@ print(content[0])
 f.close()
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#文件备份案例)文件备份案例
 
 
+### 文件备份案例
 
 ```python
 fileName = input('请输入需要备份的文件名称：')
@@ -2501,9 +2492,9 @@ write.write(content)
 write.close()
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#修改文件名称)修改文件名称
 
 
+### 修改文件名称
 
 ```python
 import os
@@ -2512,9 +2503,9 @@ import os
 os.rename('123.txt', '321.txt')
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#删除文件)删除文件
 
 
+### 删除文件
 
 ```python
 import os
@@ -2522,9 +2513,9 @@ import os
 os.remove('321.txt')
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#判断文件是否存在)判断文件是否存在
 
 
+### 判断文件是否存在
 
 ```python
 import os
@@ -2536,18 +2527,18 @@ res1 = os.path.exists('wenjianjia')
 print(res,res1)  # True存在 False不存在
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#创建文件夹)创建文件夹
 
 
+### 创建文件夹
 
 ```python
 # 创建文件夹
 os.mkdir('wenjianjia')
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#获取文件夹下的文件)获取文件夹下的文件
 
 
+### 获取文件夹下的文件
 
 ```python
 # 获取当前目录下所有文件 以数组形式
@@ -2557,9 +2548,9 @@ print(files)
 # ['.idea', '123.txt', 'index.py', 'wenjianjia']
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#查看当前文件夹路径)查看当前文件夹路径
 
 
+### 查看当前文件夹路径
 
 ```python
 # 查看当前路径
@@ -2567,9 +2558,9 @@ print(os.getcwd())
 # C:\Users\33111\Desktop\桌面\杂七八乱\pythonProject
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#切换到指定文件夹路径)切换到指定文件夹路径
 
 
+### 切换到指定文件夹路径
 
 ```python
 os.chdir("./wenjianjia")
@@ -2577,18 +2568,18 @@ print(os.getcwd())
 # C:\Users\33111\Desktop\桌面\杂七八乱\pythonProject\wenjia
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#删除文件夹)删除文件夹
 
 
+### 删除文件夹
 
 ```python
 # 删除文件夹
 os.rmdir('wenjianjia')
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#批量更改文件夹名称案例)批量更改文件夹名称案例
 
 
+### 批量更改文件夹名称案例
 
 ```python
 import os
@@ -2610,20 +2601,20 @@ for item in file_names:
     os.rename(item, '[传智出品]_' + item + '.txt')
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#with)with
+
+
+### with
 
 `with` 可以自动调用 `f.close()`，可以不用手动关闭文件，有效防止遗忘
-
-
 
 ```python
 with open('123.txt', 'r', encoding="utf8") as f:
     print(f.read())  # Hello World!
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#学生管理系统-2-0)学生管理系统 2.0
 
 
+## 学生管理系统 2.0
 
 ```python
 import os
@@ -2774,9 +2765,9 @@ def main():
 main()
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#面向对象)面向对象
 
 
+## 面向对象
 
 ```python
 class Person(object):
@@ -2789,11 +2780,11 @@ person.info()
 # Hello World!
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#定义类)定义类
+
+
+### 定义类
 
 规范：类名首字母大写，如 `Person`
-
-
 
 ```python
 class Person(object):
@@ -2801,9 +2792,9 @@ class Person(object):
         print('Hello')
 ```
 
+
+
 **基本使用**
-
-
 
 ```python
 class Person(object):
@@ -2830,11 +2821,11 @@ print(p.age) # 20
 print(p.sex) # 男
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#魔法方法)魔法方法
-
-#### [#](http://139.196.43.147/Python/Python/Python1.html#self)self
 
 
+### 魔法方法
+
+#### self
 
 ```python
 class Person(object):
@@ -2853,11 +2844,11 @@ p.sex = '男'
 p.info()
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#init)**init**
+
+
+#### __init__
 
 `__init__` 初始化方法，在创建对象时候会自动调用，相当于 `JavaScript` 中的构造器
-
-
 
 ```python
 class Person(object):
@@ -2889,9 +2880,9 @@ p = Person()
 p.info()
 ```
 
+
+
 **传参**
-
-
 
 ```python
 class Person(object):
@@ -2910,11 +2901,11 @@ p = Person('刘宇阳', 20, '男')
 p.info()
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#str)str
-
-`__str__` 在 `Person` 对象被 `print` 打印时会自动触发，主要用于打印该对象的描述信息
 
 
+#### str
+
+`__str__` 在 ` Person` 对象被 `print` 打印时会自动触发，主要用于打印该对象的描述信息
 
 ```python
 class Person(object):
@@ -2938,11 +2929,11 @@ print(p)
 
 **注意：** `__str__` 只能返回字符串类型，返回其他类型会报错
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#mro)mro
+
+
+#### mro
 
 如果多个父类中有同名的 属性和方法，则默认使用第一个父类的属性和方法（根据类的魔法属性 `__mro__` 的顺序来查找）
-
-
 
 ```python
 class A(object):
@@ -2979,11 +2970,11 @@ print(C.__mro__)
 
 **说明：**因为C类没有自己的属性和方法所以会使用A类中的属性和方法，如果自身有的情况下，就会优先自身
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#dict)dict
+
+
+#### dict
 
 查看该类的 **实例属性**
-
-
 
 ```python
 class Test(object):
@@ -3006,13 +2997,14 @@ print(t.__dict__)
 # 获取类的所有方法
 print(Test.__dict__)
 # {'__module__': '__main__', '__init__': <function Test.__init__ at 0x000002CC49A73E18>, '__dict__': <attribute '__dict__' of 'Test' objects>, '__weakref__': <attribute '__weakref__' of 'Test' objects>, '__doc__': None}
+
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#doc)doc
+
+
+#### doc
 
 通过 `__doc__` 可以查看当前类的说明文档
-
-
 
 ```python
 class Person(object):
@@ -3032,11 +3024,11 @@ print(p.__doc__)
 # 
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#class)class
+
+
+#### class
 
 通过 `__class__` 可以查看该类的名称
-
-
 
 ```python
 class Person(object):
@@ -3054,11 +3046,11 @@ print(p.__class__)
 # <class '__main__.Person'>
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#module)module
+
+
+#### module
 
 通过 `__module__` 可以查看该类所在的模块
-
-
 
 ```python
 class Person(object):
@@ -3076,11 +3068,11 @@ print(p.__module__)
 # __main__
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#继承)继承
-
-#### [#](http://139.196.43.147/Python/Python/Python1.html#单继承)单继承
 
 
+### 继承
+
+#### 单继承
 
 ```python
 class A(object):
@@ -3109,14 +3101,16 @@ b.info()
 
 - 虽然子类没有定义 `__init__` 方法初始化属性，也没有定义实例方法，但是父类 `A` 有。所以只要创建子类的对象，就默认执行了那个继承过来的 `__init__` 方法
 
+
+
 **总结：**
 
 - 子类在继承的时候，在定义类时，小括号()中为父类的名字
 - 父类的属性、方法，会被继承给子类
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#多继承)多继承
 
 
+#### 多继承
 
 ```python
 class A(object):
@@ -3168,13 +3162,13 @@ c.ideal2()  # Web 全栈开发工程师
 **说明：**
 
 - 多继承可以继承多个父类，也继承了所有父类的属性和方法
-- **注意：** 如果多个父类中有同名的 属性和方法，则默认使用第一个父类的属性和方法（根据类的魔法属性 `__mro__` 查看继承顺序）
+- **注意：** 如果多个父类中有同名的 属性和方法，则默认使用第一个父类的属性和方法（根据类的魔法属性 `__mro__`  查看继承顺序）
 - 多个父类中，不重名的属性和方法，不会有任何影响。
 - 多继承只能继承最近类的 `_init_`
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#子调父类属性-方法)子调父类属性 | 方法
 
 
+#### 子调父类属性 | 方法
 
 ```python
 class A(object):
@@ -3195,7 +3189,7 @@ print(b.name, b.hobby)
 # 宇阳 敲代码
 ```
 
-![Snipaste_2023-03-04_18-44-07](image/Snipaste_2023-03-04_18-44-07-16794869905391-75f838a4.jpg)
+![Snipaste_2023-03-04_18-44-07](./image/Snipaste_2023-03-04_18-44-07-16794869905391.jpg)
 
 
 
@@ -3248,7 +3242,9 @@ c.infoA()  # LYY 前端架构师
 c.infoB()  # ZT 前端架构师
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#私有属性-方法)私有属性 | 方法
+
+
+### 私有属性 | 方法
 
 **私有权限：**在属性名和方法名 前面 加上两个下划线 `__`
 
@@ -3258,9 +3254,9 @@ c.infoB()  # ZT 前端架构师
 
 私有属性 和 私有方法 往往用来处理类的内部事情，不通过对象处理，起到安全作用。
 
+
+
 默认情况下B类可以继承A类的所有属性
-
-
 
 ```python
 class A(object):
@@ -3277,13 +3273,15 @@ b = B()
 print(b.a) # 100
 ```
 
+
+
 而有些属性我们不想让他被继承，那么就需要用到私有属性
 
 只需要在属性前加上 `__` 即可转换为私有属性
 
+
+
 **私有属性**
-
-
 
 ```python
 class A(object):
@@ -3304,9 +3302,9 @@ b = B()
 
 **注意：** 私有属性只能在类的内部使用，不能在类的外部使用并且无法被继承
 
+
+
 **私有方法**
-
-
 
 ```python
 class A(object):
@@ -3323,9 +3321,9 @@ a = A()
 a.fn()  # hello
 ```
 
+
+
 私有属性 / 方法相当于把原来的属性名改变为： **_类名__属性名**
-
-
 
 ```python
 class Test(object):
@@ -3345,12 +3343,16 @@ print(t._Test__name)
 t._Test__info()
 ```
 
+
+
 **总结**
 
 - `Python` 中没有像 `C++` 中 `public` 和 `private` 这些关键字来区别公有属性和私有属性。
 - `Python` 是以属性命名方式来区分，如果在属性和方法名前面加了 `2` 个下划线 `__` ，则表明该属性和方法是私有权限，否则为公有权限。
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#修改私有属性的值)修改私有属性的值
+
+
+### 修改私有属性的值
 
 - 如果需要修改一个对象的属性值，通常有2种方法
 
@@ -3358,8 +3360,6 @@ t._Test__info()
   > 2. 对象名.方法名() ----> 间接修改
 
 - 私有属性不能直接访问，所以无法通过第一种方式修改，一般通过第二种间接的方式修改私有属性的值：定义一个可以调用的公有方法，在这个公有方法内访问修改。
-
-
 
 ```python
 class A(object):
@@ -3382,11 +3382,11 @@ a.setA(10000)  # 10000
 b.setA(99999)  # 99999
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#super)super
-
-当子类继承了多个父类，如果父类类名修改了，那么子类也要涉及多次修改。而且需要重复写多次调用，显得代码臃肿。这时可以使用 `super` 来带偶遇父类中的属性、方法
 
 
+### super
+
+当子类继承了多个父类，如果父类类名修改了，那么子类也要涉及多次修改。而且需要重复写多次调用，显得代码臃肿。这时可以使用 `super` 来带偶遇父类中的属性、方法 
 
 ```Python
 class A(object):
@@ -3436,11 +3436,11 @@ b = B()
 b.info()  # 100
 ```
 
+
+
 使用 `super()` 可以逐一调用所有的父类方法，并且只执行一次。调用顺序遵循 `__mro__` 类属性的顺序。
 
 **注意：** 如果继承了多个父类，且父类都有同名方法，则默认只执行第一个父类的 同名方法只执行一次，目前`super()` 不支持执行多个父类的同名方法
-
-
 
 ```python
 class A(object):
@@ -3468,9 +3468,9 @@ print(c.name, c.hobby)
 # 宇阳 敲代码
 ```
 
+
+
 通过 `super` 调用传参
-
-
 
 ```python
 class A(object):
@@ -3515,11 +3515,11 @@ b = B()
 fn(b)
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#类属性和实例属性)类属性和实例属性
+
+
+### 类属性和实例属性
 
 **类属性：** 实例对象跟类都可以访问类属性
-
-
 
 ```python
 class A(object):
@@ -3539,6 +3539,8 @@ print(a.__a) # 不能在外部访问私有类属性
 # AttributeError: 'A' object has no attribute '__a'
 ```
 
+
+
 实例对象可以访问类的属性，也可以访问实例的属性
 
 而类不能访问实例属性，因为每个实例属性是私有的，类属性是公有的
@@ -3546,8 +3548,6 @@ print(a.__a) # 不能在外部访问私有类属性
 所以如果每个类需要有个相同名字的属性，可以写在类属性中。而需要动态变化的属性写在实例对象中
 
 比如说要定义一个地区的类，我们都在中国，所以中国可以写在类属性里，而地区变化莫测如河南 郑州可以写在实例属性里
-
-
 
 ```python
 class A(object):
@@ -3576,13 +3576,13 @@ print(A.hobby)
 # type object 'A' has no attribute 'hobby'
 ```
 
+
+
 **类属性和实例属性有什么区别？直接定义类属性是否可以取代实例属性？**
 
 类属性在内存中只保存一份，实例属性在每个对象中都要保存一份。我们通过类创建实例对象时，如果每个对象需要具有相同名字的属性，那么就使用类属性，用一份既可。
 
 因此，我们将共享的属性放在类属性中，而独有的属性放在实例属性中。
-
-
 
 ```python
 class Province(object):  # 类也是一个对象  类对象
@@ -3604,15 +3604,15 @@ print(obj2.name)
 Province.country
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#实例方法、类方法和静态方法)实例方法、类方法和静态方法
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#实例方法)实例方法
+
+### 实例方法、类方法和静态方法
+
+#### 实例方法
 
 通常情况下，在类中定义的方法默认都是实例方法。前面章节中，我们已经定义了不只一个实例方法。不仅如此，类的构造方法理论上也属于实例方法，只不过它比较特殊。
 
 比如，下面的类中就用到了实例方法：
-
-
 
 ```python
 class CLanguage:
@@ -3625,26 +3625,26 @@ class CLanguage:
         print("正在调用 say() 实例方法")
 ```
 
+
+
 实例方法最大的特点就是，它最少也要包含一个 `self` 参数，用于绑定调用此方法的实例对象（`Python` 会自动完成绑定）。实例方法通常会用类对象直接调用，例如：
-
-
 
 ```python
 clang = CLanguage()
 clang.say()
 ```
 
+
+
 运行结果：
 
-
-
-```text
+```
 正在调用 say() 实例方法
 ```
 
+
+
 当然，`Python` 也支持使用类名调用实例方法，但此方式需要手动给 self 参数传值。例如：
-
-
 
 ```python
 #类名调用实例方法，需手动给 self 参数传值
@@ -3652,19 +3652,19 @@ clang = CLanguage()
 CLanguage.say(clang)
 ```
 
+
+
 运行结果为：
 
-
-
-```text
+```
 正在调用 say() 实例方法
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#类方法)类方法
+
+
+#### 类方法
 
 **类方法** 只能通过 `cls` 访问类属性 ，不能访问 `self` 的实例属性
-
-
 
 ```python
 class A(object):
@@ -3723,9 +3723,9 @@ A.run()
 # Hello World!
 ```
 
+
+
 并且方法体中不能使用类或实例的任何属性和方法
-
-
 
 ```python
 class A(object):
@@ -3820,11 +3820,11 @@ myHome.addFurniture(table)
 # 剩余面积为：102.5  家具：['席梦思', '衣柜', '餐桌']
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#异常)异常
+
+
+## 异常
 
 **语法**
-
-
 
 ```python
 try:
@@ -3833,9 +3833,9 @@ except 异常类型 as 把异常信息给一个变量存储起来:
     # 异常处理
 ```
 
+
+
 读取一个不存在的文件正常情况下会报错，从而导致整个项目运行不了。而使用异常捕获后出现报错就不会导致整个项目崩溃，而是执行 `except` 异常中的代码
-
-
 
 ```python
 try:
@@ -3844,11 +3844,11 @@ except:
     print("报错，因为123.txt文件不存在")  # 执行
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#捕获异常)捕获异常
+
+
+### 捕获异常
 
 捕获指定的单个异常
-
-
 
 ```python
 try:
@@ -3859,8 +3859,6 @@ except FileNotFoundError as e:  # as e 把异常信息报错到e变量中
     print("捕获到的异常", e)
     # 捕获到的异常 [Errno 2] No such file or directory: '123.txt'
 ```
-
-
 
 ```python
 try:
@@ -3873,9 +3871,9 @@ except NameError as e:
     # 报错信息： name 'abc' is not defined
 ```
 
+
+
 捕获指定的多个异常
-
-
 
 ```python
 try:
@@ -3885,9 +3883,9 @@ except (FileNotFoundError, NameError) as e:
     print("捕获到的异常", e)
 ```
 
+
+
 捕获全部异常
-
-
 
 ```python
 try:
@@ -3897,8 +3895,6 @@ except Exception as e:
     print("捕获到的异常", e)
 ```
 
-
-
 ```python
 try:
     open('123.txt')  # 没有该文件
@@ -3907,11 +3903,11 @@ except:
     print("捕获到的异常", e)
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#else)else
+
+
+### else
 
 咱们应该对`else`并不陌生，在if中，它的作用是当条件不满足时执行；同样在 `try...except` 中也是如此，如果没有捕获到异常，那么就执行 `else` 中的事情
-
-
 
 ```python
 try:
@@ -3926,9 +3922,9 @@ else:
 # 没有异常，执行else
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#finally)finally
 
 
+### finally
 
 ```python
 try:
@@ -3945,11 +3941,11 @@ finally:
 # 不管有没有异常，执行finally
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#异常传递)异常传递
+
+
+### 异常传递
 
 **try 嵌套**
-
-
 
 ```python
 # 2. 如果外层有异常处理就执行异常处理，没有就报错
@@ -3967,9 +3963,9 @@ except:
 # 没有这个文件
 ```
 
+
+
 **函数异常**
-
-
 
 ```python
 def fn1():
@@ -4001,13 +3997,13 @@ def fn4():
 fn4()
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#自定义异常)自定义异常
+
+
+### 自定义异常
 
 你可以用 `raise` 语句来引发一个异常。异常/错误对象必须有一个名字，且它们应是 `Error` 或 `Exception` 类的子类
 
 下面是一个引发异常的例子:
-
-
 
 ```python
 class ShortInputException(Exception):
@@ -4032,11 +4028,11 @@ def info():
 info()
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#模块)模块
-
-### [#](http://139.196.43.147/Python/Python/Python1.html#基本使用)基本使用
 
 
+## 模块
+
+### 基本使用
 
 ```python
 # 方法一、导入全部
@@ -4060,9 +4056,9 @@ res4 = choice([1, 2, 3, 4, 5])
 print(res3, res4)
 ```
 
+
+
 方法一 与 方法三 共同点都可以导入全部模块，但他们的不同点注意以下写法：
-
-
 
 ```python
 # 方法一
@@ -4070,17 +4066,15 @@ import random
 random.randint(0, 10)
 ```
 
-
-
 ```python
 # 方法三
 from random import *
 randint(0, 9)
 ```
 
+
+
 **取别名**
-
-
 
 ```python
 import time as t
@@ -4088,20 +4082,20 @@ import time as t
 print(t.ctime())
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#自定义模块)自定义模块
+
+
+### 自定义模块
 
 **test.py**
-
-
 
 ```python
 def add(x, y):
     print(x + y)
 ```
 
+
+
 **index.py**
-
-
 
 ```python
 # 方法一、
@@ -4117,25 +4111,25 @@ from test import add
 add(100, 200) # 300
 ```
 
+
+
 **注意**
 
-```
-Python` 在执行一个文件时有个变量 `__name__
-```
+`Python` 在执行一个文件时有个变量 `__name__`
 
 在 `test.py` 中直接运行则 `__name__` 返回的是 `__main__`
 
 在其他文件中引入 `test.py` 运行，则输出的是：`test` 文件名
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#all)**all**
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#不指定all)不指定all
+
+### __all__
+
+#### 不指定all
 
 不指定 `__all__` 则导出 `test.py` 中所有模块
 
 **index.py**
-
-
 
 ```python
 from test import *
@@ -4145,9 +4139,9 @@ y() # y
 z() # z
 ```
 
+
+
 **test.py**
-
-
 
 ```python
 def x():
@@ -4162,13 +4156,13 @@ def z():
     print("z")
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#指定all)指定all
+
+
+#### 指定all
 
 指定了 `__all__` 则导出 `test.py` 中指定的模块
 
 **index.py**
-
-
 
 ```python
 from index import *
@@ -4179,9 +4173,9 @@ z() # z没有被导出
 # NameError: name 'z' is not defined
 ```
 
+
+
 **test.py**
-
-
 
 ```python
 # 以数组形式 只导出指定的模块
@@ -4204,19 +4198,21 @@ def z():
 
 如果一个文件中有__all__变量，那么也就意味着这个变量中的元素，会被 `from xxx import *` 时导入, 没有在这个变量中的不会被导入
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#包)包
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#创建包)创建包
+
+### 包
+
+#### 创建包
 
 创建一个文件夹 `bag` 然后在文件夹中新建 `__init__.py` 文件
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#使用包)使用包
+
+
+#### 使用包
 
 在 `bag` 包文件夹里创建 `2` 个文件，分别是 `A.py` 与 `B.py`
 
 **A.py**
-
-
 
 ```python
 def info():
@@ -4225,16 +4221,14 @@ def info():
 
 **B.py**
 
-
-
 ```python
 def add(x, y):
     print(x + y)
 ```
 
+
+
 然后在 `bag` 包文件夹的 `__init__` 中导出这两个包
-
-
 
 ```python
 # 方法一
@@ -4248,9 +4242,9 @@ from . import A, B
 __all__ = ["A", "B"]
 ```
 
+
+
 最后在 `index.py` 中使用
-
-
 
 ```python
 # 方法一
@@ -4268,21 +4262,21 @@ A.info()
 B.info()
 ```
 
-#### [#](http://139.196.43.147/Python/Python/Python1.html#第三方包)第三方包
+ 
+
+#### 第三方包
 
 我们可以使用 `pip install 包名` 进行安装 `Python` 中的包
-
-
 
 ```pip
 pip install numpy
 ```
 
+
+
 默认情况下 `pip` 连接的是国外网站，下载包会比较慢，所以我们可以更改为国内网站
 
 以下是比较常用的镜像源
-
-
 
 ```pip
 清华大学：https://pypi.tuna.tsinghua.edu.cn/simple
@@ -4290,19 +4284,19 @@ pip install numpy
 豆瓣：https://pypi.douban.com/simple/
 ```
 
+
+
 使用方法
-
-
 
 ```pip
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple numpy
 ```
 
-### [#](http://139.196.43.147/Python/Python/Python1.html#自定义工具包)自定义工具包
+
+
+### 自定义工具包
 
 **demo.py**
-
-
 
 ```python
 from my_utils.str_util import *
@@ -4320,17 +4314,17 @@ print_file_info("123.txt")
 append_to_file_name("123.txt", "Hello World!")
 ```
 
+
+
 **my_utils >** `__init__.py`
-
-
 
 ```python
 __all__ = ["str_util", "file_util"]
 ```
 
+
+
 **my_utils >** `file_util.py`
-
-
 
 ```python
 __all__ = ["print_file_info", "append_to_file_name"]
@@ -4356,9 +4350,9 @@ def append_to_file_name(file, data):
     a.close()
 ```
 
+
+
 **my_utils >** `str_util.py`
-
-
 
 ```python
 __all__ = ["str_reverse", "substr"]
@@ -4379,31 +4373,27 @@ def substr(s, x, y):
     #     i += 1
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#name)*name*_
-
-```
-__name__` 可以获取当前程序文件名称，如果在本文件输出`__name__` 则返回结果是：`__main__` ，其他程序引入本文件执行后，返回的结果是当前文件的名称：`index
-```
 
 
+## _name__
+
+`__name__` 可以获取当前程序文件名称，如果在本文件输出`__name__` 则返回结果是：`__main__` ，其他程序引入本文件执行后，返回的结果是当前文件的名称：`index`
 
 ```python
 # demo.py
 import index # 其他文件：index
 ```
 
-
-
 ```python
 # index.py
 print(__name__) # 当前文件：__main__
 ```
 
-## [#](http://139.196.43.147/Python/Python/Python1.html#综合案例-1)综合案例
-
-### [#](http://139.196.43.147/Python/Python/Python1.html#删除数组中带4的数据)删除数组中带4的数据
 
 
+## 综合案例
+
+### 删除数组中带4的数据
 
 ~~~python
 # 删除数组中带4的数据
@@ -4426,11 +4416,11 @@ del_four("4", phones)
 ```
 ~~~
 
+
+
 ## Dir
 
 通过 `dir(参数)` 可查看某个数据类型的内置属性
-
-
 
 ```python
 print(dir(1))
