@@ -429,6 +429,64 @@ public class Main {
 
 
 
+**Collections 常见的操作**
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+
+        // 添加数据
+        list.add("aaa");
+
+        // 批量添加数据
+        Collections.addAll(list, "bbb", "ccc", "ddd", "eee");
+        System.out.println(list); // [aaa, bbb, ccc, ddd, eee]
+
+        // 随机打乱集合数据
+        Collections.shuffle(list);
+        System.out.println(list); // [aaa, ddd, ccc, eee, bbb]
+
+        // 排序：从小到大
+        Collections.sort(list);
+        System.out.println(list); // [aaa, bbb, ccc, ddd, eee]
+
+        // 排序：从大到小
+        Collections.sort(list, new Comparator<String>() {
+            @Override
+            public int compare(String a, String b) {
+                // return a.compareTo(b); // 升序：[aaa, bbb, ccc, ddd, eee]
+                return b.compareTo(a); // 降序：[eee, ddd, ccc, bbb, aaa]
+            }
+        });
+        System.out.println(list); // [eee, ddd, ccc, bbb, aaa]
+
+        // 简写：从大到小
+        Collections.sort(list, (a, b) -> b.compareTo(a));
+        System.out.println(list); // [eee, ddd, ccc, bbb, aaa]
+
+        // 从大到小排序
+        list.sort((a, b) -> a.compareTo(b));
+        System.out.println(list); // [aaa, bbb, ccc, ddd, eee]
+
+        // 将指定的数组转换为不可改变的数组并返回
+        List<String> newList = Collections.unmodifiableList(list);
+        System.out.println(newList); // [aaa, bbb, ccc, ddd, eee]
+        // newList.add("fff"); // 报错：不能添加、修改、删除
+
+        list.add("fff"); // 允许
+        System.out.println(list); // [aaa, bbb, ccc, ddd, eee, fff]
+    }
+}
+```
+
+
+
 ## Set
 
 `Set` 集合是一种无序的集合，它不保留元素的插入顺序，并且不允许重复元素。这意味着当你通过 `Set` 集合访问元素时，你不能依赖于元素的顺序。如果你需要有序的集合，可以考虑使用 `List` 接口的实现类，例如 `ArrayList` 或 `LinkedList`

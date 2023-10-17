@@ -127,7 +127,7 @@ public class Phone {
 `this` 修饰的变量用于指向成员变量，其主要作用是（区分局部变量和成员变量的重名问题）
 
 * 方法的形参如果与成员变量同名，不带 `this` 修饰的变量指的是形参，而不是成员变量
-* 方法的形参没有与成员变量同名，不带 `this` 修饰的变量指的是成员变量
+* 方法的形参没有与成员变量同名，不带  `this` 修饰的变量指的是成员变量
 
 ```java
 public class Main {
@@ -1118,7 +1118,7 @@ public class B extends A {
 
 **为什么使用多态？**
 
-如果没有多态，那么在下图中 `register` 方法只能传递 `Student` 学生对象，其他的 `Teacher` 和 `administrator` 对象是无法传递给 `register` 方法方法的，在这种情况下，只能定义三个不同的 `register` 方法分别接收学生，老师这两个类
+如果没有多态，那么在下图中 `register` 方法只能传递 `Student` 学生对象，其他的 `Teacher` 和 `administrator` 对象是无法传递给 `register` 方法的，在这种情况下，只能定义三个不同的 `register` 方法分别接收学生，老师这两个类
 
 ![多态的应用场景](image/多态的应用场景1.png)
 
@@ -1359,25 +1359,25 @@ if (p instanceof Student s) {
 
 ## 抽象类
 
-抽象类存在的意义是为了被子类继承，否则抽象类将毫无意义。抽象类可以强制让子类，一定要按照规定的格式进行重写。
+抽象类存在的意义是为了被子类继承，否则抽象类将毫无意义。
 
-如果一个类包含抽象方法，那么该类必须是抽象类。
+抽象类可以强制让子类按照规定的格式进行重写。
+
+如果一个类的某个方法被修饰为 `abstract`，那么该类必须是抽象类。
 
 
 
 **定义抽象类**
 
 ```java
-abstract class 类名字 { 
-  
-}
+abstract class 类名字 {}
 ```
 
 **定义抽象方法**
 
 ```java
-public abstract class Animal {
-    public abstract void run()；
+abstract public class Animal {
+    abstract public void run()；
 }
 ```
 
@@ -1390,7 +1390,8 @@ public abstract class Animal {
 ```java
 public class Main {
     public static void main(String[] args) {
-        // A a = new A(); 抽象类不能被 new 实例化
+        // 注意：抽象类不能被 new 实例化
+        // A a = new A();
 
         B b = new B();
 
@@ -1405,13 +1406,13 @@ public class Main {
 
 ```java
 // 定义抽象类：不能new实例化，只能被继承
-public abstract class A {
+abstract public class A {
     String name;
 
     // 抽象方法一旦定义就必须由子类重写
-    public abstract void info1();
+    abstract public void info1();
 
-    // 抽象类中也可以定义实例方法
+    // 抽象类中也可以定义普通方法提供给子类继承时使用
     public void info2(){
         System.out.println("info2");
     };
@@ -1428,7 +1429,7 @@ public class B extends A {
 }
 ```
 
-此时的方法重写，是子类对父类抽象方法的完成实现，我们将这种方法重写的操作，也叫做**实现方法**。
+此时的方法重写，是子类对父类抽象方法的实现，我们将这种方法重写的操作，也叫做**实现方法**。
 
 
 
@@ -1436,7 +1437,7 @@ public class B extends A {
 
 ```java
 //B类继承A类，此时B类也是抽象类，这个时候就可以不重写A类的抽象方法也不会报错
-public abstract class B extends A {}
+abstract public class B extends A {}
 ```
 
 
@@ -2466,4 +2467,21 @@ public class A {
     }
 }
 ```
+
+
+
+## 总结
+
+OOP(object oriented programming)，即面向对象编程
+
+**面向对象具有四大特性，分别是**
+
+1. **抽象：** 将一些事物的共性抽离出来归为一个类。
+   	如对于动物，具有生命体征、活动能力等区别于其它事物的共同特征
+2. **封装：** 有选择地隐藏和暴露数据和方法
+   	比如有U盘这个类，我希望隐藏内部组成和实现，只暴露 `USB` 接口以供使用
+3. **继承：** 子类可以直接使用父类的部分数据和方法，可以有选择的扩展
+   	比如鸟是动物，但鸟扩展了飞行的能力。
+4. **多态：** 同一类的对象调用相同方法可以表现出不同的行为
+   	比如动物实现了 `say()` 方法，猴子、马等动物重写了 `say()` 方法来表现不同的交流语言。"
 
