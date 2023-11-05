@@ -50,7 +50,9 @@ public class Main {
 | public int   size()                   | 返回集合中的元素的个数                        |
 | public void   clear()                 | 清空数组中所有的数据                          |
 | public boolean isEmpty()              | 判断数据是否为空，有数据就返回true，反之false |
-|                                       |                                               |
+| public void allAdd()                  | 将指定集合中的所有元素添加到另一个集合中      |
+
+
 
 **代码示例**
 

@@ -1791,6 +1791,42 @@ list.stream().skip(8).forEach(item -> System.out.println(item.name));
 
 
 
+```java
+// 从第三个开始，获取4个数据
+list.stream().skip(2).limit(4).forEach(item -> System.out.println(item.name));
+// 李四
+// 张雷
+// 张超
+// 李雷
+```
+
+
+
+**模拟分页查询**
+
+```java
+// 每页显示多少个数据
+int page = 3;
+for (int i = 1; i <= 4; i++) { // 第几页
+    // 当前索引
+    int startIndex = (i - 1) * page;
+    list.stream().skip(startIndex).limit(page).forEach(item -> System.out.println(item.name));
+    System.out.println("--------------");
+}
+```
+
+
+
+### toList
+
+```java
+// 将stream转换为集合
+// List<User> data = list.stream().collect(Collectors.toList());
+List<User> data = list.stream().toList(); // 推荐方式
+```
+
+
+
 ### count
 
 统计数量
@@ -1826,55 +1862,6 @@ System.out.printf("年龄最大的用户是：%s 他的年龄为：%d", max.name
 User min = list.stream().min((a, b) -> Integer.compare(a.age, b.age)).get();
 System.out.printf("年龄最大的用户是：%s 他的年龄为：%d", min.name, min.age);
 // 年龄最小的用户是：张超 他的年龄为：15
-```
-
-
-
-**使用 Stream**
-
-```java
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-public class Main {
-    public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
-        Collections.addAll(list, "张三丰", "张无忌", "周芷若", "赵敏", "张强");
-        
-        // 从第1个开始取2个数据
-        list.stream().skip(0).limit(2).forEach(System.out::println);
-        // 张三丰
-        // 张无忌
-        System.out.println("-----------------");
-
-        // 从第2个开始取2个数据
-        list.stream().skip(2).limit(2).forEach(System.out::println);
-        // 周芷若
-        // 赵敏
-        System.out.println("-----------------");
-
-        // 模拟分页
-        int pageSize = 2; // 每页显示多少个
-        for (int page = 1; page <= 3; page++) { // 第几页
-            int startIndex = (page - 1) * pageSize; // 当前索引
-
-            list.stream().skip(startIndex).limit(pageSize).forEach(s -> System.out.println(s));
-            System.out.println("~~~~~~~~~~~~~~~~~");
-        }
-
-        
-
-        List<String> arr = new ArrayList<>();
-        Collections.addAll(arr, "aaa", "bbb", "ccc", "ddd");
-        
-        // 将stream转换为集合
-        List<String> newArr = arr.stream().map(s -> s.toUpperCase()).toList();
-        // List<String> newArr = arr.stream().map(s->s.toUpperCase()).collect(Collectors.toList());
-        System.out.println(newArr); // [AAA, BBB, CCC, DDD]
-        System.out.println("-----------------");
-    }
-}
 ```
 
 
@@ -2886,6 +2873,85 @@ public class Main {
 
 
 
+### FileUtils
+
+`commons-io` 有 `apache` 第三方组织开源项目，对使用者提供 `jar` 包
+
+**步骤1：拷贝jar包**
+
+![1696988843236](image/1696988843236.png)
+
+**步骤2：启用jar包（将jar包应用到项目中）**
+
+![1696989107070](image/1696989107070.png)
+
+
+
+基本使用
+
+```java
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        // ----------拷贝文件----------
+        File A_File = new File("src/a.txt");
+        File B_File = new File("src/b.txt");
+
+        // 将a.txt的内容拷贝给b.txt
+        FileUtils.copyFile(A_File, B_File);
+
+
+        // ----------拷贝文件夹----------
+        File A_Dir = new File("src/a");
+        File B_Dir = new File("src/b");
+
+        // 将a文件夹里面的所有东西全部拷贝给b文件夹
+        FileUtils.copyDirectory(A_Dir, B_Dir);
+
+
+        // ----------删除文件----------
+        FileUtils.deleteQuietly(new File("src/b.txt"));
+        
+
+        // ----------删除文件夹----------
+		FileUtils.forceDelete(new File("src/a.txt")); // 删除的文件不存在会报错
+        FileUtils.deleteDirectory(new File("src/b")); // 不会报错
+
+
+        // ----------读写文件----------
+        File file = new File("src/a.txt");
+
+        // 写入数据
+        FileUtils.writeStringToFile(file, "你好呀!", "utf8");
+
+        // 读取数据
+        String data = FileUtils.readFileToString(file, "utf8");
+        System.out.println(data);
+    }
+}
+```
+
+
+
+**过滤目录**
+
+参数二表示需要过滤的文件后缀名，不指定可以写 `null`
+
+参数三表示是否深度过滤，如果为 `true` 表示过滤所有子目录，反之只过滤同级中的文件
+
+**例子：** 过滤出 `src/a` 目录下所有以 `.java` 作为后缀的文件
+
+```java
+System.out.println(FileUtils.listFiles(new File("src/a"), new String[]{"java"}, true));
+// [src\a\c\ddd.java, src\a\hello.java]
+```
+
+
+
 ## 反射
 
 ```java
@@ -3195,3 +3261,52 @@ public class Main {
     }
 }
 ```
+
+
+
+## 多线程
+
+启动一个多线程：定义一个类继承于 `Thread` ，然后重写 `run` 方法，创建子类对象并启动线程
+
+```java
+// 定义一个类继承于Thread
+public class MyThread extends Thread {
+    // 重写run方法
+    @Override
+    public void run() {
+        for (int i = 1; i <= 10; i++) {
+            System.out.println(getName() + i);
+        }
+    }
+}
+```
+
+
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // 创建子类对象
+        MyThread mt = new MyThread();
+        // 启动线程
+        mt.start();
+    }
+}
+```
+
+
+
+```JAVA
+public class Main {
+    public static void main(String[] args) {
+        MyThread mt1 = new MyThread();
+        mt1.setName("线程A：");
+        mt1.start();
+
+        MyThread mt2 = new MyThread();
+        mt2.setName("线程B：");
+        mt2.start();
+    }
+}
+```
+
