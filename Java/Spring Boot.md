@@ -8,6 +8,58 @@
 
 
 
+## 请求与响应
+
+在 `Spring Boot` 中，如果希望使用特定的请求方式，可以使用如下的注解：
+
+- `@GetMapping`：处理 **GET** 请求。
+- `@PostMapping`：处理 **POST** 请求。
+- `@PatchMapping`：处理 **PATCH** 请求。
+- `@DeleteMapping`：处理 **DELETE** 请求。
+
+```java
+@RestController
+public class HomeController {
+    @GetMapping("/home")
+    public String home(String name, int age) {
+        // 处理 GET 请求
+    }
+
+    @PostMapping("/home")
+    public String home(String name, int age) {
+        // 处理 POST 请求
+    }
+
+    @PatchMapping("/home")
+    public String home(String name, int age) {
+        // 处理 PATCH 请求
+    }
+
+    @DeleteMapping("/home")
+    public String home(String name, int age) {
+        // 处理 DELETE 请求
+    }
+}
+```
+
+这样，每个方法只会处理与注解对应的请求方法
+
+
+
+而 `@RequestMapping` 注解表示支持所有的 `HTTP` 请求方法，如 `GET`、`POST`、`PATCH`、`DELETE` 等
+
+```java
+@RestController
+public class HomeController {
+    @RequestMapping("/home")
+    public String home() {
+        // 不管什么请求方式都可以触发该方法
+    }
+}
+```
+
+
+
 ## 分层解耦
 
 ### 三层架构
@@ -609,4 +661,340 @@ private UserService userService;
 > - @Autowired 默认是按照类型注入，而@Resource是按照名称注入
 
 
+
+## AOP
+
+坐标
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+```
+
+
+
+**编写业务逻辑**
+
+```java
+package liuyuyang.service;
+
+public interface Cs {
+    public void info1();
+
+    public void info2();
+}
+```
+
+```java
+package liuyuyang.service.impl;
+
+import liuyuyang.service.Cs;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CsImpl implements Cs {
+    public void info1(){
+        System.out.println("11111111111111111");
+    }
+
+    public void info2(){
+        System.out.println("22222222222222222");
+    }
+}
+```
+
+
+
+**测试程序代码**
+
+```java
+import liuyuyang.Main;
+import liuyuyang.service.Cs;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.annotation.Resource;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Main.class)
+public class TestCsImpl {
+    @Resource
+    private Cs cs;
+
+    @Test
+    public void fun(){
+        cs.info1();
+        cs.info2();
+    }
+}
+```
+
+
+
+### 通知类型
+
+#### 前后通知
+
+在 `liuyuyang.service` 这个包中的所有类以及类的方法会在调用时候自动触发对应的方法
+
+```java
+package liuyuyang;
+
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Service;
+
+@Service
+// 使当前类为切面类
+@Aspect
+public class TimeAspect {
+    // 在目标方法调用前执行
+    @Before("execution(* liuyuyang.service.*.*(..))")
+    public void before(JoinPoint j){        
+        System.out.println("before~ 方法调用前执行");
+    }
+
+    // 在目标方法调用后执行
+    @After("execution(* liuyuyang.service.*.*(..))")
+    public void after(){
+        System.out.println("after~ 方法调用后执行");
+    }
+}
+```
+
+**运行效果**
+
+```
+before~ 方法调用前执行
+11111111111111111
+after~ 方法调用后执行
+    
+before~ 方法调用前执行
+22222222222222222
+after~ 方法调用后执行
+```
+
+
+
+#### 后置通知
+
+在每次调用完之后触发并返回 `return` 值
+
+```java
+@Service
+@Aspect
+public class TimeAspect {
+    // 后置通知
+    @AfterReturning(value = "execution(* liuyuyang.service.*.*(..))", returning = "o")
+    public void before(JoinPoint j, Object o) {
+        System.out.printf("函数名：%s 返回值：%s\n", j.getSignature().getName(), o);
+    }
+}
+```
+
+**运行效果**
+
+```
+11111111111111111
+函数名：info1 返回值：null
+
+22222222222222222
+函数名：info2 返回值：null
+```
+
+
+
+#### 环绕通知
+
+在目标方法调用前、调用后触发，支持返回 `return`
+
+```java
+package liuyuyang;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.stereotype.Service;
+
+@Service
+@Aspect
+public class TimeAspect {
+    // 环绕通知
+    @Around("execution(* liuyuyang.service.*.*(..))")
+    public Object around(ProceedingJoinPoint p) throws Throwable {
+        System.out.println("在调用方法前做哪些操作~");
+
+        // 调用方法并获取方法返回值
+        Object r = p.proceed();
+
+        System.out.println("在调用方法后做哪些操作~");
+
+        // 将方法返回值返回
+        return r;
+    }
+}
+```
+
+**运行效果**
+
+```
+在调用方法前做哪些操作~
+11111111111111111
+在调用方法后做哪些操作~
+
+在调用方法前做哪些操作~
+22222222222222222
+在调用方法后做哪些操作~
+```
+
+
+
+#### 异常通知
+
+```java
+public void info1() {
+    // 在这里手动写一个异常
+	System.out.println(1/0);
+}
+```
+
+```java
+@Service
+@Aspect
+public class TimeAspect {
+    // 抛出异常通知
+    @AfterThrowing(value = "execution(* liuyuyang.service.*.*(..))", throwing = "e")
+    public void afterThrowing(Exception e) {
+        System.out.printf("抛出异常通知：%s\n", e);
+        // 抛出异常通知：java.lang.ArithmeticException: / by zero
+    }
+}
+```
+
+**运行效果**
+
+```
+抛出异常通知：java.lang.ArithmeticException: / by zero
+```
+
+
+
+#### 最终异常
+
+```java
+@Service
+@Aspect
+public class TimeAspect {
+    // 最终异常通知
+    @After("execution(* liuyuyang.service.*.*(..))")
+    public void after() {
+        System.out.println("最终异常通知：");
+    }
+}
+```
+
+
+
+#### 应用场景
+
+**需求：** 使用 `AOP` 实现统计各个业务层方法执行耗时
+
+```java
+package liuyuyang;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.stereotype.Service;
+
+@Service
+@Aspect
+public class TimeAspect {
+    // 当目标包中的方法调用时会自动触发该方法
+    @Around("execution(* liuyuyang.service.*.*(..))")
+    public void recordTime(ProceedingJoinPoint p) throws Throwable {
+        // 记录方法执行开始时间
+        long start = System.currentTimeMillis();
+
+        // 用于执行目标包中的方法
+        p.proceed();
+
+        // 记录方法执行结束时间
+        long end = System.currentTimeMillis();
+
+        // 打印目标方法的位置以及名称
+        // System.out.println(p.getSignature()); // void liuyuyang.service.impl.CsImpl.info1()
+        // System.out.println(p.getSignature().getName()); // info1
+
+        // 计算方法执行耗时并打印日志
+        System.out.println(p.getSignature() + " 执行耗时: " + (end - start) + "毫秒");
+    }
+}
+```
+
+**运行效果**
+
+```
+11111111111111111
+void liuyuyang.service.impl.CsImpl.info1() 执行耗时: 7毫秒
+    
+22222222222222222
+void liuyuyang.service.impl.CsImpl.info2() 执行耗时: 0毫秒
+```
+
+
+
+### 切入表达式
+
+#### 抽取表达式
+
+这是没有抽取的写法，重复的代码会显得很冗余
+
+```java
+@Service
+@Aspect
+public class TimeAspect {
+    // 在目标方法调用前执行
+    @Before("execution(* liuyuyang.service.*.*(..))")
+    public void before(JoinPoint j){
+        System.out.println("before~ 方法调用前执行");
+    }
+
+    // 在目标方法调用后执行
+    @After("execution(* liuyuyang.service.*.*(..))")
+    public void after(){
+        System.out.println("after~ 方法调用后执行");
+    }
+}
+```
+
+
+
+可以通过 `@Pointcut` 来抽取实现切入表达式的复用
+
+```java
+@Service
+@Aspect
+public class TimeAspect {
+    @Pointcut("execution(* liuyuyang.service.*.*(..))")
+    private void func(){}
+
+    // 在目标方法调用前执行
+    @Before("func()")
+    public void before(JoinPoint j){
+        System.out.println("before~ 方法调用前执行");
+    }
+
+    // 在目标方法调用后执行
+    @After("func()")
+    public void after(){
+        System.out.println("after~ 方法调用后执行");
+    }
+}
+```
 
