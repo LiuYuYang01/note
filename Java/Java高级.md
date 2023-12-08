@@ -202,8 +202,8 @@ for (int i = 1; i <= 4; i++) { // 第几页
 
 ```java
 // 将stream转换为集合
-// List<User> data = list.stream().collect(Collectors.toList());
-List<User> data = list.stream().toList(); // 推荐方式
+// List<User> data = list.stream().toList(); 
+List<User> data = list.stream().collect(Collectors.toList()); // 推荐方式
 ```
 
 

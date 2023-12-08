@@ -465,3 +465,17 @@ select e.ename, e.job, e.sal from emp e where e.sal = (select max(sal) from emp)
 ```
 
 ![image-20231030091326445](image/image-20231030091326445.png)
+
+
+
+### 二十四
+
+**需求：** 通过员工 `id` 查询该员工所在的部门
+
+**难度：** ⭐⭐⭐⭐
+
+```
+select d.* from tb_employee e, tb_department d where find_in_set(d.id, e.dept_ids) && e.id = 1
+```
+
+![image-20231122195937735](image/image-20231122195937735.png)

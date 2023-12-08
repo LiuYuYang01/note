@@ -541,6 +541,22 @@ order by avgScore desc;
 
 
 
+### find_in_set
+
+通过字符串批量查询指定的数据，比如我们想查询 `tb_deparment` 表的 `id` 为 `1、6、9` 的数据可以这么做：
+
+```sql
+select d.* from tb_department d where find_in_set(d.id, '1,6,9')
+```
+
+或者更复杂一些
+
+```sql
+select d.* from tb_employee e, tb_department d where find_in_set(d.id, e.dept_ids) && e.id = 1
+```
+
+![image-20231122195937735](image/image-20231122195937735.png)
+
 ## 练习
 
 查询用户的信息，年龄降序，身高升序排列

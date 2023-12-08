@@ -8,7 +8,9 @@
 
 
 
-## 请求与响应
+## 请求
+
+### 请求方式
 
 在 `Spring Boot` 中，如果希望使用特定的请求方式，可以使用如下的注解：
 
@@ -21,22 +23,22 @@
 @RestController
 public class HomeController {
     @GetMapping("/home")
-    public String home(String name, int age) {
+    public String home() {
         // 处理 GET 请求
     }
 
     @PostMapping("/home")
-    public String home(String name, int age) {
+    public String home() {
         // 处理 POST 请求
     }
 
     @PatchMapping("/home")
-    public String home(String name, int age) {
+    public String home() {
         // 处理 PATCH 请求
     }
 
     @DeleteMapping("/home")
-    public String home(String name, int age) {
+    public String home() {
         // 处理 DELETE 请求
     }
 }
@@ -46,14 +48,416 @@ public class HomeController {
 
 
 
-而 `@RequestMapping` 注解表示支持所有的 `HTTP` 请求方法，如 `GET`、`POST`、`PATCH`、`DELETE` 等
+而 `@RequestMapping` 可以给类或类的属性设置该注解，表示支持的所有 `HTTP` 请求方法，如 `GET`、`POST`、`PATCH`、`DELETE` 等
+
+如果给类设置，表示该路径的前缀。给方法设置，表示让这个方法支持所有的请求方式
 
 ```java
 @RestController
-public class HomeController {
-    @RequestMapping("/home")
-    public String home() {
+@RequestMapping("/user")
+public class UserController {
+    @RequestMapping
+    public String user() {
         // 不管什么请求方式都可以触发该方法
+    }
+}
+```
+
+
+
+`@RequestMapping` 注解也可以通过 `method` 来指定请求方式，如下：
+
+```java
+@RequestMapping(value="/user", method=RequestMethod.GET)
+// 不过这样的话就没有什么意义了，因为它的简写是
+@GetMapping("/user")
+// 他们两种方式的结果是等价的
+```
+
+
+
+### 传参方式
+
+默认为 `application/x-www-form-urlencode` 方式接收参数
+
+```java
+    // @PostMapping(consumes = "application/x-www-form-urlencode")
+	@PostMapping
+    public void hello(User user) {
+        System.out.println(user);
+    }
+```
+
+
+
+设置为 `application/json` 方式接收参数
+
+```java
+    @PostMapping(consumes = "application/json")
+    public void hello(@RequestBody User user) {
+        System.out.println(user);
+    }
+```
+
+`consumes` 的值可以是任何格式，根据需求而定
+
+
+
+### 参数处理
+
+#### 简单参数
+
+**接收参数**
+
+**URL：** http://localhost:9999/?uname=zs
+
+```java
+@RestController
+@RequestMapping("/")
+public class Hello {
+    @GetMapping
+    public void hello(String uname) {
+        System.out.println(uname); // zs
+    }
+}
+```
+
+ 
+
+**参数别名**
+
+**URL：** http://localhost:9999/?uname=zs
+
+```java
+@RestController
+@RequestMapping("/")
+public class Hello {
+    @GetMapping
+    public void hello(@RequestParam("uname") String data) {
+        System.out.println(data); // zs
+    }
+}
+```
+
+
+
+**参数默认值**
+
+如果不传参数 `uname` 值则采取默认值
+
+```java
+@RestController
+@RequestMapping("/")
+public class Hello {
+  @GetMapping
+  public void hello(@RequestParam(name = "uname", defaultValue = "我是默认值") String data) {
+        // URL：http://localhost:9999/?uname=zs
+        System.out.println(data); // zs
+
+        // URL：http://localhost:9999/
+        System.out.println(data); // 我是默认值
+  }
+}
+```
+
+
+
+**参数是否必填**
+
+默认 `required = true` 表示该参数必填，否则程序就会出异常
+
+如果设置为 `false` 则表示该参数可填也可不填，参数的值为 `null` 
+
+**URL：** http://localhost:9999/
+
+```java
+@RestController
+@RequestMapping("/")
+public class Hello {
+    @GetMapping
+    public void hello(@RequestParam(required = false) String uname) {
+        System.out.println(uname); // null
+    }
+}
+```
+
+**细节：** `required = false` 等价于 `defaultValue = ""`
+
+
+
+#### 实体参数
+
+**简单传参**
+
+当传递的参数过多时会导致非常繁琐，所以可以使用实体参数来解决这个问题
+
+**URL：** http://localhost:9999/?id=2&name=zs&age=20
+
+```java
+@RestController
+@RequestMapping("/")
+public class Hello {
+    @GetMapping
+    // 参数类型设置为类
+    public void hello(Info info) {
+        System.out.println(info);
+        // Info(id=2, name=zs, age=20)
+    }
+}
+
+```
+
+```java
+package liuyuyang.domain;
+
+import lombok.Data;
+
+@Data
+public class Info {
+    private Integer id;
+    private String name;
+    private Integer age;
+}
+```
+
+**注意：** `Info` 类的每个属性必须设置 `set` 方法，否则会导致接收过来的 `url` 参数无法进行赋值，这里我们使用 `lombok` 插件来实现
+
+
+
+**复杂传参**
+
+**URL：** http://localhost:9999/?id=2&name=zs&age=20&addRess.aid=1&addRess.city=zhengzhou
+
+```java
+@RestController
+@RequestMapping("/")
+public class Hello {
+    @GetMapping
+    public void hello(Info info) {
+        System.out.println(info);
+        // Info(id=2, name=zs, age=20, addRess=AddRess(aid=1, city=zhengzhou))
+    }
+}
+```
+
+```java
+package liuyuyang.domain;
+
+import lombok.Data;
+
+@Data
+public class Info {
+    private Integer id;
+    private String name;
+    private Integer age;
+    private AddRess addRess;
+}
+```
+
+```java
+package liuyuyang.domain;
+
+import lombok.Data;
+
+@Data
+public class AddRess {
+    private Integer aid;
+    private String city;
+}
+```
+
+
+
+#### 多个参数
+
+**URL：** `http://localhost:9999/?hobby=写代码&hobby=敲代码`
+
+
+
+**数组**
+
+```java
+@RestController
+@RequestMapping("/")
+public class Hello {
+    @GetMapping
+    public void hello(String[] hobby) {
+        System.out.println(Arrays.toString(hobby));
+        // [写代码, 敲代码]
+    }
+}
+```
+
+**集合**
+
+```java
+@RestController
+@RequestMapping("/")
+public class Hello {
+    @GetMapping
+    public void hello(@RequestParam List<String> hobby) {
+        System.out.println(hobby);
+        // [写代码, 敲代码]
+    }
+}
+```
+
+
+
+#### 日期参数
+
+**URL：** http://localhost:9999/?date=2023-11-12
+
+```java
+@RestController
+@RequestMapping("/")
+public class Hello {
+    @GetMapping
+    public void hello(@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        System.out.println(date);
+        // 2023-11-12
+    }
+}
+```
+
+如果传递的不是时间格式的数据，就会抛出异常
+
+
+
+#### 文件参数
+
+通过 `form-data` 上传，参数必须跟方法中的参数一致
+
+```java
+    @PostMapping("/file")
+    public void hello(MultipartFile file) throws IOException {
+        // 获取文件对象
+        System.out.println(file);
+        // 获取文件名
+        System.out.println(file.getName());
+        // 获取文件大小
+        System.out.println(file.getSize());
+        // 获取字节文件流
+        System.out.println(file.getInputStream());
+    }
+```
+
+
+
+#### 动态参数
+
+**URL：** http://localhost:9999/10
+
+```java
+    @GetMapping("/{uid}")
+    public void hello(@PathVariable("uid") String id) {
+        System.out.println(id); // 10
+    }
+```
+
+
+
+### 参数校验
+
+
+
+
+
+### 二级路由
+
+```java
+RestController
+@RequestMapping("/user")
+public class HelloController {
+    // 查询数据
+    @GetMapping("/{uid}")
+    public User hello(@PathVariable("uid") Integer uid) {
+        return null;
+    }
+
+    // 查询全部数据
+    @GetMapping
+    public List<User> hello() {
+        return null;
+    }
+}
+```
+
+```
+http://localhost:9999/user/2
+http://localhost:9999/user
+```
+
+
+
+## 响应
+
+### 状态码
+
+返回一个指定状态码的响应
+
+```java
+@GetMapping("/")
+public ResponseEntity<String> hello() {
+    // 返回一个200状态码的响应
+    // return ResponseEntity.ok("Hello World!");
+    // return ResponseEntity.status(HttpStatus.OK).body("Hello World!");
+    
+    // 返回一个404状态码的响应
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("404：没有找到该页面");
+}
+```
+
+
+
+## RESTFul
+
+`REST` 是一种软件架构风格，规定的规范。
+
+**特点：**
+
+* 请求与响应的数据类型都是JSON
+
+* 请求方式 + 请求路径，标识一个功能。从而使请求路径没有动词。
+
+  ~~~
+  POST http://localhost:8080/user					//添加
+  DELETE http://localhost:8080/user/2			    //通过id删除
+  PATCH http://localhost:8080/user				//修改
+  
+  GET http://localhost:8080/user					//查询所有
+  GET http://localhost:8080/user/2				//通过id查询详情
+  ~~~
+
+**示例：**
+
+```java
+@RestController
+@RequestMapping("/user")
+public class UserController {
+    @PostMapping
+    public ResponseEntity<String> add(@RequestBody User user) {
+        return ResponseEntity.ok("添加成功");
+    }
+    
+    @DeleteMapping("/{uid}")
+    public ResponseEntity<String> del(@PathVariable("uid") String uid) {
+        return ResponseEntity.ok("删除成功");
+    }
+    
+    @PatchMapping
+    public ResponseEntity<String> update(@RequestBody User user) {
+        return ResponseEntity.ok("修改成功");
+    }
+    
+    @GetMapping("/{uid}")
+    public ResponseEntity<String> get(@PathVariable("uid") String uid) {
+        return ResponseEntity.ok("查询数据成功");
+    }
+
+    @GetMapping
+    public ResponseEntity<String> list() {
+        return ResponseEntity.ok("查询全部数据成功");
     }
 }
 ```
@@ -367,7 +771,6 @@ public class EmpController {
 ~~~java
 @Component //将当前对象交给IOC容器管理,成为IOC容器的bean
 public class EmpServiceA implements EmpService {
-
     @Autowired //运行时,从IOC容器中获取该类型对象,赋值给该变量
     private EmpDao empDao ;
 
@@ -664,7 +1067,19 @@ private UserService userService;
 
 ## AOP
 
-坐标
+AOP英文全称：`Aspect Oriented Programming`（面向切面编程），其实说白了，面向切面编程就是面向特定方法编程
+
+
+
+**使用AOP的优势：**
+
+1. 减少重复代码
+2. 提高开发效率
+3. 维护方便
+
+
+
+**坐标**
 
 ```xml
 <dependency>
@@ -754,13 +1169,13 @@ import org.springframework.stereotype.Service;
 @Aspect
 public class TimeAspect {
     // 在目标方法调用前执行
-    @Before("execution(* liuyuyang.service.*.*(..))")
+    @Before("execution(* liuyuyang.service.impl.*.*(..))")
     public void before(JoinPoint j){        
         System.out.println("before~ 方法调用前执行");
     }
 
     // 在目标方法调用后执行
-    @After("execution(* liuyuyang.service.*.*(..))")
+    @After("execution(* liuyuyang.service.impl.*.*(..))")
     public void after(){
         System.out.println("after~ 方法调用后执行");
     }
@@ -781,7 +1196,7 @@ after~ 方法调用后执行
 
 
 
-#### 后置通知
+#### 返回后通知
 
 在每次调用完之后触发并返回 `return` 值
 
@@ -790,7 +1205,7 @@ after~ 方法调用后执行
 @Aspect
 public class TimeAspect {
     // 后置通知
-    @AfterReturning(value = "execution(* liuyuyang.service.*.*(..))", returning = "o")
+    @AfterReturning(value = "execution(* liuyuyang.service.impl.*.*(..))", returning = "o")
     public void before(JoinPoint j, Object o) {
         System.out.printf("函数名：%s 返回值：%s\n", j.getSignature().getName(), o);
     }
@@ -825,7 +1240,7 @@ import org.springframework.stereotype.Service;
 @Aspect
 public class TimeAspect {
     // 环绕通知
-    @Around("execution(* liuyuyang.service.*.*(..))")
+    @Around("execution(* liuyuyang.service.impl.*.*(..))")
     public Object around(ProceedingJoinPoint p) throws Throwable {
         System.out.println("在调用方法前做哪些操作~");
 
@@ -856,6 +1271,8 @@ public class TimeAspect {
 
 #### 异常通知
 
+程序在异常情况下才会执行
+
 ```java
 public void info1() {
     // 在这里手动写一个异常
@@ -868,7 +1285,7 @@ public void info1() {
 @Aspect
 public class TimeAspect {
     // 抛出异常通知
-    @AfterThrowing(value = "execution(* liuyuyang.service.*.*(..))", throwing = "e")
+    @AfterThrowing(value = "execution(* liuyuyang.service.impl.*.*(..))", throwing = "e")
     public void afterThrowing(Exception e) {
         System.out.printf("抛出异常通知：%s\n", e);
         // 抛出异常通知：java.lang.ArithmeticException: / by zero
@@ -886,12 +1303,14 @@ public class TimeAspect {
 
 #### 最终异常
 
+了解
+
 ```java
 @Service
 @Aspect
 public class TimeAspect {
     // 最终异常通知
-    @After("execution(* liuyuyang.service.*.*(..))")
+    @After("execution(* liuyuyang.service.impl.*.*(..))")
     public void after() {
         System.out.println("最终异常通知：");
     }
@@ -900,9 +1319,319 @@ public class TimeAspect {
 
 
 
-#### 应用场景
+### 顺序
 
-**需求：** 使用 `AOP` 实现统计各个业务层方法执行耗时
+#### 通知顺序
+
+如果在项目中定义了多个切面类，而多个切面类中多个切入点都匹配了同一个目标方法，此时目标方法在运行的时候，这多个切面类当中的通知方法都会执行
+
+
+
+**定义多个切面类：**
+
+~~~java
+@Slf4j
+@Component
+@Aspect
+public class MyAspect2 {
+    //前置通知
+    @Before("execution(* com.itheima.service.impl.*.*(..))")
+    public void before(){
+        log.info("MyAspect2 -> before ...");
+    }
+
+    //后置通知
+    @After("execution(* com.itheima.service.impl.*.*(..))")
+    public void after(){
+        log.info("MyAspect2 -> after ...");
+    }
+}
+
+~~~
+
+~~~java
+@Slf4j
+@Component
+@Aspect
+public class MyAspect3 {
+    //前置通知
+    @Before("execution(* com.itheima.service.impl.*.*(..))")
+    public void before(){
+        log.info("MyAspect3 -> before ...");
+    }
+
+    //后置通知
+    @After("execution(* com.itheima.service.impl.*.*(..))")
+    public void after(){
+        log.info("MyAspect3 ->  after ...");
+    }
+}
+~~~
+
+~~~java
+@Slf4j
+@Component
+@Aspect
+public class MyAspect4 {
+    //前置通知
+    @Before("execution(* com.itheima.service.impl.*.*(..))")
+    public void before(){
+        log.info("MyAspect4 -> before ...");
+    }
+
+    //后置通知
+    @After("execution(* com.itheima.service.impl.*.*(..))")
+    public void after(){
+        log.info("MyAspect4 -> after ...");
+    }
+}
+
+~~~
+
+
+
+**运行效果**
+
+![image-20230110211208549](image/image-20230110211208549.png)
+
+通过以上程序运行可以看出在不同切面类中，默认按照切面类的类名字母或数字进行排序：
+
+- 目标方法前的通知方法：字母或数字排名靠前的先执行
+- 目标方法后的通知方法：字母或数字字母排名靠前的后执行
+
+
+
+#### 控制顺序
+
+如果我们想控制通知的执行顺序有两种方式：
+
+1. 修改切面类的类名（这种方式非常繁琐、而且不便管理）
+2. 使用 `Spring` 提供的 `@Order` 注解
+
+
+
+使用 `@Order` 注解，控制通知的执行顺序：
+
+~~~java
+@Slf4j
+@Component
+@Aspect
+@Order(2)  //切面类的执行顺序（前置通知：数字越小先执行; 后置通知：数字越小越后执行）
+public class MyAspect2 {
+    //前置通知
+    @Before("execution(* com.itheima.service.impl.*.*(..))")
+    public void before(){
+        log.info("MyAspect2 -> before ...");
+    }
+
+    //后置通知 
+    @After("execution(* com.itheima.service.impl.*.*(..))")
+    public void after(){
+        log.info("MyAspect2 -> after ...");
+    }
+}
+~~~
+
+~~~java
+@Slf4j
+@Component
+@Aspect
+@Order(3)  //切面类的执行顺序（前置通知：数字越小先执行; 后置通知：数字越小越后执行）
+public class MyAspect3 {
+    //前置通知
+    @Before("execution(* com.itheima.service.impl.*.*(..))")
+    public void before(){
+        log.info("MyAspect3 -> before ...");
+    }
+
+    //后置通知
+    @After("execution(* com.itheima.service.impl.*.*(..))")
+    public void after(){
+        log.info("MyAspect3 ->  after ...");
+    }
+}
+~~~
+
+~~~java
+@Slf4j
+@Component
+@Aspect
+@Order(1) //切面类的执行顺序（前置通知：数字越小先执行; 后置通知：数字越小越后执行）
+public class MyAspect4 {
+    //前置通知
+    @Before("execution(* com.itheima.service.impl.*.*(..))")
+    public void before(){
+        log.info("MyAspect4 -> before ...");
+    }
+
+    //后置通知
+    @After("execution(* com.itheima.service.impl.*.*(..))")
+    public void after(){
+        log.info("MyAspect4 -> after ...");
+    }
+}
+~~~
+
+**运行效果**
+
+![image-20230110212523787](image/image-20230110212523787.png)
+
+**注意：**
+
+1. 不同的切面类当中，默认情况下通知的执行顺序是与切面类的类名字母排序是有关系的
+2. 可以在切面类上面加上 `@Order` 注解，来控制不同的切面类通知的执行顺序
+
+
+
+### 表达式
+
+#### 切入表达式
+
+其中带 `?` 的表示可以省略的部分
+
+访问修饰符：可省略（比如: public、protected）
+
+包名.类名： 可省略
+
+异常：可省略（注意是方法上声明抛出的异常，不是实际抛出的异常）
+
+```
+execution(访问修饰符?  返回值  包名.类名.?方法名(方法参数) throws 异常?)
+```
+
+
+
+匹配类型为 `public` 返回值为 `void` ，在 `liuyuyang.service` 目录中的 `impl` 包中的 `UserServiceImpl` 类的参数为 `Inteage` 的 `delete` 方法
+
+```java
+@Before("execution(public void liuyuyang.service.impl.UserServiceImpl.delete(java.lang.Intege))")
+```
+
+- `execution(public void`：匹配公共（public）、无返回值（void）的方法
+- `liuyuyang.service.impl.UserServiceImpl`：指定类的全限定名为 `liuyuyang.service.impl.UserServiceImpl`
+- `delete`：匹配名为 `delete` 的方法
+- `(java.lang.Integer)`：表示该方法接受一个 `java.lang.Integer` 类型的参数
+
+
+
+匹配在 `liuyuyang.service` 目录中所有包的所有文件的所有方法
+
+1. 只匹配参数为 `String` 的方法
+
+   ```java
+   @Before("execution(* liuyuyang.service.*.*(java.lang.String))")
+   ```
+
+2. 至少匹配一个任意类型的方法
+
+   ```java
+   @Before("execution(* liuyuyang.service.*.*(*))")
+   ```
+
+3. 匹配所有类型的方法
+
+   ```java
+   @Before("execution(* liuyuyang.service.*.*(..))")
+   ```
+
+
+
+匹配 `liuyuyang.service` 目录中所有包、所有文件、所有方法（包含子包）
+
+```java
+@Before("execution(* liuyuyang.service..*.*(..))")
+```
+
+- `..`：表示匹配当前包及其子包
+- `*`：通配符，表示任意类名
+- `*`：通配符，表示任意方法名
+- `(..)`：表示任意参数类型和个数
+
+
+
+看解释
+
+```java
+@Before("execution(* liuyuyang.*.service.*.update*(*))")
+```
+
+- `liuyuyang.*.service.*`： `*` 代表一个具体的包名，可以匹配任意一个包名，但只有一个层级。
+  例如：`liuyuyang.*.service` 可以匹配 `liuyuyang.abc.service`、`liuyuyang.xyz.service`，但不能匹配 `liuyuyang.abc.xyz.service`
+- `.*`：通配符，表示匹配所有类名
+- `update*`：表示名字以 `update` 开头的方法名，其中 `*` 表示接着匹配任意字符串
+- `(*))：表示匹配至少一个任意类型的参数
+
+
+
+看解释
+
+```java
+@Before("execution(* liuyuyang.service..DeptService.*(..))")
+```
+
+- `liuyuyang.service..`：指定包名为 `liuyuyang.service` 并匹配其子包
+- `DeptService`：匹配名为 `DeptService` 的接口或类
+- `.*`：通配符，表示匹配所有方法名
+- `(..)`：表示匹配所有参数类型和个数
+
+
+
+根据业务需要，可以使用 且（&&）、或（||）、非（!） 来组合比较复杂的切入点表达式。
+
+
+
+#### 抽取表达式
+
+这是没有抽取的写法，重复的代码会显得很冗余
+
+```java
+@Service
+@Aspect
+public class TimeAspect {
+    // 在目标方法调用前执行
+    @Before("execution(* liuyuyang.service.impl.*.*(..))")
+    public void before(JoinPoint j){
+        System.out.println("before~ 方法调用前执行");
+    }
+
+    // 在目标方法调用后执行
+    @After("execution(* liuyuyang.service.impl.*(..))")
+    public void after(){
+        System.out.println("after~ 方法调用后执行");
+    }
+}
+```
+
+
+
+可以通过 `@Pointcut` 来抽取实现切入表达式的复用
+
+```java
+@Service
+@Aspect
+public class TimeAspect {
+    @Pointcut("execution(* liuyuyang.service.impl.*.*(..))")
+    private void func(){}
+
+    // 在目标方法调用前执行
+    @Before("func()")
+    public void before(JoinPoint j){
+        System.out.println("before~ 方法调用前执行");
+    }
+
+    // 在目标方法调用后执行
+    @After("func()")
+    public void after(){
+        System.out.println("after~ 方法调用后执行");
+    }
+}
+```
+
+
+
+### 应用场景
+
+**需求一：** 记录业务层方法执行耗时
 
 ```java
 package liuyuyang;
@@ -916,7 +1645,7 @@ import org.springframework.stereotype.Service;
 @Aspect
 public class TimeAspect {
     // 当目标包中的方法调用时会自动触发该方法
-    @Around("execution(* liuyuyang.service.*.*(..))")
+    @Around("execution(* liuyuyang.service.impl.*.*(..))")
     public void recordTime(ProceedingJoinPoint p) throws Throwable {
         // 记录方法执行开始时间
         long start = System.currentTimeMillis();
@@ -949,52 +1678,306 @@ void liuyuyang.service.impl.CsImpl.info2() 执行耗时: 0毫秒
 
 
 
-### 切入表达式
-
-#### 抽取表达式
-
-这是没有抽取的写法，重复的代码会显得很冗余
+**需求二：** 记录业务层方法日志
 
 ```java
+package liuyuyang;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Service
 @Aspect
 public class TimeAspect {
-    // 在目标方法调用前执行
-    @Before("execution(* liuyuyang.service.*.*(..))")
-    public void before(JoinPoint j){
-        System.out.println("before~ 方法调用前执行");
+    @Pointcut("execution(* liuyuyang.service.impl.*.*(..))")
+    private void type() {}
+
+    // 核心代码
+    public void func(JoinPoint j, String status) {
+        // 获取类名：liuyuyang.service.impl.UserServiceImpl
+        String s = j.getTarget().getClass().getName();
+        // 找出类名后面的"."下标
+        int index = s.lastIndexOf(".");
+        // 通过字符串截取出类名
+        String c = s.substring(index + 1);
+        
+        // 获取方法名
+        String m = j.getSignature().getName();
+
+        // 获取当前时间
+        LocalDateTime date = LocalDateTime.now();
+
+        // 时间格式化
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss-SSS");
+        System.out.printf("操作时间：%s 操作类：%s 操作方法 %s %s\n", f.format(date), c, m, status);
     }
 
-    // 在目标方法调用后执行
-    @After("execution(* liuyuyang.service.*.*(..))")
-    public void after(){
-        System.out.println("after~ 方法调用后执行");
+    @Before("type()")
+    public void logStart(JoinPoint j) {
+        func(j,"开始执行");
+    }
+
+    @After("type()")
+    public void logEnd(JoinPoint j) {
+        func(j,"结束执行");
+    }
+}
+```
+
+**运行效果**
+
+```
+操作时间：2023-11-06 19-55-51.827 操作类：UserServiceImpl 操作方法 info 开始执行
+
+User(uid=2, uname=rose, orderList=[Order(oid=2, price=34, userId=null), Order(oid=4, price=3453, userId=null)])
+
+操作时间：2023-11-06 19-55-51.852 操作类：UserServiceImpl 操作方法 info 结束执行
+```
+
+**代码目录：** `代码/AOP`
+
+
+
+## 事务管理
+
+事务是指一组 `Sql` 的集合，集合中有多条 `Sql` 语句，可以是 `insert、update、select、delete`，希望这些SQL语句执行是一致的，作为一个整体执行。要么都成功，要么都失败
+
+
+
+### 事务的特点（ACID）
+
+| 特性                  | 描述                                                         |
+| --------------------- | ------------------------------------------------------------ |
+| 原子性（Atomicity）   | 事务是一个原子操作，由一系列动作组成。事务的原子性确保动作要么全部完成，要么完全不起作用。 |
+| 一致性（Consistency） | 一旦事务完成（不管成功还是失败），系统必须确保它所建模的业务处于一致的状态，而不会是部分完成部分失败。在现实中的数据不应该被破坏。 |
+| 隔离性（Isolation）   | 可能有许多事务会同时处理相同的数据，因此每个事务都应该与其他事务隔离开来，防止数据损坏。 |
+| 持久性（Durability）  | 一旦事务完成，无论发生什么系统错误，它的结果都不应该受到影响，这样就能从任何系统崩溃中恢复过来。通常情况下，事务的结果被写到持久化存储器中。 |
+
+
+
+### 应用场景
+
+为什么要使用事务？事务解决了哪些问题？
+
+当操作多个表，或多个SQL语句的 `insert、update、delete`。需要保证这些语句都是成功才能完成功能，或者都失败是符合要求的。（要么都成功，要么都失败）
+
+
+
+**如下应用场景：** 在转账时候需要先扣除自己的钱然后转账给对方，而如果中途的代码逻辑发生了报错，则会导致转账失败，并且自己的钱也会被扣除。
+
+```java
+@Mapper
+public interface AccountMapper {
+    @Update("update user set money = money + #{money} where uname = #{uname}")
+    public void in(String uname, int money);
+
+    @Update("update user set money = money - #{money} where uname = #{uname}")
+    public void out(String uname, int money);
+}
+```
+
+```java
+@Service
+// @Transactional
+public class AccountServiceImpl implements AccountService {
+    @Resource
+    private AccountMapper accountMapper;
+
+    @Override
+    // @Transactional
+    public void transfer(String outUser, String inUser, int money) {
+        // outUser转账给inUser用户
+
+        // 扣除自己的钱
+        accountMapper.out(outUser, money);
+
+        // 手动写一个报错
+        System.out.println(1/0);
+
+        // 转账给对方
+        accountMapper.in(inUser, money);
+    }
+}
+```
+
+此时就需要用到事务来解决这个问题，只需要给方法添加一个注解：`@Transactional` ，这样发生异常会执行回滚操作，从而保证事务操作前后数据是一致的
+
+
+
+### @Transactional
+
+**@Transactional作用：** 在当前方法执行开始前开启事务，方法执行完毕后提交事务。如果在这个方法执行的过程当中出现了异常，就会进行事务的回滚操作。
+
+
+
+**@Transactional注解书写位置：**
+
+- 方法
+  - 当前方法交给 `spring` 进行事务管理
+- 类
+  - 当前类中所有的方法都交由 `spring` 进行事务管理
+- 接口
+  - 接口下所有的实现类当中所有的方法都交给 `spring` 进行事务管理
+
+
+
+### rollbackFor
+
+**为什么要使用 rollbackFor ？先看下面的场景：**
+
+默认情况下 `@Transactional` 注解只能处理 `RuntimeException` 类型的异常才会回滚事务，而遇到其他类型的异常，比如：`Exception` 则没有效果，会跟不加注解一样。
+
+
+
+为了解决这个问题，可以这么做，配置 `@Transactional` 注解当中的 `rollbackFor` 属性，通过这个属性可以指定出现哪种异常类型时回滚事务。如下：
+
+```java
+ @Transactional(rollbackFor=Exception.class)
+```
+
+
+
+## 配置
+
+**application.yml**
+
+定义配置项
+
+```yml
+user:
+  username: "admin"
+  password: "123123"
+```
+
+
+
+**UserProperties**
+
+通过 `@Value` 从 `application.yml` 中加载配置信息
+
+```java
+@Data
+@Configuration  // 声明当前类为配置类
+public class UserProperties {
+    // 从配置中读取属性值
+    @Value("${user.username}")
+    private String username;
+
+    // 设置默认值：@Value("${user.password:123456}")
+    @Value("${user.password}")
+    private String password;
+}
+```
+
+
+也可以通过 `@ConfigurationProperties` 配置前缀来加载对应的配置信息
+
+```java
+@Data
+@Configuration
+@ConfigurationProperties(prefix = "user")
+public class UserProperties {
+    private String username;
+    private String password;
+}
+```
+
+
+
+**ResApplicationTests**
+
+读取配置类并使用配置项
+
+```java
+@SpringBootTest
+class ResApplicationTests {
+    // 读取配置类
+    @Resource
+    private UserProperties userProperties;
+
+    @Test
+    public void run() {
+       System.out.println(userProperties);
     }
 }
 ```
 
 
 
-可以通过 `@Pointcut` 来抽取实现切入表达式的复用
+**复杂的配置信息读取**
+
+```yml
+user:
+  username: "admin"
+  password: "123123"
+  age: 18
+  birthday: "1990-01-01"
+  vip: true
+  hobbyList:
+    - "敲代码"
+    - "写代码"
+    - "打游戏"
+  ageArray:
+    - 18
+    - 19
+    - 20
+  propList:
+    - username: "张三"
+      password: "18"
+      age: 18
+      birthday: "1990-01-01"
+    - username: "李四"
+      password: "18"
+```
 
 ```java
-@Service
-@Aspect
-public class TimeAspect {
-    @Pointcut("execution(* liuyuyang.service.*.*(..))")
-    private void func(){}
-
-    // 在目标方法调用前执行
-    @Before("func()")
-    public void before(JoinPoint j){
-        System.out.println("before~ 方法调用前执行");
-    }
-
-    // 在目标方法调用后执行
-    @After("func()")
-    public void after(){
-        System.out.println("after~ 方法调用后执行");
-    }
+@Data
+@Configuration
+@ConfigurationProperties(prefix = "user")
+public class UserProperties {
+    private String username;
+    private String password;
+    private Integer age;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthday;
+    private Boolean vip;
+    private List<String> hobbyList;
+    private List<Integer> ageArray;
+    private List<UserProperties> propList;
 }
 ```
 
+
+
+## 单元测试
+
+```xml
+       <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+```
+
+
+
+## application
+
+`application.yml` 用于配置应用程序，如端口号、数据库连接等

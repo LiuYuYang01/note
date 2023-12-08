@@ -67,20 +67,20 @@
 
 ## ref 和 reactive 的区别
 
-1. ref 既可以定义基本类型也可以定义引用类型的数据，而reactive 只能用来定义引用类型数据
+1. `ref` 既可以定义基本类型也可以定义引用类型的数据，而 `reactive` 只能用来定义引用类型数据
 
-2. ref 定义的数据需要通过 .value 来读取或更新 reactive 可以直接操作数据
-3. ref 定义的数据如果是引用数据类型，它的底层其实是通过 reactive 来定义的
+2. `ref` 定义的数据需要通过 `.value` 来读取或更新 `reactive` 可以直接操作数据
+3. `ref ` 定义的数据如果是引用数据类型，它的底层其实是通过 `reactive` 来定义的
 
 
 
 ## watch 和 watchEffect 的区别
 
-1. watch可以访问新值和旧值(如果监视对象的话不行，因为新旧值相等)，watchEffect 只能监听最新的值。
+1. `watch` 可以访问新值和旧值(如果监视对象的话不行，因为新旧值相等)，`watchEffect` 只能监听最新的值。
 
-2. watch需要监听指定的属性，而 watchEffect 会监听所有属性值的变化，所以属性过多情况下不建议使用，会影响性能
+2. `watch` 需要监听指定的属性，而 `watchEffect` 会监听所有属性值的变化，所以属性过多情况下不建议使用，会影响性能
 
-3. watch只有监听的属性值发生变化了才会触发，而 watchEffect 会默认触发一次。watch需要在第三个参数中指定immediate:true才会默认触发一次
+3. `watch` 只有监听的属性值发生变化了才会触发，而 `watchEffect` 会默认触发一次。`watch` 需要在第三个参数中指定 `immediate:true` 才会默认触发一次
 
 
 
@@ -94,7 +94,7 @@
 
 `Vue2` 是通过 `Object.defineProperty` 把每一个属性都转换为响应式，如果有 100 个属性就要遍历 100 次，而 `Vue3` 则是把整个对象给 `proxy` 转换为响应式，如果有 100 个属性也只遍历一次。
 
-前者需要遍历全部，而后者只需要遍历一次，所以后者 `Vue3` 性能更加
+前者需要遍历全部，而后者只需要遍历一次，所以后者 `Vue3` 性能更佳
 
 
 
@@ -128,6 +128,19 @@
 
 
 
+## Vue组件之间的通信有几种方式
+
+1. props：父组件可以通过 `props` 属性传递数据给子组件。子组件可以通过 `props` 选项接收并使用这些数据。
+2. $emit：子组件可以通过 `$emit` 方法触发自定义事件，并向上传递消息给父组件。父组件可以通过监听子组件触发的事件，并处理相应的逻辑。
+3. 使用事件总线：可以通过创建一个公共的Vue实例作为事件总线来实现组件之间的通信。在某个组件中通过事件总线实例触发事件，其他组件通过事件总线实例监听该事件并执行相应操作，从而实现组件之间的通信。
+4. Vuex：可以在不同的组件之间共享数据，并通过定义的 `mutations` 来修改共享状态。
+
+
+
+在 `vue3` 中还可以使用
+
+
+
 ## 兄弟组件通信
 
 - 事件总线：EventBus  [Vue.prototype.$bus = new Vue()]
@@ -147,17 +160,17 @@
 
 ## Vue 第一次页面加载会触发哪些钩子？
 
-beforeCreate、created、beforeMount、mounted
+`beforeCreate`、`created`、`beforeMount`、`mounted`
 
 
 
 ## Vue 获取数据在哪个生命周期函数?
 
-一般在 `created`、`beforeMount`、`mounted` ， 如果要操作 DOM , 必须在  `beforeMount` 之后才能操作
+一般在 `created`、`beforeMount`、`mounted` 中， 如果要操作 `DOM` ，必须在  `beforeMount` 之后才能操作
 
 
 
-## Vue 如何去除 URL 中的 #
+## Vue 如何去除 URL 中的 # #
 
 将路由的 `hash` 模式改为 `history` 模式
 
@@ -236,7 +249,7 @@ beforeCreate、created、beforeMount、mounted
 
 等 `DOM` 元素渲染完毕之后，在下一次更新循环结束时自动执行回调函数中的代码
 
-**为什么要在下一次？** 因为本次的DOM数据还没有更新，在下一次更新结束后 是最新的数据
+**为什么要在下一次？** 因为本次的 `DOM` 数据还没有更新，在下一次更新结束后 是最新的数据
 
 
 
@@ -266,13 +279,13 @@ beforeCreate、created、beforeMount、mounted
 
 ## 一般在哪个生命周期请求异步数据
 
-我们可以在钩子函数 created、beforeMount、mounted 中进行请求异步数据，因为在这三个钩子函数中，data 已经创建，可以将服务端端返回的数据进行赋值。
+我们可以在钩子函数 `created`、`beforeMount`、`mounted` 中进行请求异步数据，因为在这三个钩子函数中，`data` 已经创建，可以将服务端端返回的数据进行赋值。
 
-一般推荐在 created 钩子函数中请求异步数据，因为在 created 钩子函数中调用异步请求有以下优点：
+一般推荐在 `created` 钩子函数中请求异步数据，因为在 `created` 钩子函数中调用异步请求有以下优点：
 
 能更快获取到服务端数据，减少页面加载时间，用户体验更好；
 
-SSR不支持 beforeMount 、mounted 钩子函数，放在 created 中有助于一致性。
+并且 `SSR` 不支持 `beforeMount` 、`mounted` 钩子函数，放在 `created` 中有助于一致性。
 
 
 
@@ -290,7 +303,7 @@ SSR不支持 beforeMount 、mounted 钩子函数，放在 created 中有助于�
 
 ## computed 中的属性名和 data 中的属性名可以相同吗 
 
-不能同名，因为computed、data、props都会被挂载到vm vue的实例对象中，所以他们不能同名
+不能同名，因为 `computed、data、props` 都会被挂载到 `vm vue` 的实例对象中，所以他们不能同名
 
 
 
@@ -323,3 +336,4 @@ vue3 采用的是 `Object.defineProperty`
 ## 路由守卫
 
 ## 监听组件原生事件
+

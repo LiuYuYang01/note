@@ -58,6 +58,32 @@ computed<number>(() => 1)
 
 
 
+### 获取DOM元素
+
+```vue
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+
+const box = ref<HTMLElement | null>(null);
+
+// 等dom元素加载完毕后执行
+onMounted(() => {
+  console.log(box.value);
+})
+
+// 等下一次dom循环更新结束后执行
+nextTick(() => {
+  console.log(box.value);
+})
+</script>
+
+<template>
+  <div class="box" ref="box">Hello World!</div>
+</template>
+```
+
+
+
 ### 组件通讯
 
 #### 组件父向子
@@ -296,6 +322,128 @@ const btn = () => {
 
 
 
+#### 双向绑定
+
+在 `Vue3` 中可以通过 `v-model` 来实现组件之间的数据双向绑定，下面是一个简单的示列
+
+**父组件**
+
+```html
+<script setup lang="ts">
+import { ref } from 'vue';
+import Hello from '@/components/Hello.vue'
+
+const data = ref<string>("TypeScript")
+</script>
+
+<template>
+    <Hello v-model="data"></Hello>
+
+    <button @click="data = 'TypeScript'">通过父组件修改数据</button>
+</template>
+```
+
+
+
+**子组件**
+
+```html
+<script setup lang="ts">
+// modelValue是固定属性名称，不能更改
+// 在模板中可以直接使用modelValue，如果在script中需要通过props.modelValue使用
+const props = defineProps<{ modelValue: string }>()
+const emit = defineEmits<{ (e: "update:modelValue", value: string): void }>()
+</script>
+
+<template>
+  <div>数据：{{ modelValue }}</div>
+
+  <button @click="emit('update:modelValue', 'JavaScript')">通过子组件修改数据</button>
+</template>
+```
+
+这样一来不论是父组件还是子组件修改了数据，数据都会同步发生变化
+
+
+
+如果需要实现多个数据双向绑定，可以这么写
+
+```html
+<script setup lang="ts">
+import { ref } from 'vue';
+import Hello from '@/components/Hello.vue'
+
+const data1 = ref<string>("TypeScript")
+const data2 = ref<string>("JavaScript")
+</script>
+
+<template>
+    <Hello v-model:data1="data1" v-model:data2="data2"></Hello>
+
+    <button @click="data1 = 'JavaScript', data2 = 'TypeScript'">通过父组件修改数据</button>
+</template>
+```
+
+```html
+<script setup lang="ts">
+const props = defineProps<{ data1: string, data2: string }>()
+const emit = defineEmits<{ (e: "update:data1", value: string): void, (e: "update:data2", value: string): void }>()
+</script>
+
+<template>
+  <div>数据1：{{ data1 }}</div>
+  <div>数据2：{{ data2 }}</div>
+
+  <button @click="emit('update:data1', 'TypeScript'), emit('update:data2', 'JavaScript')">通过子组件修改数据</button>
+</template>
+```
+
+
+
+**通过 v-model 实现的原理如下**
+
+在父组件中定义一个 `update` 方法，用于修改数据
+
+```html
+<script setup lang="ts">
+import { ref } from 'vue';
+import Hello from '@/components/Hello.vue'
+
+const data = ref<string>("TypeScript")
+
+// 修改数据
+const update = (value: string) => data.value = value
+</script>
+
+<template>
+    <Hello :data="data" @update="update"></Hello>
+    <!-- 等价于 -->
+    <!-- <Hello v-model="data"></Hello> -->
+
+    <button @click="update('TypeScript')">通过父组件修改数据</button>
+</template>
+```
+
+
+
+在子组件中调用父组件的 `update` 方法来修改数据 实现双向绑定
+
+```html
+<script setup lang="ts">
+const props = defineProps<{ data: string }>()
+const emit = defineEmits<{ (e: "update", value: string): void }>()
+</script>
+
+<template>
+  <div>数据：{{ data }}</div>
+
+  <!-- 通过调用父组件中的update方法来修改数据 -->
+  <button @click="emit('update', 'JavaScript')">通过子组件修改数据</button>
+</template>
+```
+
+
+
 ### Event
 
 ```vue
@@ -500,11 +648,66 @@ add(100, 200)
 
 
 
-## 配置 @/ 路径别名
+## 扩展
 
-`vite.config.ts `
+将变量挂载到全局使用
+
+```js
+// main.ts
+import { createApp } from "vue";
+import App from "./App.vue";
+
+const app = createApp(App);
+
+// 方式一
+app.config.globalProperties.liuyuyang = "Hello World!";
+
+// 方式二
+app.provide("liuyuyang", "Hello World!");
+
+app.mount("#app");
+```
+
+```vue
+<!-- App.vue -->
+<script setup lang="ts">
+import { ComponentInternalInstance, getCurrentInstance, inject } from 'vue';
+
+// 方式一
+const instance: ComponentInternalInstance = getCurrentInstance()!
+const liuyuyang = instance.appContext.config.globalProperties.liuyuyang
+console.log(liuyuyang);
+
+// 方式二
+const data = inject("liuyuyang");
+console.log(data);
+</script>
+```
+
+
+
+# vite
+
+## 端口号
+
+配置项目端口号
+
+```js
+export default defineConfig({
+  server: {
+    port: 8888,
+  }
+})
+```
+
+
+
+## 路径别名
+
+配置 `@/` 路径别名
 
 ```javascript
+// vite.config.ts
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
@@ -523,11 +726,8 @@ export default defineConfig({
 })
 ```
 
-
-
-`tsconfig.json`
-
 ```javascript
+// tsconfig.json
 {
   "compilerOptions": {
     "target": "ESNext",
@@ -546,125 +746,5 @@ export default defineConfig({
 
 ```bash
  npm install @types/node 
-```
-
-
-
-## 数据双向绑定
-
-在 `Vue3` 中可以通过 `v-model` 来实现组件之间的数据双向绑定，下面是一个简单的示列
-
-**父组件**
-
-```html
-<script setup lang="ts">
-import { ref } from 'vue';
-import Hello from '@/components/Hello.vue'
-
-const data = ref<string>("TypeScript")
-</script>
-
-<template>
-    <Hello v-model="data"></Hello>
-
-    <button @click="data = 'TypeScript'">通过父组件修改数据</button>
-</template>
-```
-
-
-
-**子组件**
-
-```html
-<script setup lang="ts">
-const props = defineProps<{ modelValue: string }>()
-const emit = defineEmits<{ (e: "update:modelValue", value: string): void }>()
-</script>
-
-<template>
-  <div>数据：{{ modelValue }}</div>
-
-  <button @click="emit('update:modelValue', 'JavaScript')">通过子组件修改数据</button>
-</template>
-```
-
-这样一来不论是父组件还是子组件修改了数据，数据都会同步发生变化
-
-
-
-如果需要实现多个数据双向绑定，可以这么写
-
-```html
-<script setup lang="ts">
-import { ref } from 'vue';
-import Hello from '@/components/Hello.vue'
-
-const data1 = ref<string>("TypeScript")
-const data2 = ref<string>("JavaScript")
-</script>
-
-<template>
-    <Hello v-model:data1="data1" v-model:data2="data2"></Hello>
-
-    <button @click="data1 = 'JavaScript', data2 = 'TypeScript'">通过父组件修改数据</button>
-</template>
-```
-
-```html
-<script setup lang="ts">
-const props = defineProps<{ data1: string, data2: string }>()
-const emit = defineEmits<{ (e: "update:data1", value: string): void, (e: "update:data2", value: string): void }>()
-</script>
-
-<template>
-  <div>数据1：{{ data1 }}</div>
-  <div>数据2：{{ data2 }}</div>
-
-  <button @click="emit('update:data1', 'TypeScript'), emit('update:data2', 'JavaScript')">通过子组件修改数据</button>
-</template>
-```
-
-
-
-**通过 v-model 实现的原理如下**
-
-在父组件中定义一个 `update` 方法，用于修改数据
-
-```html
-<script setup lang="ts">
-import { ref } from 'vue';
-import Hello from '@/components/Hello.vue'
-
-const data = ref<string>("TypeScript")
-
-// 修改数据
-const update = (value: string) => data.value = value
-</script>
-
-<template>
-    <Hello :data="data" @update="update"></Hello>
-    <!-- 等价于 -->
-    <!-- <Hello v-model="data"></Hello> -->
-
-    <button @click="update('TypeScript')">通过父组件修改数据</button>
-</template>
-```
-
-
-
-在子组件中调用父组件的 `update` 方法来修改数据 实现双向绑定
-
-```html
-<script setup lang="ts">
-const props = defineProps<{ data: string }>()
-const emit = defineEmits<{ (e: "update", value: string): void }>()
-</script>
-
-<template>
-  <div>数据：{{ data }}</div>
-
-  <!-- 通过调用父组件中的update方法来修改数据 -->
-  <button @click="emit('update', 'JavaScript')">通过子组件修改数据</button>
-</template>
 ```
 

@@ -1382,7 +1382,9 @@ export default {
 
 ## provide、inject
 
-通过 `provide`、`inject` 函数的配合使用，可以实现跨组件传递数据（组件与组件存在嵌套关系）
+通过 `provide`、`inject` 函数的配合使用，可以实现跨组件传递数据
+
+**注意：** 该方式传递数据只能父传子，不支持子传父
 
 
 

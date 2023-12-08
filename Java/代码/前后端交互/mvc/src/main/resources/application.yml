@@ -1,0 +1,16 @@
+#项目端口号
+server:
+  port: 9999
+
+#数据库连接
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ceshi1?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: '123123'
+
+#JavaBean与表驼峰映射
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true

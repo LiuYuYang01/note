@@ -48,6 +48,8 @@ public void add(User user) {
 }
 ```
 
+当配置了主键返回后，在新增数据成功后，`MyBatis` 会自动将生成的主键值赋值给实体类对象的对应属性。所以在代码中，调用 `user.getUid()` 可以获取到插入成功后生成的主键值
+
 
 
 ## 基于 XML 增删改查
@@ -699,3 +701,375 @@ public interface OrderMapper {
 1. **如果同时使用了注解、XML方式，那么最终会优先执行哪种方式呢？**
 
    **答：** 程序会优先执行注解方式，而 `XML` 方式并不会执行
+
+
+
+# Tk-Mybatis
+
+坐标
+
+```xml
+    <properties>
+        <mapper.starter.version>2.0.2</mapper.starter.version>
+    </properties>
+
+
+    <dependencies>
+        <!-- 通用Mapper启动器 -->
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+            <version>${mapper.starter.version}</version>
+        </dependency>
+    </dependencies>
+
+```
+
+
+
+## 快速入门
+
+```java
+package liuyuyang.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Data
+@AllArgsConstructor
+@Table(name = "tb_user")
+public class User {
+    @Id
+    private Integer uid;
+    // Column类似于ResultMap，用于映射字段，如果名称相同可省略
+    @Column(name = "uname")
+    private String uname;
+}
+```
+
+
+
+```java
+package liuyuyang.mapper;
+
+import liuyuyang.domain.User;
+import tk.mybatis.mapper.common.Mapper;
+
+// 核心代码
+@org.apache.ibatis.annotations.Mapper
+public interface UserMapper extends Mapper<User> {}
+```
+
+
+
+通过 `tk-mybatis` 实现增删改查
+
+```java
+import com.github.pagehelper.PageHelper;
+import io.swagger.models.auth.In;
+import liuyuyang.Main;
+import liuyuyang.domain.User;
+import liuyuyang.mapper.UserMapper;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Main.class)
+public class TestApplication {
+    @Resource
+    private UserMapper userMapper;
+
+    @Test
+    public void run() {
+        // add();
+        // del();
+        // update();
+        // get();
+        // list();
+        // pageQuery(2, 3)
+    }
+
+    // 新增数据
+    public void add() {
+        User data = new User(null, "ls");
+        Integer n = userMapper.insert(data);
+        System.out.println(n == 1 ? "新增成功" : "新增失败");
+    }
+
+    // 删除数据
+    public void del() {
+        Integer n = userMapper.deleteByPrimaryKey(2);
+        System.out.println(n == 1 ? "删除成功" : "删除失败");
+    }
+
+    // 修改数据
+    public void update() {
+        User data = new User(2, "zs");
+        Integer n = userMapper.updateByPrimaryKey(data);
+        System.out.println(n == 1 ? "修改成功" : "修改失败");
+    }
+
+    // 查询数据
+    public void get() {
+        User data = userMapper.selectByPrimaryKey(68);
+        System.out.println(data);
+    }
+
+    // 查询全部数据
+    public void list() {
+        List<User> list = userMapper.selectAll();
+        System.out.println(list);
+    }
+
+    // 分页查询数据
+    public void pageQuery(Integer pageNum, Integer pageSize){
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> list = userMapper.selectAll();
+        System.out.println(list);
+    }
+}
+```
+
+
+
+## 方法
+
+| 方法名                           | 描述                                         |
+| -------------------------------- | -------------------------------------------- |
+| selectAll()                      | 查询所有                                     |
+| insert(T t)                      | 插入一个javaBaan所有内容                     |
+| insertSelective(T t)             | 插入一个javaBaan所有非空内容                 |
+| updateByPrimaryKey(T t)          | 通过主键更新所有数据<br/>主键需要使用@Id修饰 |
+| updateByPrimaryKeySelective(T t) | 通过主键更新所有非空数据                     |
+| selectByPrimaryKey(K k)          | 通过主键查询详情                             |
+| deleteByPrimaryKey(K k)          | 通过主键删除                                 |
+
+
+
+**疑点：** `insert` 与 `insertSelective` 的区别是什么？
+
+**答：** 在 `Tk-Mybatis` 中，`insert` 与 `insertSelective` 都可用来插入一条记录。它们的区别在于在插入记录时对数据列的处理方式不同。
+
+`insert` 会将传入的实体对象的所有属性都赋值给对应的数据列，无论属性值是否为 `null`。例如，在执行 `insert` 操作时，如果实体对象中某一个属性的值为 `null` ，则对应的数据列会被赋值为 `null`
+
+而 `insertSelective` 只会将传入实体对象中不为 `null` 的属性赋值给对应的数据列。例如，在执行 `insertSelective` 操作时，如果实体对象中某一个属性的值为 `null` , 则对应的数据列不会被赋值，而是保持原有的默认值。
+
+总的来说，`insertSelective` 可以让我们更精确地插入一条记录，只处理那些实际存在的数据列，提高了数据插入的效率，同时也增加了代码的可读性。
+
+
+
+## 注解
+
+| 注解名               | 描述                       |
+| -------------------- | -------------------------- |
+| @Table(name="表名")  | 设置表名                   |
+| @Id                  | 设置主键                   |
+| @Column(name="列名") | 对应列名，与属性同名可省略 |
+
+### @Table
+
+1. `@Table` 属性值一般写数据表的名称，假如数据表名与类名一致就可以省略
+
+2. 字段如果是关键字，如 `order` 就会报错，所以需要给 `@Table` 的值设置为：
+
+   ```java
+   @Table=“`order`”
+   ```
+
+### @Column
+
+如果数据表的字段名与 `JavaBean` 属性名不一致，则需要手动映射：
+
+```
+@Column(name="数据表名")
+```
+
+
+
+## 字段控制
+
+**常用 `API` 属性**
+
+| 方法                                    | 描述                                                         |
+| --------------------------------------- | ------------------------------------------------------------ |
+| orderBy(String properties)              | 指定以某个字段进行排序                                       |
+| selectProperties(String... properties)  | 指定查询属性，选择仅查询实体类中的某些属性。                 |
+| distinct(boolean distinct)              | 设置查询结果是否去重。                                       |
+| excludeProperties(String... properties) | 指定查询排除属性，这些属性不会出现在 SELECT 子句中。         |
+| createCriteria()                        | 创建一个 Criteria 对象，用于设置查询条件。                   |
+| and(Criteria criteria)                  | 将指定的 Criteria 对象拼接到当前 Query 对象中，使得当前 Query 对象需要同时满足两个或多个 Criteria 中的条件。 |
+| or(Criteria criteria)                   | 将指定的 Criteria 对象拼接到当前 Query 对象中，使得当前 Query 对象可以满足两个或多个 Criteria 中的任意一个条件。 |
+
+
+
+**代码示例**
+
+```java
+Example userRepository = new Example(User.class);
+```
+
+
+
+在查询用户信息时，通过年龄从小到大排序进行查询
+
+```java
+List<User> users = userRepository.orderBy("age").asc(); // 升序排序
+```
+
+
+
+在查询用户信息时，只需要返回用户的ID和姓名属性，而不需要返回其他属性。
+
+```java
+List<User> users = userRepository.selectProperties("id", "name");
+```
+
+
+
+查询用户表中的姓名字段，并去除重复的姓名，返回一个去重后的姓名列表。
+
+```java
+List<String> distinctNames = userRepository.findDistinctNames();
+```
+
+
+
+查询用户信息时，排除敏感信息字段，例如密码和密钥等。
+
+```java
+List<User> users = userRepository.excludeProperties("password", "secretKey");
+```
+
+
+
+根据年龄大于18岁且所在城市为北京的条件，查询符合条件的用户信息。
+
+```java
+Criteria criteria = Criteria.where("age").gt(18).and("city").is("Beijing");
+List<User> users = userRepository.find(criteria);
+```
+
+
+
+通过使用 `and` 方法将多个条件组合在一起，查询年龄大于18岁且所在城市为北京的用户信息。
+
+```java
+Criteria c1 = Criteria.where("age").gt(18);
+Criteria c2 = Criteria.where("city").is("Beijing");
+Criteria criteria = new Criteria().andOperator(c1, c2);
+List<User> users = userRepository.find(criteria);
+```
+
+
+
+通过使用 `or` 方法将多个条件组合在一起，查询年龄大于18岁或所在城市为北京的用户信息。
+
+```java
+Criteria c1 = Criteria.where("age").gt(18);
+Criteria c2 = Criteria.where("city").is("Beijing");
+Criteria criteria = new Criteria().orOperator(c1, c2);
+List<User> users = userRepository.find(criteria);
+```
+
+
+
+## 条件查询
+
+**常用 `API` 属性**
+
+| 查询方法           | 方法名               | 示例代码                                     | 应用场景                                                |
+| ------------------ | -------------------- | -------------------------------------------- | ------------------------------------------------------- |
+| 等于查询           | equalTo              | criteria.andEqualTo(“username”, “Tom”);      | 查询和指定条件相等的数据                                |
+| 不等于查询         | notEqualTo           | criteria.andNotEqualTo(“username”, “Tom”);   | 查询和指定条件不相等的数据                              |
+| 大于查询           | greaterThan          | criteria.andGreaterThan(“age”, 18);          | 查询指定条件大于某个值的数据                            |
+| 大于等于查询       | greaterThanOrEqualTo | criteria.andGreaterThanOrEqualTo(“age”, 18); | 查询指定条件大于等于某个值的数据                        |
+| 小于查询           | lessThan             | criteria.andLessThan(“age”, 18);             | 查询指定条件小于某个值的数据                            |
+| 小于等于查询       | lessThanOrEqualTo    | criteria.andLessThanOrEqualTo(“age”, 18);    | 查询指定条件小于等于某个值的数据                        |
+| 在指定范围内查询   | between              | criteria.andBetween(“age”, 18, 20);          | 查询指定条件在某个范围内的数据                          |
+| 不在指定范围内查询 | notBetween           | criteria.andNotBetween(“age”, 18, 20);       | 查询指定条件不在某个范围内的数据                        |
+| 值为 null 查询     | isNull               | criteria.andIsNull(“address”);               | 查询指定条件为 null 的数据                              |
+| 值不为 null 查询   | isNotNull            | criteria.andIsNotNull(“address”);            | 查询指定条件不为 null 的数据                            |
+| 字符串相似度查询   | like                 | criteria.andLike(“username”, “%Tom%”);       | 查询指定条件模糊匹配某个字符串的数据，其中 “%” 为通配符 |
+| 字符串不相似度查询 | notLike              | criteria.andNotLike(“username”, “%Tom%”);    | 查询指定条件不匹配某个字符串的数据，其中 “%” 为通配符   |
+
+
+
+**代码示例**
+
+```java
+Example example = new Example(User.class);
+
+// 创建一个 Criteria 对象，用于设置查询条件
+Example.Criteria criteria = example.createCriteria();
+```
+
+
+
+```java
+	// 查询全部数据
+    public void list() {
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+
+        // 查询指定值的数据
+        // criteria.andEqualTo("uid", "1");
+        // 查询小于某个范围的数据
+        // criteria.andLessThan("uid", "3");
+        // 查询小于等于某个范围的数据
+        // criteria.andLessThanOrEqualTo("uid", "3");
+        // 查询大于某个范围的数据
+        // criteria.andGreaterThan("uid", "5");
+        // 查询大于等于某个范围的数据
+        // criteria.andGreaterThanOrEqualTo("uid", "5");
+
+        // 模糊查询
+        // criteria.andLike("uname","张%");
+        
+        // 范围查询：查询从uid为5~10的所有数据
+        // criteria.andBetween("uid", 5, 10);
+
+        // 查询多个
+        criteria.andIn("uid", Arrays.asList("1", "3", "5", "7"));
+
+        List<User> list = userMapper.selectByExample(example);
+        System.out.println(list);
+    }
+```
+
+
+
+## 分页查询
+
+```java
+    // 分页查询数据
+    public void pageQuery(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+
+        List<User> list = userMapper.selectAll();
+        System.out.println(list);
+
+        // 封装分页结果
+        PageInfo<User> pageInfo = new PageInfo<>(list);
+        System.out.println("总条数：" + pageInfo.getTotal()); // 6
+        System.out.println("第几页：" + pageInfo.getPageNum()); // 2
+        System.out.println("每页个数：" + pageInfo.getPageSize()); // 3
+        System.out.println("查询数据：" + pageInfo.getList());
+        // Page{count=true, pageNum=2, pageSize=3, startRow=3, endRow=6, total=6, pages=2, reasonable=false, pageSizeZero=false}[User(uid=1, uname=zs), User(uid=2, uname=ls)]
+
+        // 其他
+        System.out.println("是否是第一页：" + pageInfo.isIsFirstPage()); // false
+        System.out.println("是否是最后一页：" + pageInfo.isIsLastPage()); // true
+        System.out.println("是否有上一页：" + pageInfo.isHasPreviousPage()); // true
+        System.out.println("是否有下一页：" + pageInfo.isHasNextPage()); // false
+    }
+```
+
