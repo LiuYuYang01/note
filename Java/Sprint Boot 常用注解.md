@@ -162,7 +162,7 @@ public class Customer {}
 
 ### @TableId
 
-类似于 `Mybatis` 中的 `@Id` 注解，
+类似于 `Mybatis` 中的 `@Id` 注解
 
 不同的是它还可以通过 `type` 属性设置主键类型
 
@@ -200,6 +200,8 @@ public class Customer {
     private List<Integer> ids;
 }
 ```
+
+**注意：** 当使用了 `@TableId` 注解主键后，就不能再使用 `@TableField` 注解映射对应的数据库字段了，可以使用 `@TableId(value = "字段名", type = IdType.AUTO)`
 
 
 
