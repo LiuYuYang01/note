@@ -1,8 +1,16 @@
-# Sprint Boot 常用注解
+# 注解集合
 
-## 请求与响应
+## Java
 
-### @RequestMapping
+### @PostConstruct
+
+
+
+## Sprint Boot
+
+### 请求与响应
+
+#### @RequestMapping
 
 可以给类或类的属性设置该注解，表示支持的所有 `HTTP` 请求方法，如 `GET`、`POST`、`PATCH`、`DELETE` 等
 
@@ -32,7 +40,7 @@ public class UserController {
 
 
 
-### @RequestBody
+#### @RequestBody
 
 默认参数传递方式为 `x-www-form-urlencoded` ，该注解主要用于将参数传递方式设置为 `application/json` 格式，这样就支持 `JSON` 格式数据作为参数传递了
 
@@ -45,7 +53,7 @@ public Result add(@RequestBody User user) {
 
 
 
-### @PathVariable
+#### @PathVariable
 
 该注解主要用于从 `URL` 路径中获取动态参数的值
 
@@ -70,11 +78,7 @@ public <List<Course> get(@PathVariable Integer uid)
 
 
 
-## 数据
-
-### @Param
-
-该注解用于映射
+### 单元测试
 
 
 

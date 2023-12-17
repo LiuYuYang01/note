@@ -397,6 +397,8 @@ public void condition() {
 }
 ```
 
+**特别注意：** 就拿 `queryWrapper.eq` 举例，他的第一个参数是数据表中对应的字段不能是 `JavaBean`
+
 
 
 条件判断
@@ -1036,6 +1038,27 @@ public class TestMain {
 
         data.forEach(System.out::println);
         System.out.println(data);
+    }
+}
+```
+
+
+
+## baseMapper
+
+通常情况下，如果查询逻辑比较简单，只需使用基本的 CRUD 操作（增、删、改、查），或者使用一些简单的条件查询，那么使用 `baseMapper` 提供的通用方法是非常方便的，能够简化代码并提高开发效率。
+
+```java
+@Service
+@Transactional
+public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> implements CourseService {
+    @Resource
+    private CourseMapper courseMapper;
+
+    @Override
+    public List<Course> get(Integer id){
+        // return courseMapper.get(id);
+        return baseMapper.get(id);
     }
 }
 ```

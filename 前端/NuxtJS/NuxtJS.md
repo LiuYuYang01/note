@@ -444,6 +444,23 @@ export default defineNuxtConfig({
 
 
 
+## 扩展
+
+### process.client
+
+通过该属性可以用于区分当前程序运行在服务端还是浏览器端，如果在浏览器端运行就返回 `true` 反之 `false`
+
+```java
+if(process.client){
+	const token = localStorage.getItem("token")
+	console.log(token);
+}
+```
+
+如果是运行环境是浏览器端的就允许使用浏览器的API，如果是服务端就不做处理
+
+
+
 ## 安装第三方包
 
 在 `Nuxt` 项目中安装第三方包，就拿 `Ant-design-vue` 举例
