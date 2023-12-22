@@ -1,6 +1,18 @@
 # NuxtJS
 
-推荐文章：[https://juejin.cn/post/7170746000112353293#heading-12](https://juejin.cn/post/7170746000112353293#heading-12)
+![image-20231217192913021](image/image-20231217192913021.png)
+
+`Nuxt.js` 是一个基于 `Vue.js` 的服务端渲染框架，它提供了许多优势和功能，因此使用 `Nuxt.js` 有以下几个主要理由：
+
+1. 服务端渲染
+2. 构建优化
+3. 开发体验
+4. 插件生态系统
+5. 静态站点生成
+
+总的来说，使用 `Nuxt.js` 可以帮助你构建高性能、可伸缩和易于开发的 `Vue.js` 应用程序，尤其适用于需要服务端渲染和优化的项目。
+
+
 
 ## 快速入门
 
@@ -8,6 +20,26 @@
 
 ```
 npx nuxi@latest init 项目名
+```
+
+
+
+如果安装过程中出现了：
+
+```
+ERROR  Error: Failed to download template from registry: fetch failed
+```
+
+可以这么做，打开电脑中这个文件 `C:\Windows\System32\drivers\etc\hosts`
+
+编辑为以下内容：
+
+```
+199.232.69.194 github.global.ssl.fastly.net
+185.199.108.153 assets-cdn.github.com
+185.199.109.153 assets-cdn.github.com
+185.199.110.153 assets-cdn.github.com
+185.199.111.153 assets-cdn.github.com
 ```
 
 

@@ -11,8 +11,6 @@
 **安装 Pinia**
 
 ```bash
-yarn add pinia
-# or
 npm i pinia
 ```
 
@@ -72,7 +70,9 @@ const store = Store()
 
 
 
-## 同步修改数据
+## 修改数据
+
+### 同步修改数据
 
 ```javascript
 import { ref } from "vue";
@@ -107,7 +107,7 @@ const { update } = Store()
 
 
 
-## 异步修改数据
+### 异步修改数据
 
 ```javascript
 import { ref } from "vue";
@@ -144,7 +144,7 @@ const { update } = Store()
 
 
 
-## 计算属性
+## computed
 
 ```javascript
 import { ref, computed } from "vue";
@@ -182,74 +182,9 @@ const { update } = Store()
 
 
 
-## 综合案例
-
-`src/App.vue`
-
-```vue
-<script setup lang='ts'>
-import useMainStore from './store'
-
-const store = useMainStore()
-
-const { add, subtract } = useMainStore()
-</script>
-
-<template>
-  <div>state：{{ store.num }}</div>
-  <div>computed：{{ store.newNum }}</div>
-
-  <button @click="add(10)">+</button>
-  <button @click="subtract(10)">-</button>
-</template>
-
-<style scoped></style>
-```
-
-
-
-`src/store/index.ts`
-
-```javascript
-import { ref, watch, computed } from 'vue'
-import { defineStore } from 'pinia'
-
-const store = defineStore("main", () => {
-    let num = ref<number>(100)
-
-    // 同步操作数据
-    const add = (n: number) => {
-        num.value += n
-    }
-
-    // 异步操作数据
-    const subtract = (n: number) => {
-        setTimeout(() => {
-            num.value -= n
-        }, 1000)
-    }
-
-    // 计算属性监听值的变化
-    const newNum = computed<number>(() => {
-        return num.value * 2
-    })
-
-    // 使用侦听器监听值的变化
-    watch(() => num.value, (newData: number) => {
-        console.log("watch：" + newData);
-    })
-
-    return { num, newNum, add, subtract }
-})
-
-export default store
-```
-
-
-
 ## storeToRefs
 
-如果直接从 `pinia` 中解构数据，会丢失响应式， 使用 `storeToRefs` 可以保证解构出来的数据也是响应式的
+如果直接从 `Store` 中解构，数据会丢失响应式， 可以使用 `storeToRefs` 保证解构出来的数据为响应式的
 
 ```vue
 <script setup lang="ts">
@@ -299,16 +234,13 @@ const { n } = storeToRefs(store)
 
 ## $patch
 
-在 `Pinia` 中，不推荐直接修改 `store` 的值，而是使用 `$patch` 方法来确保状态变化的可追踪性和组件更新的正确性。如果直接修改 `store` 值时，`Pinia` 将无法检测到这个变化，因此无法通知相关组件进行更新。这会导致组件无法正确地响应 `store` 数据的变化，从而可能导致应用程序的状态不一致
-
-
-
-所以可以通过 `$patch` 来修改 `state` 的数据
+在 `pinia` 中可以直接修改 `store` 的值，也可以调用 `$patch` 方法来批量修改
 
 ```javascript
 store.$patch({
-  n: 300,
-  // a:400 也可以修改多个
+  x: 100,
+  y: 200,
+  z: 300
 })
 ```
 
@@ -318,7 +250,7 @@ store.$patch({
 
 ```vue
 <template>
-  <div>{{ store.n }}</div>
+  <div>{{ store.x }} {{ store.y }}</div>
 
   <button @click="btn">按钮</button>
 </template>
@@ -328,18 +260,66 @@ import useMainStore from './store'
 const store = useMainStore()
 
 const btn = () => {
-  // 方法一、直接接修改（不推荐）
-  // store.n = 200
+  // 方法一、直接接修改
+  store.x = 100
 
   // 方法二、通过$patch修改
   store.$patch({
-    n: 300
+    y: 200
   })
 }
 </script>
 ```
 
 
+
+## $state
+
+通过 `store.$state` 可以很直观和方便地实现数据管理，不需要编写额外的代码来定义和注册 `actions` 或者`getter`，减少了开发时间和复杂性
+
+```vue
+<script setup lang='ts'>
+import useMainStore from './store'
+
+const store = useMainStore()
+
+// 核心代码
+const add = () => store.$state.num += 10
+</script>
+
+<template>
+    <div>state：{{ store.num }}</div>
+    <button @click="add">+</button>
+</template>
+```
+
+尽管直接操作 `store.$state` 可能会在某些情况下看起来更简单和快速，但从长远来看，为了更好的可维护性、可读性和扩展性所以不推荐这么做。
+
+
+
+**注意：** 不能直接给 `store` 的 `state` 赋值，这样会破坏其响应性
+
+```javascript
+// 这实际上并没有替换`$state`
+store.$state = { count: 24 }
+```
+
+
+
+但可以 `patch` 它
+
+```javascript
+// 在它内部调用 `$patch()`：
+store.$patch({ count: 24 })
+```
+
+
+
+也可以通过给 `pinia` 实例的 `state` 来设置整个应用的初始 state。
+
+```
+pinia.state.value = {}
+```
 
 
 
@@ -430,55 +410,66 @@ const update = () => {
 
 
 
-## 扩展
-
-**选项式写法**
-
-`src/stores/index`
-
-```typescript
-import { defineStore } from "pinia"
-
-type State = {
-    info: any
-}
-
-type Getter = {}
-
-type Actions = {
-    update(): void
-}
-
-const Store = defineStore<"user", State, Getter, Actions>("user", {
-    state: () => ({
-        info: "aaaaaaaaaa"
-    }),
-    actions: {
-        async update() {
-            this.info = "bbbbbbbbbb"
-        },
-    }
-})
-
-export default Store
-```
-
-
+## 综合案例
 
 `src/App.vue`
 
 ```vue
 <script setup lang='ts'>
-import useUserStore from '@/stores/user'
-import { storeToRefs } from 'pinia';
+import useMainStore from './store'
 
-// 将数据转换为响应式
-const { info } = storeToRefs(useUserStore())
+const store = useMainStore()
 
-// console.log(useUserStore().info);
-console.log(info.value); //aaaaaaaaaa
-useUserStore().update()
-console.log(info.value); //bbbbbbbbbb
+const { add, subtract } = store
 </script>
+
+<template>
+  <div>state：{{ store.num }}</div>
+  <div>computed：{{ store.newNum }}</div>
+
+  <button @click="add(10)">+</button>
+  <button @click="subtract(10)">-</button>
+</template>
+
+<style scoped></style>
+```
+
+
+
+`src/store/index.ts`
+
+```javascript
+import { ref, watch, computed } from 'vue'
+import { defineStore } from 'pinia'
+
+const store = defineStore("main", () => {
+    const num = ref<number>(100)
+
+    // 同步操作数据
+    const add = (n: number) => {
+        num.value += n
+    }
+
+    // 异步操作数据
+    const subtract = (n: number) => {
+        setTimeout(() => {
+            num.value -= n
+        }, 1000)
+    }
+
+    // 计算属性监听值的变化
+    const newNum = computed<number>(() => {
+        return num.value * 2
+    })
+
+    // 使用侦听器监听值的变化
+	watch(num, (newData: number) => {
+        console.log("watch：" + newData);
+    })
+
+    return { num, newNum, add, subtract }
+})
+
+export default store
 ```
 

@@ -526,9 +526,21 @@ public void pageQuery() {
 
 ## 配置
 
+### 开启日志
+
+在全局配置开启了日志后，在每次执行 `Mybatis` 增删改查时候都会在控制台打印日志
+
+```yml
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 开启日志
+```
+
+
+
 ### 驼峰命名
 
-在全局配置了 `map-underscore-to-camel-case: true` 后，像 `student_score` 这样的数据就不需要再手动通过  `@TableField(value = "student_score")` 注解映射为 `studentScore` 了，他会自动将下划线后面的首字母转换为大写并去除下划线
+开启驼峰命名后，像 `student_score` 这样的数据就不需要再手动通过  `@TableField(value = "student_score")` 注解映射为 `studentScore` 了，他会自动将下划线后面的首字母转换为大写并去除下划线
 
 ```yml
 mybatis-plus:

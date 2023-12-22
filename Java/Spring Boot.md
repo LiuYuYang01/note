@@ -1846,6 +1846,8 @@ public class AccountServiceImpl implements AccountService {
 
 ## 配置
 
+### 自定义配置
+
 **application.yml**
 
 定义配置项
@@ -1952,6 +1954,34 @@ public class UserProperties {
     private List<Integer> ageArray;
     private List<UserProperties> propList;
 }
+```
+
+
+
+### 常见配置项
+
+#### 开启Bean覆盖
+
+默认情况下程序中如果有两个相同名的 `Bean` 则会在控制台出现如下报错：
+
+```
+Description:
+
+The bean 'course-service.FeignClientSpecification' could not be registered. A bean with that name has already been defined and overriding is disabled.
+
+Action:
+
+Consider renaming one of the beans or enabling overriding by setting spring.main.allow-bean-definition-overriding=true
+```
+
+
+
+我们可以通过如下配置来解决这个问题，使新的覆盖旧的 `Bean` 
+
+```yml
+spring
+	main
+		allow-bean-definition-overriding: true # 开启Bean覆盖
 ```
 
 

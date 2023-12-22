@@ -151,4 +151,3 @@ spring:
             allowedMethods: "*"   # 允许的跨域ajax的请求方式
             allowedHeaders: "*"   # 允许在请求中携带的头信息
 ```
-
