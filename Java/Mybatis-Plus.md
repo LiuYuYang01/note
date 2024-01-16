@@ -1075,3 +1075,39 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 }
 ```
 
+
+
+## 细节
+
+### 驼峰映射
+
+如果数据表字段为 `user_name` 那么在定义 `JavaBean` 时候可以写成
+
+```java
+// @TableField("user_name")
+private String userName;
+// or
+private String username;
+```
+
+
+
+### 主键
+
+新增数据时需要给 `JavaBean` 中 `ID` 属性设置 `@TableId(type = IdType.AUTO)` 注解，否则 `Mybatis` 会自动给新增的数据生成一个随机的 `ID`，而不是有序的 `ID`
+
+
+
+### 分号
+
+在自定义 `SQL` 查询时这里不能加分号，会导致程序错误
+
+![image-20240107160649590](./image/image-20240107160649590.png)
+
+
+
+### 取别名
+
+在自定义 `SQL` 查询时如果想要取别名，它的别名必须是 `JavaBean` 中的属性，否则会导致查询的数据为 `null`
+
+![image-20240107161054721](./image/image-20240107161054721.png)

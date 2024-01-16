@@ -136,6 +136,8 @@ const pagination = ref({
 const paginationChange = (e: { current: number, pageSize: number, defaultPageSize: number, total: number }) => pagination.value.current = e.current
 ```
 
+如果不想使用表格自带的分页组件，可以通过 `:pagination="flase"` 关闭
+
 
 
 ### customRender
@@ -165,6 +167,58 @@ customRender: ({text, record, index, column}) => {
 #### change
 
 监听分页、排序、筛选变化时触发
+
+
+
+## a-pagination
+
+```vue
+<!-- 分页查询 -->
+    <a-pagination v-model:current="pagination.current" :total="pagination.total" :pageSize="pagination.defaultPageSize"
+      :pageSizeOptions="['2', '5', '10', '50', '100']" :show-total="(total: number) => `共 ${total} 条`" showQuickJumper showSizeChanger @change="paginationChange" style="display: flex; justify-content: end;margin-top: 20px;" />
+```
+
+
+
+### pageSize
+
+设置默认每页显示多少个数据
+
+```
+:pageSize="pagination.defaultPageSize"
+```
+
+
+
+### show-total
+
+设置分页左侧的自定义内容
+
+```
+:show-total="(total: number) => `共 ${total} 条`"
+```
+
+
+
+### showQuickJumper
+
+开启每页显示多少个的选项卡
+
+
+
+### showSizeChanger
+
+默认情况下只有当数据量大于每页显示的条目数量时，选择每页显示数量的选项框才会显示出来。如果你需要一直显示该选项框，可以设置 `show-size-changer` 属性为 `true`，无论当前数据量大小都会显示出来。
+
+
+
+### pageSizeOptions
+
+设置每页显示多少个的选项
+
+```
+:pageSizeOptions="['2', '5', '10', '50', '100']"
+```
 
 
 

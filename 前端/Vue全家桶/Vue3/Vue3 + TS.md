@@ -742,9 +742,44 @@ export default defineConfig({
 }
 ```
 
-如果 **运行不了或报错** 试下安装下 `@types/node` ，没有报错可以不用安装，有安装也没事
+如果 **运行不了或类型报错** 试下安装下 `@types/node` ，没有报错可以不用安装，有安装也没事
 
 ```bash
  npm install @types/node 
+```
+
+
+
+## 动态资源渲染
+
+假如我们有这样的需求，根据接口中的图片名称与本地的路径拼接来动态渲染出来，这么做会导致图片不显示
+
+```html
+<div class="list">
+    <a :href="item.url" target="_blank" v-for="item, index in socializing" :key="index">
+        <img :src="`@/assets/svg/socializing/${item.url}.svg`" :title="item.name">
+    </a>
+</div>
+```
+
+
+
+而正确的做法是 先定义一个访问本地资源的方法
+
+```javascript
+// 动态获取图片路径
+const getIcon = (src: string) => {
+    return new URL(`../../assets/svg/socializing/${src}.svg`, import.meta.url).href
+}
+```
+
+然后通过给这个方法传参并返回对应的路径，这样图片就能成功显示出来了
+
+```html
+<div class="list">
+    <a :href="item.url" target="_blank" v-for="item, index in socializing" :key="index">
+        <img :src="getIcon(item.name)" :title="item.name">
+    </a>
+</div>
 ```
 

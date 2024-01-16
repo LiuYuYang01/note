@@ -549,9 +549,9 @@ export default {
 
 ```vue
 <template>
-  <div>{{ x }} + {{ y }} + {{ sum }}</div>
-  <button @click="X"> x + 1 </button>
-  <button @click="Y"> y + 1 </button>
+  <div>{{ sum }}</div>
+  <button @click="addX"> x + 1 </button>
+  <button @click="addY"> y + 1 </button>
 </template>
 
 <script>
@@ -561,18 +561,18 @@ export default {
     const x = ref(0)
     const y = ref(0)
 
-    const X = () => {
+    const addX = () => {
       x.value++
     }
 
-    const Y = () => {
+    const addY = () => {
       y.value++
     }
 
     // 当依赖的值x或y发生变化时就会自动触发计算属性
-    const sum = computed(() => x.value + y.value)
+    const sum = computed(() => "计算后的结果：" + (x.value + y.value))
 
-    return { x, y, X, Y, sum }
+    return { addX, addY, sum }
   }
 }
 </script>
@@ -675,7 +675,7 @@ export default {
 
 
 
-监听基本响应式数据时，参数一不需要加 `value`   ,    监听复杂响应式数据时，参数一必须加 `value`
+监听基本响应式数据时，参数一需要加 `value`   ,    监听复杂响应式数据时，参数一不需要加 `value`
 
 监听响应式对象中的单个属性数据，如果使用的 `ref` 则响应式对象需要加上 `value` ，使用 `reactive` 不需要加 `value`
 
@@ -751,7 +751,7 @@ export default {
 
       console.log(newStr, oldStr);
       // 新值：newStr[0]
-      // 旧值：oldStr[0]
+      // 旧值：oldStr[1]
     })
 
     return { msg }

@@ -103,6 +103,27 @@ public class UserController {
 
 
 
+如果不确定类型，我们可以设置为 `Object`，这样就可以传递任意的 `JSON`键值对了
+
+```java
+	@PostMapping
+    public String hello(@RequestBody Object data) {
+        System.out.println(data);
+        // {password=1234, username=jack}
+
+        // 将数据转换为Map就可以获取属性值并使用了
+        Map<String, String> result = (Map<String, String>) data;
+        System.out.println(result.get("username")); // jack
+        System.out.println(result.get("password")); // 1234
+
+        // ...
+        
+        return "<h1>Hello World!</h1>";
+    }
+```
+
+
+
 ### 参数处理
 
 #### 简单参数

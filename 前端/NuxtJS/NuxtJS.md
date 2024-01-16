@@ -383,6 +383,41 @@ definePageMeta({
 
 
 
+### 独立页面
+
+正常情况下，我们在 `app.vue` 中定义了所有页面的公共布局
+
+```vue
+<template>
+    <NuxtLayout>
+        <NuxtPage />
+    </NuxtLayout>
+</template>
+
+```
+
+这样一来不管是哪个路由访问，都会自带这个布局中的所有模块。虽然减少了大量重复的代码，但也带来了一个问题。
+
+
+
+比如登录这样的页面是不需要用到公共布局的，它是一个独立页面。
+
+所以可以这么做，给他定义一个 `login.vue` 页面与布局，然后把 `definePageMeta` 中的属性 `layout` 设置为 `login`，这样当页面访问 `/login` 时就会自动跳转到 `login` 布局
+
+```vue
+<script setup lang="ts">
+definePageMeta({
+    layout: "login"
+})
+</script>
+
+<template>
+  <h1>登录页</h1>
+</template>
+```
+
+
+
 ### 404页面
 
 

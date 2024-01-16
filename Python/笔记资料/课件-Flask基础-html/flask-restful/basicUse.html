@@ -1,0 +1,975 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <title>1.1.基本使用 · flask基础</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.0.0">
+        <meta name="author" content="zhangzz">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-emphasize/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-auto-scroll-table/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-anchor-navigation-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-sectionx/sectionx.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="decorater.html" />
+    
+    
+    <link rel="prev" href="classView.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="http://www.itcast.cn/" target="_blank" class="custom-link">传智播客</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    课程简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../flask.html">
+            
+                <a href="../flask.html">
+            
+                    
+                    flask框架
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../flask/introduce.html">
+            
+                <a href="../flask/introduce.html">
+            
+                    
+                    1.框架介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../flask/basicUse.html">
+            
+                <a href="../flask/basicUse.html">
+            
+                    
+                    2.基本使用
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.2.1" data-path="../flask/helloworld.html">
+            
+                <a href="../flask/helloworld.html">
+            
+                    
+                    2.1.最小应用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.2" data-path="../flask/routes.html">
+            
+                <a href="../flask/routes.html">
+            
+                    
+                    2.2.路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.3" data-path="../flask/request.html">
+            
+                <a href="../flask/request.html">
+            
+                    
+                    2.3.请求
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.4" data-path="../flask/response.html">
+            
+                <a href="../flask/response.html">
+            
+                    
+                    2.4.响应
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.5" data-path="../flask/cookie.html">
+            
+                <a href="../flask/cookie.html">
+            
+                    
+                    2.5.状态保持
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.6" data-path="../flask/errorHandler.html">
+            
+                <a href="../flask/errorHandler.html">
+            
+                    
+                    2.6.异常处理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../flask/advanceUse.html">
+            
+                <a href="../flask/advanceUse.html">
+            
+                    
+                    3.高级处理
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../flask/hook.html">
+            
+                <a href="../flask/hook.html">
+            
+                    
+                    3.1.请求勾子
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../flask/blueprint.html">
+            
+                <a href="../flask/blueprint.html">
+            
+                    
+                    3.2.蓝图
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.3" data-path="../flask/context.html">
+            
+                <a href="../flask/context.html">
+            
+                    
+                    3.3.上下文
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.4" data-path="../flask/authentication.html">
+            
+                <a href="../flask/authentication.html">
+            
+                    
+                    3.4.综合认证
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.5" data-path="../flask/settings.html">
+            
+                <a href="../flask/settings.html">
+            
+                    
+                    3.5.应用配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../flask-restful.html">
+            
+                <a href="../flask-restful.html">
+            
+                    
+                    flask-restful扩展
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="classView.html">
+            
+                <a href="classView.html">
+            
+                    
+                    1.视图
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.3.1.1" data-path="basicUse.html">
+            
+                <a href="basicUse.html">
+            
+                    
+                    1.1.基本使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.2" data-path="decorater.html">
+            
+                <a href="decorater.html">
+            
+                    
+                    1.2.类视图装饰器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.3" data-path="blueprint.html">
+            
+                <a href="blueprint.html">
+            
+                    
+                    1.3.蓝图和类视图
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="requestParse.html">
+            
+                <a href="requestParse.html">
+            
+                    
+                    2.请求
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="response.html">
+            
+                <a href="response.html">
+            
+                    
+                    3.响应
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.1" data-path="serialize.html">
+            
+                <a href="serialize.html">
+            
+                    
+                    3.1.序列化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2" data-path="custemJson.html">
+            
+                <a href="custemJson.html">
+            
+                    
+                    3.2.自定义JSON
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../flask-sqlalchemy.html">
+            
+                <a href="../flask-sqlalchemy.html">
+            
+                    
+                    flask-sqlalchemy扩展
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../flask-sqlalchemy/basicUse.html">
+            
+                <a href="../flask-sqlalchemy/basicUse.html">
+            
+                    
+                    1.基本使用
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1.1" data-path="../flask-sqlalchemy/introduce.html">
+            
+                <a href="../flask-sqlalchemy/introduce.html">
+            
+                    
+                    1.1.扩展介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.2" data-path="../flask-sqlalchemy/settings.html">
+            
+                <a href="../flask-sqlalchemy/settings.html">
+            
+                    
+                    1.2.组件初始化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.3" data-path="../flask-sqlalchemy/model.html">
+            
+                <a href="../flask-sqlalchemy/model.html">
+            
+                    
+                    1.3.构建模型类
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../flask-sqlalchemy/dataMethod.html">
+            
+                <a href="../flask-sqlalchemy/dataMethod.html">
+            
+                    
+                    2.数据操作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.2.1" data-path="../flask-sqlalchemy/insert.html">
+            
+                <a href="../flask-sqlalchemy/insert.html">
+            
+                    
+                    2.1.增加数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2.2" data-path="../flask-sqlalchemy/select.html">
+            
+                <a href="../flask-sqlalchemy/select.html">
+            
+                    
+                    2.2.查询数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2.3" data-path="../flask-sqlalchemy/update.html">
+            
+                <a href="../flask-sqlalchemy/update.html">
+            
+                    
+                    2.3.修改数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2.4" data-path="../flask-sqlalchemy/delete.html">
+            
+                <a href="../flask-sqlalchemy/delete.html">
+            
+                    
+                    2.4.删除数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../flask-sqlalchemy/advanceUse.html">
+            
+                <a href="../flask-sqlalchemy/advanceUse.html">
+            
+                    
+                    3.高级机制
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.3.1" data-path="../flask-sqlalchemy/flush.html">
+            
+                <a href="../flask-sqlalchemy/flush.html">
+            
+                    
+                    3.1.刷新数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.2" data-path="../flask-sqlalchemy/multiTable.html">
+            
+                <a href="../flask-sqlalchemy/multiTable.html">
+            
+                    
+                    3.2.多表查询
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.3.2.1" data-path="../flask-sqlalchemy/foreignKey.html">
+            
+                <a href="../flask-sqlalchemy/foreignKey.html">
+            
+                    
+                    3.2.1.外键关联查询
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.2.2" data-path="../flask-sqlalchemy/relationship.html">
+            
+                <a href="../flask-sqlalchemy/relationship.html">
+            
+                    
+                    3.2.2.关系属性
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.2.3" data-path="../flask-sqlalchemy/join.html">
+            
+                <a href="../flask-sqlalchemy/join.html">
+            
+                    
+                    3.2.3.连接查询
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.3" data-path="../flask-sqlalchemy/session.html">
+            
+                <a href="../flask-sqlalchemy/session.html">
+            
+                    
+                    3.3.Session机制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.4" data-path="../flask-sqlalchemy/migrate.html">
+            
+                <a href="../flask-sqlalchemy/migrate.html">
+            
+                    
+                    3.4.数据迁移
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >1.1.基本使用</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#&#x57FA;&#x672C;&#x4F7F;&#x7528;"><b></b>&#x57FA;&#x672C;&#x4F7F;&#x7528;</a></li><ul><li><span class="title-icon "></span><a href="#1-&#x6269;&#x5C55;&#x4ECB;&#x7ECD;"><b></b>1. &#x6269;&#x5C55;&#x4ECB;&#x7ECD;</a></li><li><span class="title-icon "></span><a href="#2-&#x6784;&#x5EFA;restapi"><b></b>2. &#x6784;&#x5EFA;RESTAPI</a></li></ul></ul></div><a href="#&#x57FA;&#x672C;&#x4F7F;&#x7528;" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="&#x57FA;&#x672C;&#x4F7F;&#x7528;"><a name="&#x57FA;&#x672C;&#x4F7F;&#x7528;" class="anchor-navigation-ex-anchor" href="#&#x57FA;&#x672C;&#x4F7F;&#x7528;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x57FA;&#x672C;&#x4F7F;&#x7528;</h1>
+<div id="anchor-navigation-ex-pagetop-navbar"><ul><li><span class="title-icon "></span><a href="#&#x57FA;&#x672C;&#x4F7F;&#x7528;"><b></b>&#x57FA;&#x672C;&#x4F7F;&#x7528;</a></li><ul><li><span class="title-icon "></span><a href="#1-&#x6269;&#x5C55;&#x4ECB;&#x7ECD;"><b></b>1. &#x6269;&#x5C55;&#x4ECB;&#x7ECD;</a></li><li><span class="title-icon "></span><a href="#2-&#x6784;&#x5EFA;restapi"><b></b>2. &#x6784;&#x5EFA;RESTAPI</a></li></ul></ul></div>
+
+<h2 id="1-&#x6269;&#x5C55;&#x4ECB;&#x7ECD;"><a name="1-&#x6269;&#x5C55;&#x4ECB;&#x7ECD;" class="anchor-navigation-ex-anchor" href="#1-&#x6269;&#x5C55;&#x4ECB;&#x7ECD;"><i class="fa fa-link" aria-hidden="true"></i></a>1. &#x6269;&#x5C55;&#x4ECB;&#x7ECD;</h2>
+<p><img src="../assets/rest-logo.png" alt=""></p>
+<ul>
+<li>Flask-RESTful &#x662F;&#x4E00;&#x4E2A; Flask &#x6269;&#x5C55;&#xFF0C;&#x5B83;&#x6DFB;&#x52A0;&#x4E86;&#x5FEB;&#x901F;&#x6784;&#x5EFA; REST APIs &#x7684;&#x652F;&#x6301;&#x3002;</li>
+</ul>
+<h4 id="&#x73AF;&#x5883;&#x5B89;&#x88C5;"><a name="&#x73AF;&#x5883;&#x5B89;&#x88C5;" class="anchor-navigation-ex-anchor" href="#&#x73AF;&#x5883;&#x5B89;&#x88C5;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x73AF;&#x5883;&#x5B89;&#x88C5;</h4>
+<pre><code class="lang-bash">pip install flask-restful
+</code></pre>
+<h4 id="&#x6587;&#x6863;"><a name="&#x6587;&#x6863;" class="anchor-navigation-ex-anchor" href="#&#x6587;&#x6863;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x6587;&#x6863;</h4>
+<ul>
+<li>&#x5B98;&#x65B9;&#x6587;&#x6863; <a href="https://flask-restful.readthedocs.io/en/latest" _target="blank">https://flask-restful.readthedocs.io/en/latest</a></li>
+<li>&#x4E2D;&#x6587;&#x7FFB;&#x8BD1; <a href="http://www.pythondoc.com/Flask-RESTful/index.html" _target="blank">http://www.pythondoc.com/Flask-RESTful/index.html</a></li>
+</ul>
+<h2 id="2-&#x6784;&#x5EFA;restapi"><a name="2-&#x6784;&#x5EFA;restapi" class="anchor-navigation-ex-anchor" href="#2-&#x6784;&#x5EFA;restapi"><i class="fa fa-link" aria-hidden="true"></i></a>2. &#x6784;&#x5EFA;RESTAPI</h2>
+<ul>
+<li>&#x4F7F;&#x7528; <code>flask-restful</code> &#x6784;&#x5EFA;RESTAPI&#x53EA;&#x9700;&#x8981;&#x8FDB;&#x884C;&#x4E09;&#x6B65;&#x64CD;&#x4F5C;<ul>
+<li>&#x521B;&#x5EFA;&#x6269;&#x5C55;/&#x7EC4;&#x4EF6;&#x5BF9;&#x8C61; <button class="section code" target="section1" show="" hide=""></button><sec data-title="&#x7EC4;&#x4EF6;&#x5BF9;&#x8C61; = Api(app)" data-id="section1" data-show="false" data-collapse="true"><div class="panel panel-default hidden"><div class="panel-heading"><b>&#x7EC4;&#x4EF6;&#x5BF9;&#x8C61; = Api(app)<a class="pull-right section atTitle btn btn-default" target="section1"><span class="fa fa-angle-up"></span></a></b></div><div class="panel-collapse" id="section1"><div class="panel-body">
+</div></div></div></sec></li>
+<li>&#x5B9A;&#x4E49;&#x7C7B;&#x89C6;&#x56FE;  <button class="section code" target="section2" show="" hide=""></button><sec data-title=" class &#x81EA;&#x5B9A;&#x4E49;&#x89C6;&#x56FE;&#x7C7B;(Resource): " data-id="section2" data-show="false" data-collapse="true"><div class="panel panel-default hidden"><div class="panel-heading"><b> class &#x81EA;&#x5B9A;&#x4E49;&#x89C6;&#x56FE;&#x7C7B;(Resource): <a class="pull-right section atTitle btn btn-default" target="section2"><span class="fa fa-angle-up"></span></a></b></div><div class="panel-collapse" id="section2"><div class="panel-body">
+</div></div></div></sec> </li>
+<li>&#x7EC4;&#x4EF6;&#x6DFB;&#x52A0;&#x7C7B;&#x89C6;&#x56FE;  <button class="section code" target="section3" show="" hide=""></button><sec data-title="&#x7EC4;&#x4EF6;&#x5BF9;&#x8C61;.add_resource(&#x89C6;&#x56FE;&#x7C7B;, URL&#x8D44;&#x6E90;&#x6BB5;)" data-id="section3" data-show="false" data-collapse="true"><div class="panel panel-default hidden"><div class="panel-heading"><b>&#x7EC4;&#x4EF6;&#x5BF9;&#x8C61;.add_resource(&#x89C6;&#x56FE;&#x7C7B;, URL&#x8D44;&#x6E90;&#x6BB5;)<a class="pull-right section atTitle btn btn-default" target="section3"><span class="fa fa-angle-up"></span></a></b></div><div class="panel-collapse" id="section3"><div class="panel-body">
+</div></div></div></sec> 
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="&#x4EE3;&#x7801;&#x793A;&#x4F8B;"><a name="&#x4EE3;&#x7801;&#x793A;&#x4F8B;" class="anchor-navigation-ex-anchor" href="#&#x4EE3;&#x7801;&#x793A;&#x4F8B;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x4EE3;&#x7801;&#x793A;&#x4F8B;</h4>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask
+<span class="hljs-keyword">from</span> flask_restful <span class="hljs-keyword">import</span> Api, Resource
+
+app = Flask(__name__)
+<span class="hljs-comment"># 1. &#x521B;&#x5EFA;API&#x5BF9;&#x8C61;  &#x7528;&#x4E8E;&#x7BA1;&#x7406;&#x7C7B;&#x89C6;&#x56FE;(&#x8D44;&#x6E90;)</span>
+api = Api(app)
+
+
+<span class="hljs-comment"># 2.&#x5B9A;&#x4E49;&#x7C7B;&#x89C6;&#x56FE;  &#x7EE7;&#x627F;Resource</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoResource</span><span class="hljs-params">(Resource)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-comment"># &#x7C7B;&#x89C6;&#x56FE;&#x54CD;&#x5E94;&#x7684;content-type&#x9ED8;&#x8BA4;&#x53D8;&#x4E3A;json&#x5F62;&#x5F0F;</span>
+        <span class="hljs-comment"># &#x7C7B;&#x89C6;&#x56FE;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x53EF;&#x4EE5;&#x662F;&#x5B57;&#x5178;, &#x4F1A;&#x88AB;&#x81EA;&#x52A8;&#x8F6C;&#x4E3A;json&#x5B57;&#x7B26;&#x4E32;</span>
+        <span class="hljs-keyword">return</span> {<span class="hljs-string">&apos;foo&apos;</span>: <span class="hljs-string">&apos;get&apos;</span>}
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">post</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> {<span class="hljs-string">&apos;foo&apos;</span>: <span class="hljs-string">&apos;post&apos;</span>}
+
+
+<span class="hljs-comment"># 3.&#x6DFB;&#x52A0;&#x7C7B;&#x89C6;&#x56FE;  &#x51FD;&#x6570;&#x6807;&#x8BB0;&#x9ED8;&#x8BA4;&#x4E3A;&#x7C7B;&#x540D;&#x5C0F;&#x5199;</span>
+api.add_resource(DemoResource, <span class="hljs-string">&apos;/&apos;</span>, endpoint=<span class="hljs-string">&apos;demo&apos;</span>)
+
+<span class="hljs-comment"># @app.route(&apos;/&apos;)</span>
+<span class="hljs-comment"># def index():</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#     return &quot;index&quot;</span>
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
+    print(app.url_map)
+    app.run(debug=<span class="hljs-keyword">True</span>)
+</code></pre>
+<ul>
+<li>&#x7C7B;&#x89C6;&#x56FE;&#x7684;&#x4F18;&#x70B9;<ul>
+<li>&#x7C7B;&#x89C6;&#x56FE;&#x54CD;&#x5E94;&#x7684; <code>content-type</code> &#x9ED8;&#x8BA4;&#x53D8;&#x4E3A; <strong>JSON&#x5F62;&#x5F0F;</strong></li>
+<li>&#x7C7B;&#x89C6;&#x56FE;&#x7684; <strong>&#x8FD4;&#x56DE;&#x503C;&#x53EF;&#x4EE5;&#x662F;&#x5B57;&#x5178;</strong>, &#x4F1A;&#x88AB;&#x81EA;&#x52A8;&#x8F6C;&#x4E3A;json&#x5B57;&#x7B26;&#x4E32;</li>
+</ul>
+</li>
+</ul>
+
+<script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="classView.html" class="navigation navigation-prev " aria-label="Previous page: 1.视图">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="decorater.html" class="navigation navigation-next " aria-label="Next page: 1.2.类视图装饰器">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"1.1.基本使用","level":"1.3.1.1","depth":3,"next":{"title":"1.2.类视图装饰器","level":"1.3.1.2","depth":3,"path":"flask-restful/decorater.md","ref":"flask-restful/decorater.md","articles":[]},"previous":{"title":"1.视图","level":"1.3.1","depth":2,"path":"flask-restful/classView.md","ref":"flask-restful/classView.md","articles":[{"title":"1.1.基本使用","level":"1.3.1.1","depth":3,"path":"flask-restful/basicUse.md","ref":"flask-restful/basicUse.md","articles":[]},{"title":"1.2.类视图装饰器","level":"1.3.1.2","depth":3,"path":"flask-restful/decorater.md","ref":"flask-restful/decorater.md","articles":[]},{"title":"1.3.蓝图和类视图","level":"1.3.1.3","depth":3,"path":"flask-restful/blueprint.md","ref":"flask-restful/blueprint.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["expandable-chapters-small","-sharing","splitter","hide-element","code","popup","emphasize","auto-scroll-table","highlight","fontsettings","anchor-navigation-ex","sectionx"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"emphasize":{},"splitter":{},"search":{},"auto-scroll-table":{},"popup":{},"lunr":{"maxIndexSize":1000000},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link","#book-search-input"]},"fontsettings":{"family":"sans","size":2,"theme":"white"},"sectionx":{"tag":"b"},"highlight":{},"anchor-navigation-ex":{"showLevel":false,"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":true},"expandable-chapters-small":{},"theme-default":{"showLevel":false,"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}}},"github":"","theme":"default","githubHost":"","author":"zhangzz","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"flask基础","language":"zh-hans","links":{"sidebar":{"传智播客":"http://www.itcast.cn/"}},"gitbook":"*","description":"传智播客-python学科-flask基础"},"file":{"path":"flask-restful/basicUse.md","mtime":"2020-02-27T06:23:49.774Z","type":"markdown"},"gitbook":{"version":"3.0.0","time":"2020-05-26T01:55:18.806Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-auto-scroll-table/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sectionx/sectionx.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+
+    </body>
+</html>
+

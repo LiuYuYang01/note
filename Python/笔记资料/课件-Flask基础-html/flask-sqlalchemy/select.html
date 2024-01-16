@@ -1,0 +1,1229 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <title>2.2.查询数据 · flask基础</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.0.0">
+        <meta name="author" content="zhangzz">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-emphasize/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-auto-scroll-table/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-anchor-navigation-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-sectionx/sectionx.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="update.html" />
+    
+    
+    <link rel="prev" href="insert.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="http://www.itcast.cn/" target="_blank" class="custom-link">传智播客</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    课程简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../flask.html">
+            
+                <a href="../flask.html">
+            
+                    
+                    flask框架
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../flask/introduce.html">
+            
+                <a href="../flask/introduce.html">
+            
+                    
+                    1.框架介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../flask/basicUse.html">
+            
+                <a href="../flask/basicUse.html">
+            
+                    
+                    2.基本使用
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.2.1" data-path="../flask/helloworld.html">
+            
+                <a href="../flask/helloworld.html">
+            
+                    
+                    2.1.最小应用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.2" data-path="../flask/routes.html">
+            
+                <a href="../flask/routes.html">
+            
+                    
+                    2.2.路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.3" data-path="../flask/request.html">
+            
+                <a href="../flask/request.html">
+            
+                    
+                    2.3.请求
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.4" data-path="../flask/response.html">
+            
+                <a href="../flask/response.html">
+            
+                    
+                    2.4.响应
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.5" data-path="../flask/cookie.html">
+            
+                <a href="../flask/cookie.html">
+            
+                    
+                    2.5.状态保持
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.6" data-path="../flask/errorHandler.html">
+            
+                <a href="../flask/errorHandler.html">
+            
+                    
+                    2.6.异常处理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../flask/advanceUse.html">
+            
+                <a href="../flask/advanceUse.html">
+            
+                    
+                    3.高级处理
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../flask/hook.html">
+            
+                <a href="../flask/hook.html">
+            
+                    
+                    3.1.请求勾子
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../flask/blueprint.html">
+            
+                <a href="../flask/blueprint.html">
+            
+                    
+                    3.2.蓝图
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.3" data-path="../flask/context.html">
+            
+                <a href="../flask/context.html">
+            
+                    
+                    3.3.上下文
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.4" data-path="../flask/authentication.html">
+            
+                <a href="../flask/authentication.html">
+            
+                    
+                    3.4.综合认证
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.5" data-path="../flask/settings.html">
+            
+                <a href="../flask/settings.html">
+            
+                    
+                    3.5.应用配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../flask-restful.html">
+            
+                <a href="../flask-restful.html">
+            
+                    
+                    flask-restful扩展
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../flask-restful/classView.html">
+            
+                <a href="../flask-restful/classView.html">
+            
+                    
+                    1.视图
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.1" data-path="../flask-restful/basicUse.html">
+            
+                <a href="../flask-restful/basicUse.html">
+            
+                    
+                    1.1.基本使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.2" data-path="../flask-restful/decorater.html">
+            
+                <a href="../flask-restful/decorater.html">
+            
+                    
+                    1.2.类视图装饰器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.3" data-path="../flask-restful/blueprint.html">
+            
+                <a href="../flask-restful/blueprint.html">
+            
+                    
+                    1.3.蓝图和类视图
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../flask-restful/requestParse.html">
+            
+                <a href="../flask-restful/requestParse.html">
+            
+                    
+                    2.请求
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../flask-restful/response.html">
+            
+                <a href="../flask-restful/response.html">
+            
+                    
+                    3.响应
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.1" data-path="../flask-restful/serialize.html">
+            
+                <a href="../flask-restful/serialize.html">
+            
+                    
+                    3.1.序列化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2" data-path="../flask-restful/custemJson.html">
+            
+                <a href="../flask-restful/custemJson.html">
+            
+                    
+                    3.2.自定义JSON
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../flask-sqlalchemy.html">
+            
+                <a href="../flask-sqlalchemy.html">
+            
+                    
+                    flask-sqlalchemy扩展
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="basicUse.html">
+            
+                <a href="basicUse.html">
+            
+                    
+                    1.基本使用
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1.1" data-path="introduce.html">
+            
+                <a href="introduce.html">
+            
+                    
+                    1.1.扩展介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.2" data-path="settings.html">
+            
+                <a href="settings.html">
+            
+                    
+                    1.2.组件初始化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.3" data-path="model.html">
+            
+                <a href="model.html">
+            
+                    
+                    1.3.构建模型类
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="dataMethod.html">
+            
+                <a href="dataMethod.html">
+            
+                    
+                    2.数据操作
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.2.1" data-path="insert.html">
+            
+                <a href="insert.html">
+            
+                    
+                    2.1.增加数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4.2.2" data-path="select.html">
+            
+                <a href="select.html">
+            
+                    
+                    2.2.查询数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2.3" data-path="update.html">
+            
+                <a href="update.html">
+            
+                    
+                    2.3.修改数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2.4" data-path="delete.html">
+            
+                <a href="delete.html">
+            
+                    
+                    2.4.删除数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="advanceUse.html">
+            
+                <a href="advanceUse.html">
+            
+                    
+                    3.高级机制
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.3.1" data-path="flush.html">
+            
+                <a href="flush.html">
+            
+                    
+                    3.1.刷新数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.2" data-path="multiTable.html">
+            
+                <a href="multiTable.html">
+            
+                    
+                    3.2.多表查询
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.3.2.1" data-path="foreignKey.html">
+            
+                <a href="foreignKey.html">
+            
+                    
+                    3.2.1.外键关联查询
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.2.2" data-path="relationship.html">
+            
+                <a href="relationship.html">
+            
+                    
+                    3.2.2.关系属性
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.2.3" data-path="join.html">
+            
+                <a href="join.html">
+            
+                    
+                    3.2.3.连接查询
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.3" data-path="session.html">
+            
+                <a href="session.html">
+            
+                    
+                    3.3.Session机制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.4" data-path="migrate.html">
+            
+                <a href="migrate.html">
+            
+                    
+                    3.4.数据迁移
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >2.2.查询数据</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#&#x67E5;&#x8BE2;&#x6570;&#x636E;"><b></b>&#x67E5;&#x8BE2;&#x6570;&#x636E;</a></li></ul></div><a href="#&#x67E5;&#x8BE2;&#x6570;&#x636E;" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="&#x67E5;&#x8BE2;&#x6570;&#x636E;"><a name="&#x67E5;&#x8BE2;&#x6570;&#x636E;" class="anchor-navigation-ex-anchor" href="#&#x67E5;&#x8BE2;&#x6570;&#x636E;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x67E5;&#x8BE2;&#x6570;&#x636E;</h1>
+<ul>
+<li><code>sqlalachemy</code> &#x7684;&#x67E5;&#x8BE2;&#x8BED;&#x6CD5;&#x8F83;&#x591A;, &#x63A5;&#x4E0B;&#x6765;&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x6848;&#x4F8B;&#x6765;&#x8FDB;&#x884C;&#x7EFC;&#x5408;&#x6F14;&#x7EC3;</li>
+<li>&#x6848;&#x4F8B;&#x8BF4;&#x660E;<ul>
+<li>&#x6848;&#x4F8B;&#x4E2D;&#x5305;&#x542B;&#x4E00;&#x4E2A;&#x6A21;&#x578B;&#x7C7B; <code>User</code>, &#x5BF9;&#x5E94; <code>users</code>&#x8868;, &#x5305;&#x542B;&#x56DB;&#x4E2A;&#x5B57;&#x6BB5;: <code>id</code>(&#x4E3B;&#x952E;), <code>name</code>, <code>email</code>, <code>age</code></li>
+<li>&#x9996;&#x5148;&#x8FD0;&#x884C;&#x6848;&#x4F8B;&#x4EE3;&#x7801;, &#x751F;&#x6210;&#x6D4B;&#x8BD5;&#x6570;&#x636E;<ul>
+<li>&#x7A0B;&#x5E8F;&#x542F;&#x52A8;&#x540E;&#x4F1A;&#x91CD;&#x7F6E; <code>users</code>&#x8868;, &#x5E76;&#x5411;&#x5176;&#x4E2D;&#x6DFB;&#x52A0;10&#x6761;&#x7528;&#x6237;&#x6570;&#x636E;</li>
+</ul>
+</li>
+<li>&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x5C55;&#x793A;&#x67E5;&#x8BE2;&#x7ED3;&#x679C;, &#x5EFA;&#x8BAE;&#x4F7F;&#x7528; <strong>&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;</strong> &#x6D4B;&#x8BD5;&#x67E5;&#x8BE2;&#x8BED;&#x53E5;<ul>
+<li>&#x63A8;&#x8350;&#x4F7F;&#x7528; <code>ipython</code>&#x5305;, &#x76F8;&#x6BD4; python&#x81EA;&#x5E26;&#x7684;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F; &#x6709;&#x8BED;&#x6CD5;&#x63D0;&#x793A;</li>
+<li>&#x5B89;&#x88C5;&#x5305; <code>pip install ipython</code></li>
+</ul>
+</li>
+<li>&#x5173;&#x4E8E;&#x8F93;&#x51FA;&#x7ED3;&#x679C;<ul>
+<li>&#x5185;&#x7F6E;&#x65B9;&#x6CD5;<code>__repr__()</code> &#x662F; <code>__str__()</code>&#x65B9;&#x6CD5; &#x7684;&#x5347;&#x7EA7;&#x7248;, &#x53EF;&#x4EE5;&#x4FEE;&#x6539; <strong>print(&#x5BF9;&#x8C61;)</strong> &#x548C; <strong>&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#x4E0B;&#x5BF9;&#x8C61;</strong> &#x7684;&#x8F93;&#x51FA;&#x7ED3;&#x679C;</li>
+<li>&#x6848;&#x4F8B;&#x4E2D;&#x5C06; &#x6A21;&#x578B;&#x5BF9;&#x8C61;&#x7684;&#x8F93;&#x51FA;&#x7ED3;&#x679C; &#x4FEE;&#x6539;&#x4E3A; <strong>&#x8F93;&#x51FA;&#x6A21;&#x578B;&#x5BF9;&#x8C61;&#x7684;&#x6240;&#x6709;&#x5C5E;&#x6027;&#x503C; (&#x8BB0;&#x5F55;&#x7684;&#x6570;&#x636E;)</strong>, &#x4EE5;&#x4FBF;&#x9A8C;&#x8BC1;&#x67E5;&#x8BE2;&#x7ED3;&#x679C;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="&#x6848;&#x4F8B;&#x4EE3;&#x7801;"><a name="&#x6848;&#x4F8B;&#x4EE3;&#x7801;" class="anchor-navigation-ex-anchor" href="#&#x6848;&#x4F8B;&#x4EE3;&#x7801;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x6848;&#x4F8B;&#x4EE3;&#x7801;</h4>
+<pre><code class="lang-python"><span class="hljs-comment"># hm_03_&#x6570;&#x636E;&#x67E5;&#x8BE2;.py</span>
+
+<span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask
+<span class="hljs-keyword">from</span> flask_sqlalchemy <span class="hljs-keyword">import</span> SQLAlchemy
+
+
+app = Flask(__name__)
+
+<span class="hljs-comment"># &#x76F8;&#x5173;&#x914D;&#x7F6E;</span>
+app.config[<span class="hljs-string">&quot;SQLALCHEMY_DATABASE_URI&quot;</span>] = <span class="hljs-string">&quot;mysql://root:mysql@127.0.0.1:3306/test31&quot;</span>
+app.config[<span class="hljs-string">&quot;SQLALCHEMY_TRACK_MODIFICATIONS&quot;</span>] = <span class="hljs-keyword">False</span>
+app.config[<span class="hljs-string">&quot;SQLALCHEMY_ECHO&quot;</span>] = <span class="hljs-keyword">False</span>
+db = SQLAlchemy(app)
+
+<span class="hljs-comment"># &#x81EA;&#x5B9A;&#x4E49;&#x7C7B; &#x7EE7;&#x627F;db.Model  &#x5BF9;&#x5E94; &#x8868;</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span><span class="hljs-params">(db.Model)</span>:</span>
+    __tablename__ = <span class="hljs-string">&quot;users&quot;</span>  <span class="hljs-comment"># &#x8868;&#x540D; &#x9ED8;&#x8BA4;&#x4F7F;&#x7528;&#x7C7B;&#x540D;&#x7684;&#x5C0F;&#x5199;</span>
+    <span class="hljs-comment"># &#x5B9A;&#x4E49;&#x7C7B;&#x5C5E;&#x6027; &#x8BB0;&#x5F55;&#x5B57;&#x6BB5;</span>
+    id = db.Column(db.Integer, primary_key=<span class="hljs-keyword">True</span>)
+    name = db.Column(db.String(<span class="hljs-number">64</span>))
+    email = db.Column(db.String(<span class="hljs-number">64</span>))
+    age = db.Column(db.Integer)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__repr__</span><span class="hljs-params">(self)</span>:</span>  <span class="hljs-comment"># &#x81EA;&#x5B9A;&#x4E49; &#x4EA4;&#x4E92;&#x6A21;&#x5F0F; &amp; print() &#x7684;&#x5BF9;&#x8C61;&#x6253;&#x5370;</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;(%s, %s, %s, %s)&quot;</span> % (self.id, self.name, self.email, self.age)
+
+
+<span class="hljs-meta">@app.route(&apos;/&apos;)</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-string">&quot;&quot;&quot;
+    &#x67E5;&#x8BE2;&#x6240;&#x6709;&#x7528;&#x6237;&#x6570;&#x636E;
+
+
+    &#x67E5;&#x8BE2;&#x6709;&#x591A;&#x5C11;&#x4E2A;&#x7528;&#x6237;
+
+
+    &#x67E5;&#x8BE2;&#x7B2C;1&#x4E2A;&#x7528;&#x6237;
+
+
+    &#x67E5;&#x8BE2;id&#x4E3A;4&#x7684;&#x7528;&#x6237;[3&#x79CD;&#x65B9;&#x5F0F;]
+
+
+    &#x67E5;&#x8BE2;&#x540D;&#x5B57;&#x7ED3;&#x5C3E;&#x5B57;&#x7B26;&#x4E3A;g&#x7684;&#x6240;&#x6709;&#x7528;&#x6237;[&#x5F00;&#x59CB; / &#x5305;&#x542B;]
+
+
+    &#x67E5;&#x8BE2;&#x540D;&#x5B57;&#x548C;&#x90AE;&#x7BB1;&#x90FD;&#x4EE5;li&#x5F00;&#x5934;&#x7684;&#x6240;&#x6709;&#x7528;&#x6237;[2&#x79CD;&#x65B9;&#x5F0F;]
+
+
+    &#x67E5;&#x8BE2;age&#x662F;25 &#x6216;&#x8005; `email`&#x4EE5;`itheima.com`&#x7ED3;&#x5C3E;&#x7684;&#x6240;&#x6709;&#x7528;&#x6237;
+
+
+    &#x67E5;&#x8BE2;&#x540D;&#x5B57;&#x4E0D;&#x7B49;&#x4E8E;wang&#x7684;&#x6240;&#x6709;&#x7528;&#x6237;[2&#x79CD;&#x65B9;&#x5F0F;]
+
+
+    &#x67E5;&#x8BE2;id&#x4E3A;[1, 3, 5, 7, 9]&#x7684;&#x7528;&#x6237;
+
+
+    &#x6240;&#x6709;&#x7528;&#x6237;&#x5148;&#x6309;&#x5E74;&#x9F84;&#x4ECE;&#x5C0F;&#x5230;&#x5927;, &#x518D;&#x6309;id&#x4ECE;&#x5927;&#x5230;&#x5C0F;&#x6392;&#x5E8F;, &#x53D6;&#x524D;5&#x4E2A;
+
+
+    &#x67E5;&#x8BE2;&#x5E74;&#x9F84;&#x4ECE;&#x5C0F;&#x5230;&#x5927;&#x7B2C;2-5&#x4F4D;&#x7684;&#x6570;&#x636E;
+
+
+    &#x5206;&#x9875;&#x67E5;&#x8BE2;, &#x6BCF;&#x9875;3&#x4E2A;, &#x67E5;&#x8BE2;&#x7B2C;2&#x9875;&#x7684;&#x6570;&#x636E;
+
+
+    &#x67E5;&#x8BE2;&#x6BCF;&#x4E2A;&#x5E74;&#x9F84;&#x7684;&#x4EBA;&#x6570;    select age, count(name) from t_user group by age  &#x5206;&#x7EC4;&#x805A;&#x5408;
+
+
+    &#x53EA;&#x67E5;&#x8BE2;&#x6240;&#x6709;&#x4EBA;&#x7684;&#x59D3;&#x540D;&#x548C;&#x90AE;&#x7BB1;  &#x4F18;&#x5316;&#x67E5;&#x8BE2;   &#x9ED8;&#x8BA4;&#x4F7F;&#x7528;select *
+
+
+    &quot;&quot;&quot;</span>
+
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;index&apos;</span>
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&apos;__main__&apos;</span>:
+    <span class="hljs-comment"># &#x5220;&#x9664;&#x6240;&#x6709;&#x8868;</span>
+    db.drop_all()
+    <span class="hljs-comment"># &#x521B;&#x5EFA;&#x6240;&#x6709;&#x8868;</span>
+    db.create_all()
+    <span class="hljs-comment"># &#x6DFB;&#x52A0;&#x6D4B;&#x8BD5;&#x6570;&#x636E;</span>
+    user1 = User(name=<span class="hljs-string">&apos;wang&apos;</span>, email=<span class="hljs-string">&apos;wang@163.com&apos;</span>, age=<span class="hljs-number">20</span>)
+    user2 = User(name=<span class="hljs-string">&apos;zhang&apos;</span>, email=<span class="hljs-string">&apos;zhang@189.com&apos;</span>, age=<span class="hljs-number">33</span>)
+    user3 = User(name=<span class="hljs-string">&apos;chen&apos;</span>, email=<span class="hljs-string">&apos;chen@126.com&apos;</span>, age=<span class="hljs-number">23</span>)
+    user4 = User(name=<span class="hljs-string">&apos;zhou&apos;</span>, email=<span class="hljs-string">&apos;zhou@163.com&apos;</span>, age=<span class="hljs-number">29</span>)
+    user5 = User(name=<span class="hljs-string">&apos;tang&apos;</span>, email=<span class="hljs-string">&apos;tang@itheima.com&apos;</span>, age=<span class="hljs-number">25</span>)
+    user6 = User(name=<span class="hljs-string">&apos;wu&apos;</span>, email=<span class="hljs-string">&apos;wu@gmail.com&apos;</span>, age=<span class="hljs-number">25</span>)
+    user7 = User(name=<span class="hljs-string">&apos;qian&apos;</span>, email=<span class="hljs-string">&apos;qian@gmail.com&apos;</span>, age=<span class="hljs-number">23</span>)
+    user8 = User(name=<span class="hljs-string">&apos;liu&apos;</span>, email=<span class="hljs-string">&apos;liu@itheima.com&apos;</span>, age=<span class="hljs-number">30</span>)
+    user9 = User(name=<span class="hljs-string">&apos;li&apos;</span>, email=<span class="hljs-string">&apos;li@163.com&apos;</span>, age=<span class="hljs-number">28</span>)
+    user10 = User(name=<span class="hljs-string">&apos;sun&apos;</span>, email=<span class="hljs-string">&apos;sun@163.com&apos;</span>, age=<span class="hljs-number">26</span>)
+
+    <span class="hljs-comment"># &#x4E00;&#x6B21;&#x6DFB;&#x52A0;&#x591A;&#x6761;&#x6570;&#x636E;</span>
+    db.session.add_all([user1, user2, user3, user4, user5, user6, user7, user8, user9, user10])
+    db.session.commit()
+    app.run(debug=<span class="hljs-keyword">True</span>)
+</code></pre>
+<h4 id="&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#x6D4B;&#x8BD5;"><a name="&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#x6D4B;&#x8BD5;" class="anchor-navigation-ex-anchor" href="#&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#x6D4B;&#x8BD5;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#x6D4B;&#x8BD5;</h4>
+<pre><code class="lang-python">$ workon flask_env  <span class="hljs-comment"># &#x8FDB;&#x5165;&#x865A;&#x62DF;&#x73AF;&#x5883;</span>
+$ ipython  <span class="hljs-comment"># &#x8FDB;&#x5165;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;</span>
+
+In [<span class="hljs-number">1</span>]: <span class="hljs-keyword">from</span> hm_03_&#x6570;&#x636E;&#x67E5;&#x8BE2; <span class="hljs-keyword">import</span> *  <span class="hljs-comment"># &#x5BFC;&#x5165;&#x9879;&#x76EE;&#x73AF;&#x5883;</span>
+In [<span class="hljs-number">2</span>]: User.query.all()  <span class="hljs-comment"># &#x6D4B;&#x8BD5;&#x67E5;&#x8BE2;&#x8BED;&#x53E5;: &#x67E5;&#x8BE2;&#x6240;&#x6709;&#x7528;&#x6237;</span>
+Out[<span class="hljs-number">2</span>]: 
+[(<span class="hljs-number">1</span>, wang, wang@<span class="hljs-number">163.</span>com, <span class="hljs-number">20</span>),
+ (<span class="hljs-number">2</span>, zhang, zhang@<span class="hljs-number">189.</span>com, <span class="hljs-number">33</span>),
+ (<span class="hljs-number">3</span>, chen, chen@<span class="hljs-number">126.</span>com, <span class="hljs-number">23</span>),
+ (<span class="hljs-number">4</span>, zhou, zhou@<span class="hljs-number">163.</span>com, <span class="hljs-number">29</span>),
+ (<span class="hljs-number">5</span>, tang, tang@itheima.com, <span class="hljs-number">25</span>),
+ (<span class="hljs-number">6</span>, wu, wu@gmail.com, <span class="hljs-number">25</span>),
+ (<span class="hljs-number">7</span>, qian, qian@gmail.com, <span class="hljs-number">23</span>),
+ (<span class="hljs-number">8</span>, liu, liu@itheima.com, <span class="hljs-number">30</span>),
+ (<span class="hljs-number">9</span>, li, li@<span class="hljs-number">163.</span>com, <span class="hljs-number">28</span>),
+ (<span class="hljs-number">10</span>, sun, sun@<span class="hljs-number">163.</span>com, <span class="hljs-number">26</span>)]
+</code></pre>
+<h4 id="&#x67E5;&#x8BE2;&#x8BED;&#x6CD5;"><a name="&#x67E5;&#x8BE2;&#x8BED;&#x6CD5;" class="anchor-navigation-ex-anchor" href="#&#x67E5;&#x8BE2;&#x8BED;&#x6CD5;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x67E5;&#x8BE2;&#x8BED;&#x6CD5;</h4>
+<ul>
+<li>&#x6709;&#x4E24;&#x5957;&#x67E5;&#x8BE2;&#x8BED;&#x6CD5;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;:<ul>
+<li><code>flask-sqlalchemy</code>&#x6269;&#x5C55; &#x5C01;&#x88C5;&#x7684;&#x8BED;&#x6CD5;&#x4E3A; <code>&#x67E5;&#x8BE2;&#x7ED3;&#x679C; = &#x6A21;&#x578B;&#x7C7B;.query[.&#x67E5;&#x8BE2;&#x8FC7;&#x6EE4;&#x5668;].&#x67E5;&#x8BE2;&#x6267;&#x884C;&#x5668;</code>, &#x8FD4;&#x56DE;&#x7684;&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#x4E2D;&#x6570;&#x636E;&#x5355;&#x5143;&#x4E3A;&#x5BF9;&#x5E94;&#x7684; <strong>&#x6A21;&#x578B;&#x5BF9;&#x8C61;</strong></li>
+<li><code>sqlalchemy</code>&#x672C;&#x4F53; &#x63D0;&#x4F9B;&#x7684;&#x8BED;&#x6CD5;&#x4E3A; <code>&#x7EC4;&#x4EF6;&#x5BF9;&#x8C61;.session.query(&#x5B57;&#x6BB5;)[.&#x67E5;&#x8BE2;&#x8FC7;&#x6EE4;&#x5668;].&#x67E5;&#x8BE2;&#x6267;&#x884C;&#x5668;</code>, &#x8FD4;&#x56DE;&#x7684;&#x6570;&#x636E;&#x5355;&#x5143;&#x4E3A; <strong>&#x7C7B;&#x5143;&#x7EC4;&#x5BF9;&#x8C61;</strong>, &#x8BE5;&#x7C7B;&#x578B;&#x652F;&#x6301; <strong>&#x7D22;&#x5F15;&#x3001;&#x5C5E;&#x6027;&#x540D; &#x4EE5;&#x53CA; &#x522B;&#x540D; &#x4E09;&#x79CD;&#x53D6;&#x503C;&#x65B9;&#x5F0F;</strong></li>
+<li>&#x67E5;&#x8BE2;&#x8FC7;&#x6EE4;&#x5668;&#x975E;&#x5FC5;&#x987B;, &#x67E5;&#x8BE2;&#x6267;&#x884C;&#x5668;&#x5FC5;&#x987B;&#x8BBE;&#x7F6E;</li>
+<li>&#x9664;&#x4E86;&#x7279;&#x6B8A;&#x67E5;&#x8BE2;&#x8BED;&#x53E5;(&#x8054;&#x8868;/&#x805A;&#x5408;&#x7B49;)&#x9700;&#x8981;&#x4F7F;&#x7528; <code>sqlalchemy</code>&#x672C;&#x4F53;&#x7684;&#x8BED;&#x6CD5;, &#x4E00;&#x822C;&#x4F7F;&#x7528; <code>flask-sqlalchemy</code>&#x6269;&#x5C55; &#x5C01;&#x88C5;&#x7684;&#x8BED;&#x6CD5;&#x5373;&#x53EF;</li>
+</ul>
+</li>
+</ul>
+<h4 id="&#x5E38;&#x7528;&#x7684;sqlalchemy&#x67E5;&#x8BE2;&#x6267;&#x884C;&#x5668;"><a name="&#x5E38;&#x7528;&#x7684;sqlalchemy&#x67E5;&#x8BE2;&#x6267;&#x884C;&#x5668;" class="anchor-navigation-ex-anchor" href="#&#x5E38;&#x7528;&#x7684;sqlalchemy&#x67E5;&#x8BE2;&#x6267;&#x884C;&#x5668;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x5E38;&#x7528;&#x7684;SQLAlchemy&#x67E5;&#x8BE2;&#x6267;&#x884C;&#x5668;</h4>
+<ul>
+<li>&#x6267;&#x884C;&#x5668;&#x7684;&#x7279;&#x70B9;: <ul>
+<li>&#x5C06;&#x6574;&#x4E2A;&#x67E5;&#x8BE2;&#x8BED;&#x53E5;&#x8F6C;&#x6362;&#x4E3A;SQL&#x8BED;&#x53E5;&#x5E76; <strong>&#x6267;&#x884C;&#x67E5;&#x8BE2;</strong></li>
+<li>&#x5728;&#x67E5;&#x8BE2;&#x8BED;&#x53E5;&#x7684;&#x672B;&#x5C3E;&#x8BBE;&#x7F6E;, &#x6BCF;&#x6761;&#x67E5;&#x8BE2;&#x8BED;&#x53E5; <strong>&#x53EA;&#x80FD;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x6267;&#x884C;&#x5668;</strong></li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">&#x65B9;&#x6CD5;</th>
+<th style="text-align:left">&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">all()</td>
+<td style="text-align:left">&#x8FD4;&#x56DE;&#x5217;&#x8868;, &#x5143;&#x7D20;&#x4E3A;&#x6240;&#x6709;&#x7B26;&#x5408;&#x67E5;&#x8BE2;&#x7684;&#x6A21;&#x578B;&#x5BF9;&#x8C61;</td>
+</tr>
+<tr>
+<td style="text-align:left">count()</td>
+<td style="text-align:left">&#x8FD4;&#x56DE;&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#x7684;&#x6570;&#x91CF;</td>
+</tr>
+<tr>
+<td style="text-align:left">first()</td>
+<td style="text-align:left">&#x8FD4;&#x56DE;&#x7B26;&#x5408;&#x67E5;&#x8BE2;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x6A21;&#x578B;&#x5BF9;&#x8C61;&#xFF0C;&#x5982;&#x679C;&#x672A;&#x67E5;&#x5230;&#xFF0C;&#x8FD4;&#x56DE;None</td>
+</tr>
+<tr>
+<td style="text-align:left">first_or_404()</td>
+<td style="text-align:left">&#x8FD4;&#x56DE;&#x7B26;&#x5408;&#x67E5;&#x8BE2;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x6A21;&#x578B;&#x5BF9;&#x8C61;&#xFF0C;&#x5982;&#x679C;&#x672A;&#x67E5;&#x5230;&#xFF0C;&#x8FD4;&#x56DE;404</td>
+</tr>
+<tr>
+<td style="text-align:left">get(&#x4E3B;&#x952E;)</td>
+<td style="text-align:left">&#x8FD4;&#x56DE;&#x4E3B;&#x952E;&#x5BF9;&#x5E94;&#x7684;&#x6A21;&#x578B;&#x5BF9;&#x8C61;&#xFF0C;&#x5982;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x8FD4;&#x56DE;None</td>
+</tr>
+<tr>
+<td style="text-align:left">get_or_404(&#x4E3B;&#x952E;)</td>
+<td style="text-align:left">&#x8FD4;&#x56DE;&#x6307;&#x5B9A;&#x4E3B;&#x952E;&#x5BF9;&#x5E94;&#x7684;&#x6A21;&#x578B;&#x5BF9;&#x8C61;&#xFF0C;&#x5982;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x8FD4;&#x56DE;404</td>
+</tr>
+<tr>
+<td style="text-align:left">paginate(&#x9875;&#x7801;, &#x6BCF;&#x9875;&#x6761;&#x6570;)</td>
+<td style="text-align:left">&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;Paginate&#x5BF9;&#x8C61;&#xFF0C;&#x5B83;&#x5305;&#x542B;&#x5206;&#x9875;&#x67E5;&#x8BE2;&#x7684;&#x7ED3;&#x679C;</td>
+</tr>
+</tbody>
+</table>
+<h4 id="&#x5E38;&#x7528;&#x7684;sqlalchemy&#x67E5;&#x8BE2;&#x8FC7;&#x6EE4;&#x5668;"><a name="&#x5E38;&#x7528;&#x7684;sqlalchemy&#x67E5;&#x8BE2;&#x8FC7;&#x6EE4;&#x5668;" class="anchor-navigation-ex-anchor" href="#&#x5E38;&#x7528;&#x7684;sqlalchemy&#x67E5;&#x8BE2;&#x8FC7;&#x6EE4;&#x5668;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x5E38;&#x7528;&#x7684;SQLAlchemy&#x67E5;&#x8BE2;&#x8FC7;&#x6EE4;&#x5668;</h4>
+<ul>
+<li>&#x8FC7;&#x6EE4;&#x5668;&#x7684;&#x7279;&#x70B9;: <ul>
+<li><strong>&#x53EA;&#x8D1F;&#x8D23;&#x8BBE;&#x7F6E;&#x8FC7;&#x6EE4;&#x6761;&#x4EF6;</strong>, &#x4E0D;&#x4F1A;&#x6267;&#x884C;&#x67E5;&#x8BE2;(&#x67E5;&#x8BE2;&#x7531;&#x6267;&#x884C;&#x5668;&#x6765;&#x5B8C;&#x6210;)</li>
+<li><strong>&#x5141;&#x8BB8;&#x7EED;&#x63A5;&#x5176;&#x4ED6;&#x8FC7;&#x6EE4;&#x5668; &#x6216; &#x6267;&#x884C;&#x5668;</strong></li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">&#x8FC7;&#x6EE4;&#x5668;</th>
+<th style="text-align:left">&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">filter_by(&#x5B57;&#x6BB5;&#x540D;=&#x503C;)</td>
+<td style="text-align:left">&#x628A;&#x7B49;&#x503C;&#x8FC7;&#x6EE4;&#x5668;&#x6DFB;&#x52A0;&#x5230;&#x539F;&#x67E5;&#x8BE2;&#x4E0A;&#xFF0C;&#x8FD4;&#x56DE;BaseQuery&#x5BF9;&#x8C61;</td>
+</tr>
+<tr>
+<td style="text-align:left">filter(&#x51FD;&#x6570;&#x5F15;&#x7528;/&#x6BD4;&#x8F83;&#x8FD0;&#x7B97;)</td>
+<td style="text-align:left">&#x628A;&#x8FC7;&#x6EE4;&#x5668;&#x6DFB;&#x52A0;&#x5230;&#x539F;&#x67E5;&#x8BE2;&#x4E0A;&#xFF0C;&#x8FD4;&#x56DE;BaseQuery&#x5BF9;&#x8C61;</td>
+</tr>
+<tr>
+<td style="text-align:left">limit(&#x9650;&#x5B9A;&#x6761;&#x6570;)</td>
+<td style="text-align:left">&#x4F7F;&#x7528;&#x6307;&#x5B9A;&#x7684;&#x503C;&#x9650;&#x5B9A;&#x539F;&#x67E5;&#x8BE2;&#x8FD4;&#x56DE;&#x7684;&#x7ED3;&#x679C;&#xFF0C;&#x8FD4;&#x56DE;BaseQuery&#x5BF9;&#x8C61;</td>
+</tr>
+<tr>
+<td style="text-align:left">offset(&#x504F;&#x79FB;&#x6761;&#x6570;)</td>
+<td style="text-align:left">&#x6839;&#x636E;&#x6307;&#x5B9A;&#x7684;&#x503C;&#x6309;&#x7167;&#x539F;&#x67E5;&#x8BE2;&#x8FDB;&#x884C;&#x504F;&#x79FB;&#x67E5;&#x8BE2;&#xFF0C;&#x8FD4;&#x56DE;BaseQuery&#x5BF9;&#x8C61;</td>
+</tr>
+<tr>
+<td style="text-align:left">order_by(&#x6392;&#x5E8F;&#x5B57;&#x6BB5;)</td>
+<td style="text-align:left">&#x6839;&#x636E;&#x6307;&#x5B9A;&#x6761;&#x4EF6;&#x5BF9;&#x539F;&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#x8FDB;&#x884C;&#x6392;&#x5E8F;&#xFF0C;&#x8FD4;&#x56DE;BaseQuery&#x5BF9;&#x8C61;</td>
+</tr>
+<tr>
+<td style="text-align:left">group_by(&#x5206;&#x7EC4;&#x5B57;&#x6BB5;)</td>
+<td style="text-align:left">&#x6839;&#x636E;&#x6307;&#x5B9A;&#x6761;&#x4EF6;&#x5BF9;&#x539F;&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#x8FDB;&#x884C;&#x5206;&#x7EC4;&#xFF0C;&#x8FD4;&#x56DE;BaseQuery&#x5BF9;&#x8C61;</td>
+</tr>
+<tr>
+<td style="text-align:left">options()</td>
+<td style="text-align:left">&#x9488;&#x5BF9;&#x539F;&#x67E5;&#x8BE2;&#x9650;&#x5B9A;&#x67E5;&#x8BE2;&#x7684;&#x5B57;&#x6BB5;&#xFF0C;&#x8FD4;&#x56DE;BaseQuery&#x5BF9;&#x8C61;</td>
+</tr>
+</tbody>
+</table>
+<h4 id="&#x6848;&#x4F8B;&#x67E5;&#x8BE2;&#x7B54;&#x6848;"><a name="&#x6848;&#x4F8B;&#x67E5;&#x8BE2;&#x7B54;&#x6848;" class="anchor-navigation-ex-anchor" href="#&#x6848;&#x4F8B;&#x67E5;&#x8BE2;&#x7B54;&#x6848;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x6848;&#x4F8B;&#x67E5;&#x8BE2;&#x7B54;&#x6848;</h4>
+<pre><code class="lang-python"><span class="hljs-comment"># &#x67E5;&#x8BE2;&#x6240;&#x6709;&#x7528;&#x6237;&#x6570;&#x636E;</span>
+User.query.all() &#x8FD4;&#x56DE;&#x5217;&#x8868;, &#x5143;&#x7D20;&#x4E3A;&#x6A21;&#x578B;&#x5BF9;&#x8C61;
+
+<span class="hljs-comment"># &#x67E5;&#x8BE2;&#x6709;&#x591A;&#x5C11;&#x4E2A;&#x7528;&#x6237;</span>
+User.query.count()
+
+<span class="hljs-comment"># &#x67E5;&#x8BE2;&#x7B2C;1&#x4E2A;&#x7528;&#x6237;</span>
+User.query.first()  &#x8FD4;&#x56DE;&#x6A21;&#x578B;&#x5BF9;&#x8C61;/<span class="hljs-keyword">None</span>
+
+<span class="hljs-comment"># &#x67E5;&#x8BE2;id&#x4E3A;4&#x7684;&#x7528;&#x6237;[3&#x79CD;&#x65B9;&#x5F0F;]</span>
+<span class="hljs-comment"># &#x65B9;&#x5F0F;1: &#x6839;&#x636E;id&#x67E5;&#x8BE2;  &#x8FD4;&#x56DE;&#x6A21;&#x578B;&#x5BF9;&#x8C61;/None</span>
+User.query.get(<span class="hljs-number">4</span>)  
+
+<span class="hljs-comment"># &#x65B9;&#x5F0F;2: &#x7B49;&#x503C;&#x8FC7;&#x6EE4;&#x5668; &#x5173;&#x952E;&#x5B57;&#x5B9E;&#x53C2;&#x8BBE;&#x7F6E;&#x5B57;&#x6BB5;&#x503C;  &#x8FD4;&#x56DE;BaseQuery&#x5BF9;&#x8C61;</span>
+<span class="hljs-comment"># BaseQuery&#x5BF9;&#x8C61;&#x53EF;&#x4EE5;&#x7EED;&#x63A5;&#x5176;&#x4ED6;&#x8FC7;&#x6EE4;&#x5668;/&#x6267;&#x884C;&#x5668;  &#x5982; all/count/first&#x7B49;</span>
+User.query.filter_by(id=<span class="hljs-number">4</span>).all()  
+
+<span class="hljs-comment"># &#x65B9;&#x5F0F;3: &#x590D;&#x6742;&#x8FC7;&#x6EE4;&#x5668;  &#x53C2;&#x6570;&#x4E3A;&#x6BD4;&#x8F83;&#x8FD0;&#x7B97;/&#x51FD;&#x6570;&#x5F15;&#x7528;&#x7B49;  &#x8FD4;&#x56DE;BaseQuery&#x5BF9;&#x8C61;</span>
+User.query.filter(User.id == <span class="hljs-number">4</span>).first()  
+
+<span class="hljs-comment"># &#x67E5;&#x8BE2;&#x540D;&#x5B57;&#x7ED3;&#x5C3E;&#x5B57;&#x7B26;&#x4E3A;g&#x7684;&#x6240;&#x6709;&#x7528;&#x6237;[&#x5F00;&#x59CB; / &#x5305;&#x542B;]</span>
+User.query.filter(User.name.endswith(<span class="hljs-string">&quot;g&quot;</span>)).all()
+User.query.filter(User.name.startswith(<span class="hljs-string">&quot;w&quot;</span>)).all()
+User.query.filter(User.name.contains(<span class="hljs-string">&quot;n&quot;</span>)).all()
+User.query.filter(User.name.like(<span class="hljs-string">&quot;w%n%g&quot;</span>)).all()  <span class="hljs-comment"># &#x6A21;&#x7CCA;&#x67E5;&#x8BE2;</span>
+
+<span class="hljs-comment"># &#x67E5;&#x8BE2;&#x540D;&#x5B57;&#x548C;&#x90AE;&#x7BB1;&#x90FD;&#x4EE5;li&#x5F00;&#x5934;&#x7684;&#x6240;&#x6709;&#x7528;&#x6237;[2&#x79CD;&#x65B9;&#x5F0F;]</span>
+User.query.filter(User.name.startswith(<span class="hljs-string">&apos;li&apos;</span>), User.email.startswith(<span class="hljs-string">&apos;li&apos;</span>)).all()
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> and_
+User.query.filter(and_(User.name.startswith(<span class="hljs-string">&apos;li&apos;</span>), User.email.startswith(<span class="hljs-string">&apos;li&apos;</span>))).all()
+
+<span class="hljs-comment"># &#x67E5;&#x8BE2;age&#x662F;25 &#x6216;&#x8005; `email`&#x4EE5;`itheima.com`&#x7ED3;&#x5C3E;&#x7684;&#x6240;&#x6709;&#x7528;&#x6237;</span>
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> or_
+User.query.filter(or_(User.age==<span class="hljs-number">25</span>, User.email.endswith(<span class="hljs-string">&quot;itheima.com&quot;</span>))).all()
+
+<span class="hljs-comment"># &#x67E5;&#x8BE2;&#x540D;&#x5B57;&#x4E0D;&#x7B49;&#x4E8E;wang&#x7684;&#x6240;&#x6709;&#x7528;&#x6237;[2&#x79CD;&#x65B9;&#x5F0F;]</span>
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> not_
+User.query.filter(not_(User.name == <span class="hljs-string">&apos;wang&apos;</span>)).all()
+User.query.filter(User.name != <span class="hljs-string">&apos;wang&apos;</span>).all()
+
+<span class="hljs-comment"># &#x67E5;&#x8BE2;id&#x4E3A;[1, 3, 5, 7, 9]&#x7684;&#x7528;&#x6237;</span>
+User.query.filter(User.id.in_([<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span>, <span class="hljs-number">9</span>])).all()
+
+<span class="hljs-comment"># &#x6240;&#x6709;&#x7528;&#x6237;&#x5148;&#x6309;&#x5E74;&#x9F84;&#x4ECE;&#x5C0F;&#x5230;&#x5927;, &#x518D;&#x6309;id&#x4ECE;&#x5927;&#x5230;&#x5C0F;&#x6392;&#x5E8F;, &#x53D6;&#x524D;5&#x4E2A;</span>
+User.query.order_by(User.age, User.id.desc()).limit(<span class="hljs-number">5</span>).all()
+
+<span class="hljs-comment"># &#x67E5;&#x8BE2;&#x5E74;&#x9F84;&#x4ECE;&#x5C0F;&#x5230;&#x5927;&#x7B2C;2-5&#x4F4D;&#x7684;&#x6570;&#x636E;   2 3 4 5</span>
+User.query.order_by(User.age).offset(<span class="hljs-number">1</span>).limit(<span class="hljs-number">4</span>).all()
+
+<span class="hljs-comment"># &#x5206;&#x9875;&#x67E5;&#x8BE2;, &#x6BCF;&#x9875;3&#x4E2A;, &#x67E5;&#x8BE2;&#x7B2C;2&#x9875;&#x7684;&#x6570;&#x636E;  paginate(&#x9875;&#x7801;, &#x6BCF;&#x9875;&#x6761;&#x6570;)</span>
+pn = User.query.paginate(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>)
+pn.pages &#x603B;&#x9875;&#x6570;  pn.page &#x5F53;&#x524D;&#x9875;&#x7801; pn.items &#x5F53;&#x524D;&#x9875;&#x7684;&#x6570;&#x636E;  pn.total &#x603B;&#x6761;&#x6570;
+
+<span class="hljs-comment"># &#x67E5;&#x8BE2;&#x6BCF;&#x4E2A;&#x5E74;&#x9F84;&#x7684;&#x4EBA;&#x6570;    select age, count(name) from t_user group by age  &#x5206;&#x7EC4;&#x805A;&#x5408;</span>
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> func
+data = db.session.query(User.age, func.count(User.id).label(<span class="hljs-string">&quot;count&quot;</span>)).group_by(User.age).all()
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> data:
+    <span class="hljs-comment"># print(item[0], item[1])</span>
+    print(item.age, item.count)  <span class="hljs-comment"># &#x5EFA;&#x8BAE;&#x901A;&#x8FC7;label()&#x65B9;&#x6CD5;&#x7ED9;&#x5B57;&#x6BB5;&#x8D77;&#x522B;&#x540D;, &#x4EE5;&#x5C5E;&#x6027;&#x65B9;&#x5F0F;&#x83B7;&#x53D6;&#x6570;&#x636E;</span>
+
+
+<span class="hljs-comment"># &#x53EA;&#x67E5;&#x8BE2;&#x6240;&#x6709;&#x4EBA;&#x7684;&#x59D3;&#x540D;&#x548C;&#x90AE;&#x7BB1;  &#x4F18;&#x5316;&#x67E5;&#x8BE2;   User.query.all()  # &#x76F8;&#x5F53;&#x4E8E;select *</span>
+<span class="hljs-keyword">from</span> sqlalchemy.orm <span class="hljs-keyword">import</span> load_only
+data = User.query.options(load_only(User.name, User.email)).all()  <span class="hljs-comment"># flask-sqlalchem&#x7684;&#x8BED;&#x6CD5;</span>
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> data:
+    print(item.name, item.email)
+
+data = db.session.query(User.name, User.email).all()  <span class="hljs-comment"># sqlalchemy&#x672C;&#x4F53;&#x7684;&#x8BED;&#x6CD5;</span>
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> data:
+    print(item.name, item.email)
+</code></pre>
+<ul>
+<li>&#x6CE8;&#x610F;&#x70B9;:<ul>
+<li>&#x67E5;&#x8BE2;&#x8FC7;&#x6EE4;&#x5668;&#x8FD4;&#x56DE;&#x7684;&#x90FD;&#x662F; <code>BaseQuery</code>&#x7C7B;&#x578B;&#x5BF9;&#x8C61;, &#x8BE5;&#x5BF9;&#x8C61;&#x652F;&#x6301;&#x94FE;&#x5F0F;&#x8C03;&#x7528;, &#x5373;&#x53EF;&#x4EE5;&#x7EED;&#x63A5;&#x5176;&#x4ED6;&#x8FC7;&#x6EE4;&#x5668; &#x6216; &#x6267;&#x884C;&#x5668;</li>
+<li>&#x5982;&#x679C;&#x8003;&#x8651;&#x5230;&#x6027;&#x80FD;&#x4F18;&#x5316;, &#x5E94;&#x8BE5;&#x907F;&#x514D; <code>select *</code>, &#x53EA;&#x67E5;&#x8BE2;&#x9700;&#x6C42;&#x5B57;&#x6BB5; (select * &#x4F1A;&#x5BFC;&#x81F4;&#x6570;&#x636E;&#x5E93;&#x670D;&#x52A1;&#x5668;&#x53BB;&#x83B7;&#x53D6;&amp;&#x89E3;&#x6790;&amp;&#x5904;&#x7406;&#x76EE;&#x6807;&#x6570;&#x636E;&#x7684;&#x6BCF;&#x4E2A;&#x5B57;&#x6BB5;, &#x5BF9;&#x670D;&#x52A1;&#x5668;&#x8D44;&#x6E90;&#x9020;&#x6210;&#x6D6A;&#x8D39;, &#x5E76;&#x4E14;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x6570;&#x636E;&#x4E5F;&#x4F1A;&#x5360;&#x7528;&#x66F4;&#x591A;&#x7684; &#x7F51;&#x7EDC;IO &#x548C; &#x6570;&#x636E;&#x5E93;&#x67E5;&#x8BE2;&#x7F13;&#x5B58;)</li>
+</ul>
+</li>
+</ul>
+
+<script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="insert.html" class="navigation navigation-prev " aria-label="Previous page: 2.1.增加数据">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="update.html" class="navigation navigation-next " aria-label="Next page: 2.3.修改数据">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"2.2.查询数据","level":"1.4.2.2","depth":3,"next":{"title":"2.3.修改数据","level":"1.4.2.3","depth":3,"path":"flask-sqlalchemy/update.md","ref":"flask-sqlalchemy/update.md","articles":[]},"previous":{"title":"2.1.增加数据","level":"1.4.2.1","depth":3,"path":"flask-sqlalchemy/insert.md","ref":"flask-sqlalchemy/insert.md","articles":[]},"dir":"ltr"},"config":{"plugins":["expandable-chapters-small","-sharing","splitter","hide-element","code","popup","emphasize","auto-scroll-table","highlight","fontsettings","anchor-navigation-ex","sectionx"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"emphasize":{},"splitter":{},"search":{},"auto-scroll-table":{},"popup":{},"lunr":{"maxIndexSize":1000000},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link","#book-search-input"]},"fontsettings":{"family":"sans","size":2,"theme":"white"},"sectionx":{"tag":"b"},"highlight":{},"anchor-navigation-ex":{"showLevel":false,"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":true},"expandable-chapters-small":{},"theme-default":{"showLevel":false,"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}}},"github":"","theme":"default","githubHost":"","author":"zhangzz","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"flask基础","language":"zh-hans","links":{"sidebar":{"传智播客":"http://www.itcast.cn/"}},"gitbook":"*","description":"传智播客-python学科-flask基础"},"file":{"path":"flask-sqlalchemy/select.md","mtime":"2020-03-25T11:33:44.860Z","type":"markdown"},"gitbook":{"version":"3.0.0","time":"2020-05-26T01:55:18.806Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-auto-scroll-table/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sectionx/sectionx.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+
+    </body>
+</html>
+

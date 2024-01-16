@@ -1,0 +1,60 @@
+.book.color-theme-2 .panel {
+	background: #1A1A1A;
+	border-style: solid;
+	border-color: rgba(0,0,0,0.1);
+	border-width: 1px;
+}
+
+.book.color-theme-2  .panel-heading {
+	background-color: #2D3143;
+	border-width: 0px;
+}
+
+.book.color-theme-2  .panel-body {
+	background: #1A1A1A;
+}
+
+.book.color-theme-2 a.section {
+	border-color: #373b4e !important;
+}
+
+.atTitle {
+	display: flex;
+}
+
+.btn-info {
+    color: #444;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+
+.btn-success {
+    color: #666;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+
+.btn {
+    display: inline-block;
+    padding: 2px 2px;
+    width: 20px;
+    height: 23px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    border-color: #ddd;
+}

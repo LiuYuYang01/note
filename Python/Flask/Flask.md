@@ -4,6 +4,56 @@
 
 ### 虚拟环境
 
+#### 安装
+
+```
+pip3 install virtualenv
+```
+
+
+
+#### 创建
+
+在当前目录创建虚拟环境 `venv` 为目录名，可以自定义
+
+```
+virtualenv venv
+```
+
+
+
+#### 激活
+
+**Window**
+
+激活虚拟环境
+
+```
+venv/Scripts/activate
+```
+
+**Linux**
+
+激活虚拟环境
+
+```
+source venv/bin/activate
+```
+
+
+
+#### 启动
+
+```
+python3 /root/www/thrive/demo.py
+```
+
+**示例**
+
+```
+(venv) root@iZuf6dns8s5rhksle4gdq1Z:~/www/thrive/venv/bin# python3 /root/www/thrive/demo.py
+```
+
 
 
 ### 最小应用
@@ -165,14 +215,13 @@ flask的请求数据通过 `request` 对象来获取，下面是他的一些常�
 
 @app.route("/")
 def index():
-    print(request.args)
+    data = request.args
     # ImmutableMultiDict([('name', 'zs'), ('age', '20')])
     
-    print(request.args.get("name")) # zs
-    print(request.args.get("age")) # 20
+    print(data.get("name")) # zs
+    print(data.get("age")) # 20
     
-    return f"<h1>Hello World!</h1>"
-
+    return data
 ```
 
 
@@ -184,13 +233,10 @@ def index():
 ```python
 @app.route("/", methods=["POST"])
 def index():
-    print(request.form)
+    data = request.form
     # ImmutableMultiDict([('name', 'zs'), ('age', '20')])
-    
-    print(request.form.get("name"))  # zs
-    print(request.form.get("age"))  # 20
-    
-    return f"<h1>Hello World!</h1>"
+
+    return data
 ```
 
 
@@ -202,13 +248,9 @@ def index():
 ```python
 @app.route("/", methods=["POST"])
 def index():
-    print(request.json)
-    # {'name': 'zs', 'age': 20}
-    
-    print(request.json.get("name"))  # zs
-    print(request.json.get("age"))  # 20
-    
-    return f"<h1>Hello World!</h1>"
+    data = request.json
+
+    return data
 ```
 
 
@@ -220,16 +262,44 @@ def index():
 ```python
 @app.route("/", methods=["POST"])
 def index():
-    print(request.files)
+    data = request.files
     # ImmutableMultiDict([('file', <FileStorage: 'b553f564f81a80dc338695acb1b475d2.jpg' ('image/jpeg')>)])
 
-    print(request.files.get("file"))  # zs
-    # < FileStorage: 'b553f564f81a80dc338695acb1b475d2.jpg'('image/jpeg') >
-    
-    return f"<h1>Hello World!</h1>"
+    file = data.get("file")
+    # < FileStorage: 'avatar.jpg'('image/jpeg') >
+
+    print(file.filename) # 完整文件名：avatar.jpg
+    print(file.name) # 文件名：avatar
+
+    return "获取文件成功"
 ```
 
 **注意：** 上传文件使用 `form-data` 方式才能被接收到
+
+
+
+**文件上传**
+
+```python
+@app.route("/", methods=["POST"])
+def index():
+    data = request.files
+
+    file = data.get("file")
+
+    path = app.root_path
+    print(path)  # 项目的路径：C:\Users\33111\Desktop\flask
+    print(file.filename)  # 文件名称：avatar.jpg
+
+    # 上传到根目录
+    file.save(os.path.join(path, file.filename))
+
+    # 上传到upload目录
+    os.makedirs(path + "\\upload", exist_ok=True)  # 如果目录不存在就创建一个upload
+    file.save(os.path.join(path + "\\upload", file.filename))
+
+    return "上传文件成功"
+```
 
 
 
@@ -248,10 +318,6 @@ def index():
     return f"<h1>Hello World!</h1>"
 
 ```
-
-
-
-### path
 
 
 
@@ -290,7 +356,7 @@ app = Flask(__name__, static_folder="image", static_url_path="/")
 ```python
 @app.route("/")
 def index():
-    #          返回数据     状态码    请求头
+    #      返回数据        状态码    请求头
     return "Hello World!", 200, {'A': 1024}
 
 ```
@@ -385,6 +451,77 @@ def process(response: Response):
 
     return response
 
+```
+
+
+
+## 配置
+
+将类作为配置加载到 `app`
+
+```python
+from flask import Flask
+
+class BaseConfig(object):
+    # 请求路径前缀
+    URLPREFIX = "/api"
+
+
+app = Flask(__name__)
+
+app.config.from_object(BaseConfig)
+print(app.config.get("URLPREFIX")) # /api
+
+
+@app.route('/')
+def Home():
+    return "Hello World!"
+
+
+if (__name__ == "__main__"):
+    app.run(debug=True, port=7777)
+```
+
+
+
+应用场景
+
+```python
+# 配置基类
+class BaseConfig(object):
+    # 请求路径前缀
+    URLPREFIX = "/api"
+
+
+# 开发环境
+class DevelopConfig(BaseConfig):
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:123123@127.0.0.1:3306/student_py'
+
+
+# 生产环境
+class ProduceConfig(BaseConfig):
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:123123@127.0.0.1:3306/student_py'
+
+
+# 选择环境
+switch = {
+    "dev": DevelopConfig,
+    "pro": ProduceConfig
+}
+```
+
+
+
+**注意：** 只有大写的属性才会被加载到 `app.config` 中
+
+```python
+class BaseConfig(object):
+    aaa = 100
+    BBB = 200
+
+app.config.from_object(BaseConfig)
+print(app.config.get("aaa")) # None
+print(app.config.get("BBB")) # 200
 ```
 
 
@@ -495,7 +632,7 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
-**注意：** 第一个字段表示设置字段名，如上所述我们将该字段定义为 `username` 那么数据库中的字段名就是 `username` ，如果第一个字段不填那么字段名就是变量名 `name` 
+**注意：** 如上所述我们将第一个字段定义为 `username` 那么数据库中的字段名就是 `username` ，如果第一个字段不填那么字段名就是变量名 `name` 
 
 
 
@@ -526,13 +663,13 @@ if __name__ == '__main__':
 
 ### 字段选项
 
-| 选项名      | 说明                                            |
-| :---------- | :---------------------------------------------- |
-| primary_key | 如果为 True，表示该字段为表的主键，默认自增     |
-| unique      | 如果为 True，代表这列设置唯一约束，数据不能重复 |
-| nullable    | 如果为 True，代表这列字段可以为空               |
-| default     | 为这列设置默认值，优先级大于 nullable           |
-| index       | 如果为 True，为这列创建索引，提高查询效率       |
+| 选项名      | 说明                                                   |
+| :---------- | :----------------------------------------------------- |
+| primary_key | 如果为 True，表示该字段为表的主键，默认自增            |
+| unique      | 如果为 True，代表这列设置唯一约束，数据不能重复        |
+| nullable    | 如果为 True，代表这列字段可以为空（默认False不能为空） |
+| default     | 为这列设置默认值，优先级大于 nullable                  |
+| index       | 如果为 True，为这列创建索引，提高查询效率              |
 
 **注意：** 如果没有给对应字段的类属性设置 `default` 参数, 且添加数据时也没有给该字段赋值，则 `sqlalchemy` 会给该字段设置默认值 `None`
 
@@ -1176,5 +1313,31 @@ if __name__ == '__main__':
     # 通过：allow_unsafe_werkzeug = True 来禁用werkzeug服务器的安全机制，否则会报错
     socketio.run(app, allow_unsafe_werkzeug=True, port=5000, debug=True)
 
+```
+
+
+
+## requirements
+
+**创建依赖**
+
+```
+pip3 freeze > requirements.txt
+```
+
+
+
+**安装依赖**
+
+```
+pip3 install -r requirements.txt
+```
+
+
+
+**卸载依赖**
+
+```
+pip3 uninstall -y -r requirements.txt
 ```
 
