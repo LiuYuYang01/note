@@ -292,7 +292,7 @@ def index():
     print(file.filename)  # 文件名称：avatar.jpg
 
     # 上传到根目录
-    file.save(os.path.join(path, file.filename))
+    # file.save(os.path.join(path, file.filename))
 
     # 上传到upload目录
     os.makedirs(path + "\\upload", exist_ok=True)  # 如果目录不存在就创建一个upload
@@ -663,15 +663,32 @@ if __name__ == '__main__':
 
 ### 字段选项
 
-| 选项名      | 说明                                                   |
-| :---------- | :----------------------------------------------------- |
-| primary_key | 如果为 True，表示该字段为表的主键，默认自增            |
-| unique      | 如果为 True，代表这列设置唯一约束，数据不能重复        |
-| nullable    | 如果为 True，代表这列字段可以为空（默认False不能为空） |
-| default     | 为这列设置默认值，优先级大于 nullable                  |
-| index       | 如果为 True，为这列创建索引，提高查询效率              |
+| 选项名        | 说明                                                   |
+| :------------ | :----------------------------------------------------- |
+| autoincrement | 默认为True，表示该字段自增，如果为False表示不自增      |
+| primary_key   | 如果为 True，表示该字段为表的主键，默认自增            |
+| unique        | 如果为 True，代表这列设置唯一约束，数据不能重复        |
+| nullable      | 如果为 False，代表这列字段可以为空（默认True不能为空） |
+| default       | 为这列设置默认值，优先级大于 nullable                  |
+| index         | 如果为 True，为这列创建索引，提高查询效率              |
 
 **注意：** 如果没有给对应字段的类属性设置 `default` 参数, 且添加数据时也没有给该字段赋值，则 `sqlalchemy` 会给该字段设置默认值 `None`
+
+
+
+### 不记录到数据库
+
+如果有些属性我们不想让他记录到数据库中，仅仅为了给接口使用，那么就不需要给他定义 `db.Column()`
+
+类似于 `Spring Boot` 框架中的 `Mybatis-plus` 的 `@TableField` 功能
+
+```python
+class User(db.Model):  
+    id = db.Column(db.Integer, primary_key=True)  
+    username = db.Column(db.String(80), unique=True, nullable=False)  
+    email = db.Column(db.String(120), unique=True, nullable=False)  
+    info = 1  # 注意这里只是定义了属性，并没有将其作为数据库列
+```
 
 
 
@@ -740,6 +757,7 @@ if __name__ == '__main__':
 
 | 方法                     | 说明                                               |
 | :----------------------- | :------------------------------------------------- |
+| one()                    | 返回符合查询的单个模型对象，如果没有或多个都会报错 |
 | all()                    | 返回列表, 元素为所有符合查询的模型对象             |
 | count()                  | 返回查询结果的数量                                 |
 | first()                  | 返回符合查询的第一个模型对象，如果未查到，返回None |
@@ -898,11 +916,29 @@ if __name__ == '__main__':
 ##### 分页查询
 
 ```python
-	# 每页3个数据，查询第二页的数据  paginate(页数,每页数据量)
-    data = User.query.paginate(page=2, per_page=3)
-    for item in data:
-        print(item)
+# 默认不传page或size, 则从第一页开始显示5条
+page = request.args.get("page", 1, type=int)
+size = request.args.get("size", 5, type=int)
+
+data = UserModel.query.paginate(page=page, per_page=size, error_out=False)
 ```
+
+`error_out` 默认值为 `True`，表示当前请求的页数超过了可用的页数时抛出一个错误，而设置为 `False` 表示超过了可用的页数时返回一个空数组，而不是抛出报错。
+
+
+
+**分页中常用的属性**
+
+| 属性名   | 描述               |
+| -------- | ------------------ |
+| page     | 当前页码           |
+| pages    | 总页数             |
+| total    | 数据总数           |
+| has_prev | 是否有上一页       |
+| has_next | 是否有下一页       |
+| prev_num | 上一页的页码       |
+| next_num | 下一页的页码       |
+| per_page | 每页显示的数据条数 |
 
 
 
@@ -918,7 +954,7 @@ if __name__ == '__main__':
 @app.route('/')
 def index():
     # 查询数据
-    data = User.query.filter(User.name == 'wang1').first()
+    data = User.query.filter(id = 2).first()
 
     if not data:
         return "修改失败：数据不存在"
@@ -933,14 +969,15 @@ def index():
 
 
 
-**方法二：** 推荐写法
+**方法二：** 效率更高、批量更新、单条SQL具有原子性, 不会出现更新丢失的问题 **【推荐写法】**
 
 ```python
 @app.route('/')
 def index():
     # 查询数据
-    data = User.query.filter(User.name == 'wang').update({'age': User.age + 10})
-
+    # update user set age = age + 10 where id = 2; 效率高
+    data = User.query.filter(User.id == 2).update({'age': User.age + 10})
+    
     if not data:
         return "修改失败：数据不存在"
 
@@ -960,7 +997,7 @@ def index():
 @app.route('/')
 def index():
     # 查询数据
-    data = User.query.filter(User.name == 'wang').first()
+    data = User.query.filter(User.id == 2).first()
 
     if not data:
         return "删除失败：数据不存在"
@@ -981,7 +1018,7 @@ def index():
 @app.route('/')
 def index():
     # 查询数据
-    data = User.query.filter(User.name == 'wang').delete()
+    data = User.query.filter_by(id = 2).delete()
 
     if not data:
         return "删除失败：数据不存在"
@@ -1008,16 +1045,16 @@ def update():
         return response(400, "请先上传文件")
         
     # 先判断该目录是否存在
-    isDir = os.path.exists(app.config['UPLOAD_FOLDER'])
+    isDir = os.path.exists("upload")
 
     # 如果不存在就创建一个
-    if not isDir: os.mkdir(app.config['UPLOAD_FOLDER'])
+    if not isDir: os.mkdir("upload")
 
     # 获取上传的文件名
     FileName = secure_filename(file.filename)
 
     # 将文件上传到指定的目录
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'], FileName))
+    file.save(os.path.join("upload", FileName))
 
     return response(200, "上传文件成功", {"url": request.host_url + '123.jpg'})
 ```

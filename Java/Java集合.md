@@ -229,6 +229,30 @@ public class Main {
 
 
 
+**扩展：** 批量给集合添加初始数据
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // 方法一
+        List<Integer> l1 = new ArrayList<>();
+        l1.addAll(Arrays.asList(1, 2, 3));
+        System.out.println(l1);
+
+        // 方法二
+        List<Integer> l2 = new ArrayList<>(Arrays.asList(1, 2, 3));
+        System.out.println(l2);
+
+        // 方法三
+        List<Integer> l3 = new ArrayList<>();
+        Collections.addAll(l3, 1, 2, 3);
+        System.out.println(l3);
+    }
+}
+```
+
+
+
 ### LinkedList
 
 `LinkedList` 和 `ArrayList` 是 `Java` 集合框架中的两种不同的列表实现方式。它们在以下几个方面有所不同：
@@ -686,269 +710,4 @@ public class Main {
 }
 ```
 
-
-
-## 电影管理系统
-
-实现电影增删改查功能
-
-```java
-// Main.java
-import java.util.ArrayList;
-import java.util.Scanner;
-
-public class Main {
-    static ArrayList<Film> list = new ArrayList<Film>();
-
-    public static void main(String[] args) {
-        init();
-
-        while (true) {
-            System.out.println("============== 电影管理系统 ===============");
-            System.out.println("1 新增电影信息");
-            System.out.println("2 删除电影信息");
-            System.out.println("3 修改电影信息");
-            System.out.println("4 查询指定电影信息");
-            System.out.println("5 查询所有电影信息");
-            System.out.println("6 退出系统");
-
-            Scanner sc = new Scanner(System.in);
-            System.out.print("请输入您的选择：");
-            int n = sc.nextInt();
-
-            switch (n) {
-                // 添加电影信息
-                case 1 -> addFilm();
-                // 删除电影信息
-                case 2 -> delFilm();
-                // 修改电影信息
-                case 3 -> editFilm();
-                // 查询指定电影信息
-                case 4 -> {
-                    System.out.print("请输入电影名称：");
-                    String name = sc.next();
-
-                    // 传值就是查询指定电影信息
-                    QueryFilm(name);
-                }
-                // 查询所有电影信息
-                case 5 -> {
-                    // 不传值就是查询所有电影信息
-                    queryFilm("");
-                }
-                // 退出程序
-                case 6 -> {
-                    System.exit(0);
-                }
-            }
-        }
-    }
-
-    // 初始化数据
-    vstatic void init() {
-        Film f1 = new Film();
-        f1.setName("肖申克的救赎");
-        f1.setType("剧情");
-        f1.setDescribe("两个被囚禁的男人多年来建立了深厚的友谊，通过共同的善行找到了慰藉和最终的救赎。");
-        f1.setPerformer("蒂姆·罗宾斯，摩根·弗里曼");
-        f1.setPrice(9.99);
-
-        Film f2 = new Film();
-        f2.setName("教父");
-        f2.setType("犯罪");
-        f2.setDescribe("一个有组织犯罪家族的老大将他秘密的帝国的控制权转交给他不情愿的儿子。");
-        f2.setPerformer("马龙·白兰度，阿尔·帕西诺");
-        f2.setPrice(12.99);
-
-        Film f3 = new Film();
-        f3.setName("低俗小说");
-        f3.setType("犯罪");
-        f3.setDescribe("两个杀手、一个拳击手、一个黑帮妻子和一对餐馆抢劫犯的生活在四个暴力和救赎的故事中交织在一起。");
-        f3.setPerformer("约翰·特拉沃尔塔，乌玛·瑟曼");
-        f3.setPrice(10.99);
-
-        list.add(f1);
-        list.add(f2);
-        list.add(f3);
-    }
-
-    // 添加电影信息
-    public static void addFilm() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("请输入电影名称：");
-        String name = sc.next();
-
-        System.out.print("请输入电影类型：");
-        String type = sc.next();
-
-        System.out.print("请输入电影简述：");
-        String describe = sc.next();
-
-        System.out.print("请输入电影演员：");
-        String performer = sc.next();
-
-        System.out.print("请输入电影票价：");
-        double price = sc.nextDouble();
-
-        // 创建一个新的电影对象
-        Film f = new Film();
-        f.setName(name);
-        f.setType(type);
-        f.setDescribe(describe);
-        f.setPerformer(performer);
-        f.setPrice(price);
-
-        // 添加到集合中
-        list.add(f);
-        System.out.format("添加电影：《 %s 》成功\n", f.getName());
-    }
-
-    // 删除电影信息
-    public static void delFilm() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("请输入电影名称：");
-        String name = sc.next();
-
-        boolean isFilm = false;
-
-        // 判断是否存在该电影
-        for (Film item : list) {
-            if (item.getName().equals(name)) {
-                isFilm = true;
-
-                // 删除电影
-                list.remove(item);
-
-                System.out.format("删除电影：《 %s 》成功\n\n", item.getName());
-                break;
-            }
-        }
-
-        if (!isFilm) {
-            System.out.format("需要删除的电影：《 %s 》不存在\n", name);
-        }
-    }
-
-    // 修改电影信息
-    public static void editFilm() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("请输入电影名称：");
-        String name = sc.next();
-
-        // 判断是否存在该电影
-        boolean isExist = false;
-        Film f = null;
-
-        for (Film item : list) {
-            if (item.getName().equals(name)) {
-                isExist = true;
-                f = item;
-                break;
-            }
-        }
-
-        // 如果存在就修改，否则就提示不存在
-        if (isExist) {
-            System.out.print("请输入电影类型：");
-            String type = sc.next();
-
-            System.out.print("请输入电影简述：");
-            String describe = sc.next();
-
-            System.out.print("请输入电影演员：");
-            String performer = sc.next();
-
-            System.out.print("请输入电影票价：");
-            double price = sc.nextDouble();
-
-            // 创建一个新的电影对象
-            f.setName(name);
-            f.setType(type);
-            f.setDescribe(describe);
-            f.setPerformer(performer);
-            f.setPrice(price);
-
-            System.out.format("修改电影：《 %s 》成功\n\n", f.getName());
-        } else {
-            System.out.format("需要修改的电影：《 %s 》不存在\n", name);
-        }
-    }
-
-    // 查询电影信息
-    public static void queryFilm(String name) {
-        // 判断name是否为空，如果为空就是查询所有电影信息，否则就是查询指定电影信息
-        if (name.isEmpty()) {
-            for (Film item : list) {
-                System.out.println("============== 电影信息 ===============");
-                System.out.format("电影：%s\n类型：%s\n简述：%s\n演员：%s\n票价：%.2f\n", item.getName(), item.getType(), item.getDescribe(), item.getPerformer(), item.getPrice());
-                System.out.println("=====================================");
-            }
-
-            System.out.format("查询所有电影成功 共计：%d部\n\n", list.size());
-        } else {
-            for (Film item : list) {
-                if (item.getName().equals(name)) {
-                    System.out.println("============== 电影信息 ===============");
-                    System.out.format("电影：%s\n类型：%s\n简述：%s\n演员：%s\n票价：%.2f\n", item.getName(), item.getType(), item.getDescribe(), item.getPerformer(), item.getPrice());
-                    System.out.println("=====================================");
-                }
-            }
-
-            System.out.format("查询电影：《 %s 》成功\n", name);
-        }
-    }
-}
-```
-
-```java
-// Film.java
-public class Film {
-    private String name;
-    private String type;
-    private String describe;
-    private String performer;
-    private double price;
-
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return this.type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDescribe() {
-        return this.describe;
-    }
-
-    public void setDescribe(String describe) {
-        this.describe = describe;
-    }
-
-    public String getPerformer() {
-        return this.performer;
-    }
-
-    public void setPerformer(String performer) {
-        this.performer = performer;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-}
-```
 

@@ -382,6 +382,38 @@ const items = ref<MenuProps['items']>([
 
 
 
+自定义字段
+
+```javascript
+const items = ref<MenuProps['items']>([])
+
+// 递归算法
+function convertToTree(data: Permission[], parentId: number) {
+    let result = [];
+
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].parentId === parentId) {
+            let item: any = {
+                key: data[i].id,
+                title: data[i].permName,
+                label: data[i].parentId === 0 ? data[i].permName : h(RouterLink, { to: data[i].path }, () => data[i].permName),
+                children: convertToTree(data, data[i].id!)
+            };
+            result.push(item);
+        }
+    }
+
+    // 如果children数组为空，则不添加children属性
+    if (result.length === 0) {
+        return null;
+    }
+
+    return result;
+}
+```
+
+
+
 ### mode
 
 导航排列方式，分别为垂直（vertical）、水平（horizontal）、内嵌（inline）三种方式
