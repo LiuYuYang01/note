@@ -45,10 +45,7 @@ public class UserController {
 默认参数传递方式为 `x-www-form-urlencoded` ，该注解主要用于将参数传递方式设置为 `application/json` 格式，这样就支持 `JSON` 格式数据作为参数传递了
 
 ```java
-@PostMapping
-public Result add(@RequestBody User user) {
-	return Result.success(UserService.add(user));
-}
+public void add(@RequestBody User user) {}
 ```
 
 
@@ -60,10 +57,7 @@ public Result add(@RequestBody User user) {
 **代码示例**
 
 ```java
-@GetMapping("/users/{uid}")
-public <List<Course> get(@PathVariable("uid") Integer id){
-	return null;
-}
+public void get(@PathVariable("uid") Integer id){}
 ```
 
 上述代码 `{uid}` 是一个变量，通过 `@PathVariable` 获取到它的值然后映射给参数 `id` 使用。
@@ -73,7 +67,54 @@ public <List<Course> get(@PathVariable("uid") Integer id){
 如果参数名与路径变量名一致，则可以省略括号中的内容 `uid`，如下：
 
 ```java
-public <List<Course> get(@PathVariable Integer uid)
+public void get(@PathVariable Integer uid)
+```
+
+
+
+#### @RequestPart
+
+该注解通常用于处理文件上传。当请求中包含一个文件部分时，可以使用 `@RequestPart` 注解来将该文件部分绑定到方法的参数上
+
+```java
+public void upload(@RequestPart MultipartFile image) {}
+```
+
+
+
+#### @RequestParam
+
+该注解的 `value` 属性用于设置参数的别名
+
+**代码示例**
+
+```java
+public void page(@RequestParam("image") Integer file){}
+```
+
+
+
+该注解的 `defaultValue` 属性用于设置参数默认值
+
+**代码示例**
+
+```java
+public void page(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size){}
+```
+
+
+
+### 其他
+
+#### @CrossOrigin(origins = "*")
+
+该注解主要用于实现跨域，可以应用在类或方法上
+
+```java
+@RestController
+@RequestMapping("/dept")
+@CrossOrigin(origins = "*") // 核心代码
+public class DeptController {}
 ```
 
 

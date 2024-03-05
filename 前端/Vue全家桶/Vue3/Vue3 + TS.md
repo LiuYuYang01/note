@@ -3,7 +3,7 @@
 ## 创建TS项目
 
 ```bash
-npm init vite 项目名称
+npm create vite@latest 
 ```
 
 

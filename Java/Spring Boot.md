@@ -2,9 +2,81 @@
 
 ## 快速入门
 
-**结合 Mybatis**
+### 安装
 
-**代码目录：** `代码/Spring Boot/整合Mybatis`
+```xml
+<!-- pom.xml-->
+
+<!-- 确定版本-->
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.2.5.RELEASE</version>
+    <relativePath/>
+</parent>
+
+<!-- 引入相关依赖-->
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+</dependencies>
+```
+
+
+
+### 启动
+
+```java
+// Main.java
+
+package yang;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Main {
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class);
+    }
+}
+```
+
+
+
+### 响应
+
+```java
+// hello.java
+
+package yang;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/")
+public class hello {
+    @GetMapping
+    public String home() {
+        return "Hello Spring Boot!";
+    }
+}
+```
+
+我们可以通过：http://localhost:8080/ 来访问应用程序
+
+
+
+默认端口号为：`8080`，可以在 `resources/application.yml` 中修改
+
+```yml
+server:
+  port: 9999
+```
 
 
 
@@ -48,9 +120,11 @@ public class HomeController {
 
 
 
-而 `@RequestMapping` 可以给类或类的属性设置该注解，表示支持的所有 `HTTP` 请求方法，如 `GET`、`POST`、`PATCH`、`DELETE` 等
+如果给类或类方法使用 `@RequestMapping` 注解，表示支持所有的 `HTTP` 请求方法，如 `GET`、`POST`、`PATCH`、`DELETE` 等
 
-如果给类设置，表示该路径的前缀。给方法设置，表示让这个方法支持所有的请求方式
+给类设置，表示该路径的前缀。
+
+给方法设置，表示该方法支持所有的请求方式
 
 ```java
 @RestController
@@ -81,11 +155,11 @@ public class UserController {
 默认为 `application/x-www-form-urlencode` 方式接收参数
 
 ```java
-    // @PostMapping(consumes = "application/x-www-form-urlencode")
-	@PostMapping
-    public void hello(User user) {
-        System.out.println(user);
-    }
+// @PostMapping(consumes = "application/x-www-form-urlencode")
+@PostMapping
+public void hello(User user) {
+    System.out.println(user);
+}
 ```
 
 
@@ -93,10 +167,10 @@ public class UserController {
 设置为 `application/json` 方式接收参数
 
 ```java
-    @PostMapping(consumes = "application/json")
-    public void hello(@RequestBody User user) {
-        System.out.println(user);
-    }
+@PostMapping(consumes = "application/json")
+public void hello(@RequestBody User user) {
+    System.out.println(user);
+}
 ```
 
 `consumes` 的值可以是任何格式，根据需求而定
@@ -106,20 +180,20 @@ public class UserController {
 如果不确定类型，我们可以设置为 `Object`，这样就可以传递任意的 `JSON`键值对了
 
 ```java
-	@PostMapping
-    public String hello(@RequestBody Object data) {
-        System.out.println(data);
-        // {password=1234, username=jack}
+@PostMapping
+public String hello(@RequestBody Object data) {
+    System.out.println(data);
+    // {password=1234, username=jack}
 
-        // 将数据转换为Map就可以获取属性值并使用了
-        Map<String, String> result = (Map<String, String>) data;
-        System.out.println(result.get("username")); // jack
-        System.out.println(result.get("password")); // 1234
+    // 将数据转换为Map就可以获取属性值并使用了
+    Map<String, String> result = (Map<String, String>) data;
+    System.out.println(result.get("username")); // jack
+    System.out.println(result.get("password")); // 1234
 
-        // ...
-        
-        return "<h1>Hello World!</h1>";
-    }
+    // ...
+
+    return "<h1>Hello World!</h1>";
+}
 ```
 
 
@@ -133,30 +207,22 @@ public class UserController {
 **URL：** http://localhost:9999/?uname=zs
 
 ```java
-@RestController
-@RequestMapping("/")
-public class Hello {
-    @GetMapping
-    public void hello(String uname) {
-        System.out.println(uname); // zs
-    }
+@GetMapping
+public void home(String uname) {
+    System.out.println(uname); // zs
 }
 ```
 
- 
+
 
 **参数别名**
 
 **URL：** http://localhost:9999/?uname=zs
 
 ```java
-@RestController
-@RequestMapping("/")
-public class Hello {
-    @GetMapping
-    public void hello(@RequestParam("uname") String data) {
-        System.out.println(data); // zs
-    }
+@GetMapping
+public void home(@RequestParam("uname") String data) {
+    System.out.println(data); // zs
 }
 ```
 
@@ -167,17 +233,13 @@ public class Hello {
 如果不传参数 `uname` 值则采取默认值
 
 ```java
-@RestController
-@RequestMapping("/")
-public class Hello {
-  @GetMapping
-  public void hello(@RequestParam(name = "uname", defaultValue = "我是默认值") String data) {
-        // URL：http://localhost:9999/?uname=zs
-        System.out.println(data); // zs
+@GetMapping
+public void home(@RequestParam(name = "uname", defaultValue = "我是默认值") String data) {
+    // URL：http://localhost:9999/?uname=zs
+    System.out.println(data); // zs
 
-        // URL：http://localhost:9999/
-        System.out.println(data); // 我是默认值
-  }
+    // URL：http://localhost:9999/
+    System.out.println(data); // 我是默认值
 }
 ```
 
@@ -192,13 +254,9 @@ public class Hello {
 **URL：** http://localhost:9999/
 
 ```java
-@RestController
-@RequestMapping("/")
-public class Hello {
-    @GetMapping
-    public void hello(@RequestParam(required = false) String uname) {
-        System.out.println(uname); // null
-    }
+@GetMapping
+public void home(@RequestParam(required = false) String uname) {
+    System.out.println(uname); // null
 }
 ```
 
@@ -215,17 +273,12 @@ public class Hello {
 **URL：** http://localhost:9999/?id=2&name=zs&age=20
 
 ```java
-@RestController
-@RequestMapping("/")
-public class Hello {
-    @GetMapping
-    // 参数类型设置为类
-    public void hello(Info info) {
-        System.out.println(info);
-        // Info(id=2, name=zs, age=20)
-    }
+@GetMapping
+// 参数类型设置为类对象
+public void home(Info info) {
+    System.out.println(info);
+    // Info(id=2, name=zs, age=20)
 }
-
 ```
 
 ```java
@@ -250,14 +303,10 @@ public class Info {
 **URL：** http://localhost:9999/?id=2&name=zs&age=20&addRess.aid=1&addRess.city=zhengzhou
 
 ```java
-@RestController
-@RequestMapping("/")
-public class Hello {
-    @GetMapping
-    public void hello(Info info) {
-        System.out.println(info);
-        // Info(id=2, name=zs, age=20, addRess=AddRess(aid=1, city=zhengzhou))
-    }
+@GetMapping
+public void home(Info info) {
+    System.out.println(info);
+    // Info(id=2, name=zs, age=20, addRess=AddRess(aid=1, city=zhengzhou))
 }
 ```
 
@@ -289,6 +338,24 @@ public class AddRess {
 
 
 
+#### JSON参数
+
+```json
+{
+    "name": "宇阳",
+    "age": 20
+}
+```
+
+```java
+@PostMapping
+public void home(@RequestBody User user) {
+    System.out.println(user);
+}
+```
+
+
+
 #### 多个参数
 
 **URL：** `http://localhost:9999/?hobby=写代码&hobby=敲代码`
@@ -298,28 +365,20 @@ public class AddRess {
 **数组**
 
 ```java
-@RestController
-@RequestMapping("/")
-public class Hello {
-    @GetMapping
-    public void hello(String[] hobby) {
-        System.out.println(Arrays.toString(hobby));
-        // [写代码, 敲代码]
-    }
+@GetMapping
+public void home(String[] hobby) {
+    System.out.println(Arrays.toString(hobby));
+    // [写代码, 敲代码]
 }
 ```
 
 **集合**
 
 ```java
-@RestController
-@RequestMapping("/")
-public class Hello {
-    @GetMapping
-    public void hello(@RequestParam List<String> hobby) {
-        System.out.println(hobby);
-        // [写代码, 敲代码]
-    }
+@GetMapping
+public void home(@RequestParam List<String> hobby) {
+    System.out.println(hobby);
+    // [写代码, 敲代码]
 }
 ```
 
@@ -330,14 +389,10 @@ public class Hello {
 **URL：** http://localhost:9999/?date=2023-11-12
 
 ```java
-@RestController
-@RequestMapping("/")
-public class Hello {
-    @GetMapping
-    public void hello(@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        System.out.println(date);
-        // 2023-11-12
-    }
+@GetMapping
+public void home(@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    System.out.println(date);
+    // 2023-11-12
 }
 ```
 
@@ -350,17 +405,19 @@ public class Hello {
 通过 `form-data` 上传，参数必须跟方法中的参数一致
 
 ```java
-    @PostMapping("/file")
-    public void hello(MultipartFile file) throws IOException {
-        // 获取文件对象
-        System.out.println(file);
-        // 获取文件名
-        System.out.println(file.getName());
-        // 获取文件大小
-        System.out.println(file.getSize());
-        // 获取字节文件流
-        System.out.println(file.getInputStream());
-    }
+@PostMapping("/file")
+public void home(MultipartFile file) throws IOException {
+    // 获取文件对象
+    System.out.println(file);
+    // 获取文件名
+    System.out.println(file.getOriginalFilename());
+    // 获取文件大小
+    System.out.println(file.getSize());
+    // 获取字节文件流
+    System.out.println(file.getInputStream());
+    // 获取文件内字节数组
+    System.out.println(file.getBytes());
+}
 ```
 
 
@@ -370,17 +427,15 @@ public class Hello {
 **URL：** http://localhost:9999/10
 
 ```java
-    @GetMapping("/{uid}")
-    public void hello(@PathVariable("uid") String id) {
-        System.out.println(id); // 10
-    }
+@GetMapping("/{uid}")
+public void home(@PathVariable("uid") String id) {
+    System.out.println(id); // 10
+}
 ```
 
 
 
 ### 参数校验
-
-
 
 
 
@@ -392,7 +447,7 @@ RestController
 public class HelloController {
     // 查询数据
     @GetMapping("/{uid}")
-    public User hello(@PathVariable("uid") Integer uid) {
+    public User home(@PathVariable("uid") Integer uid) {
         return null;
     }
 
@@ -963,7 +1018,7 @@ public class EmpDaoA implements EmpDao {
 
 > 查看源码：![image-20221204221320230](image/image-20221204221320230.png)
 
-在IOC容器中，每一个Bean都有一个属于自己的名字，可以通过注解的value属性指定bean的名字。如果没有指定，默认为类名首字母小写。
+在IOC容器中，每一个Bean都有一个属于自己的名字，可以通过注解的value属性指定bean的名字。如果没有指定，默认为首字母小写的类名。
 
 ![image-20221204222650873](image/image-20221204222650873.png)
 
@@ -1064,13 +1119,13 @@ public class EmpDaoA implements EmpDao {
 
 
 
-使用 `@Resource` 注解：是按照 `bean` 的名称进行注入。通过 `name` 属性指定要注入的 `bean` 的名称。
+使用 `@Resource` 注解：默认按照 `bean` 的名称进行注入。可以通过 `name` 属性指定要注入的 `bean` 名称。
 
 ![image-20221204233637735](image/image-20221204233637735.png)
 
 
 
-下述代码 `@Resource` 不指定名称，则以字段或方法名称注入，相当于 `@Resource(name="userService")`
+下述代码 `@Resource` 不指定名称，则以类名注入，相当于 `@Resource(name="userService")`
 
 ```java
 @Resource
@@ -1865,6 +1920,384 @@ public class AccountServiceImpl implements AccountService {
 
 
 
+## 过滤器
+
+- `Filter` 表示过滤器，是  `JavaWeb` 三大组件 (Servlet、Filter、Listener) 之一。
+- 过滤器可以把对资源的请求拦截下来，从而实现一些特殊的功能
+  - 使用了过滤器之后，要想访问 `web` 服务器上的资源，必须先经过滤器，过滤器处理完毕之后，才可以访问对应的资源。
+- 过滤器一般完成一些通用的操作，比如：登录校验、统一编码处理、敏感字符处理等。
+
+![image-20230112120955145](./image/image-20230112120955145.png) 
+
+
+
+下面我们通过 `Filter` 快速入门 掌握过滤器的基本使用操作：
+
+- **第1步，定义过滤器 ：** 定义一个类，实现 `Filter` 接口，并重写其所有方法。
+- **第2步，配置过滤器：** `Filter` 类上加 `@WebFilter` 注解，配置拦截资源的路径。最后在启动类上加 `@ServletComponentScan` 开启 `Servlet` 组件支持。
+
+
+
+**代码示例：** 实现一个最基本的过滤器
+
+```java
+package yang.utils;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import java.io.IOException;
+
+@WebFilter(urlPatterns = "/*")
+public class DemoFilter implements Filter {
+    // 初始化时自动调用一次
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        System.out.println("初始化方法执行了");
+        Filter.super.init(filterConfig);
+    }
+
+    // 每次网络请求时调用
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        System.out.println("拦截到了请求");
+        chain.doFilter(request, response); // 放行
+        System.out.println("放行后做哪些事情...");
+    }
+
+    // 销毁时自动调用一次
+    @Override
+    public void destroy() {
+        System.out.println("销毁方法执行了");
+        Filter.super.destroy();
+    }
+}
+```
+
+其实 `init` 和 `destroy` 方法有默认的实现，可以不用定义。而 `doFilter` 必须定义
+
+
+
+- init：在服务器启动的时会自动的创建 `Filter` 过滤器对象，在创建过滤器对象的时会自动调用 `init` 初始化方法，这个方法只会被调用一次。
+
+- doFilter：在每一次拦截到请求之后都会调用这个方法，所以这个方法是会被调用多次的，每拦截到一次请求就会调用一次
+
+- destroy： 在关闭服务器时它会自动调用该方法，并且这个销毁方法跟 `init` 一样，只会被调用一次。
+
+
+
+### 拦截路径
+
+`Filter` 可以根据 `@WebFilter(urlPatterns = "/*")` 注解配置不同的拦截资源路径：
+
+| 拦截路径     | urlPatterns值 | 含义                                  |
+| ------------ | ------------- | ------------------------------------- |
+| 拦截具体路径 | /login        | 只有访问 /login 路径时，才会被拦截    |
+| 前缀拦截     | /emps/*       | 访问前缀为/emps的所有资源，都会被拦截 |
+| 拦截所有     | /*            | 访问所有资源，都会被拦截              |
+
+
+
+### 过滤器链
+
+当有多个过滤器时就形成了过滤器链，假设有 `AAA` 和 `BBB` 过滤器，那么就会根据过滤器名的首字母来决定执行顺序。
+
+过滤器会先执行 `AAA`，只有放行之后才会执行 `BBB` 过滤器，等 `BBB` 放行后才会返回真正的放行
+
+
+
+### 登录校验
+
+接下来我们可以通过过滤器实现身份验证功能，如果有 `token` 就放行接口，没有 `token` 或到期、失效则禁止放行
+
+![image-20240226164349602](./image/image-20240226164349602.png)
+
+**代码示例**
+
+```java
+package yang.utils;
+
+import com.alibaba.fastjson.JSONObject;
+import com.mysql.cj.util.StringUtils;
+import lombok.extern.slf4j.Slf4j;
+import yang.pojo.Result;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Slf4j
+@WebFilter(urlPatterns = "/*")
+public class DemoFilter implements Filter {
+    // 每次网络请求时调用
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        System.out.println("拦截到了请求");
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+
+        // 获取请求的URL
+        String url = req.getRequestURI().toString();
+        log.info("获取请求的URL：{}", url);
+
+        // 如果访问的是登录接口，就直接放行
+        if (url.contains("/login") || url.contains("/swagger") || url.contains("/v3/api-docs")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        // 拿到请求头中的Token
+        String token = req.getHeader("token");
+
+        // token不能为空
+        if (token == null) {
+            res.setCharacterEncoding("UTF-8");
+
+            Result data = Result.error("Token不能为空");
+            String result = JSONObject.toJSONString(data);
+            res.setContentType("application/json;charset=utf-8");
+
+            res.getWriter().write(result);
+            return;
+        }
+
+        // 如果解析Token失败则表示过期或无效
+        try {
+            JwtUtils.parseJWT(token);
+            chain.doFilter(request, response);
+        } catch (Exception e) {
+            Result data = Result.error(e.getMessage());
+            String result = JSONObject.toJSONString(data);
+            res.setContentType("application/json;charset=utf-8");
+
+            res.getWriter().write(result);
+        }
+    }
+}
+```
+
+
+
+## 拦截器
+
+定义一个基本的拦截器
+
+```java
+package yang.interceptor;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@Component
+public class LoginCheckInterceptor implements HandlerInterceptor {
+    // 在请求处理之前被调用
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        System.out.println("preHandle...");
+        return true;
+    }
+
+    // 在目标方法执行之后被调用
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        System.out.println("postHandle ... ");
+    }
+
+    // 在整个请求处理完毕之后，无论成功或失败，都会被调用
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        System.out.println("afterCompletion .... ");
+    }
+}
+```
+
+
+
+**拦截器三个方法的详细说明**
+
+1. `preHandle` 方法在请求处理之前被调用。在这个方法中，可以做一些前置处理，比如判断请求是否合法，记录日志等。
+
+   如果返回 `true`，则继续执行后续的拦截器以及目标方法；反之中断请求，不再往后执行。
+
+2. `postHandle` 方法在目标方法执行之后，返回 `ModelAndView` 之前执行。在这个方法中，你可以对返回的 `ModelAndView` 进行修改或者做一些额外的处理。
+
+3. `afterCompletion` 方法在整个请求处理完毕之后，无论成功或失败，都会被调用。通常用于清理资源、记录日志等操作。如果请求处理过程中发生异常，异常信息会传递到这个方法中。
+
+
+
+**注册并使用拦截器**
+
+想要拦截器生效，就必须先注册
+
+```java
+package yang.interceptor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    // 自定义的拦截器对象
+    @Autowired
+    private LoginCheckInterceptor loginCheckInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 注册自定义拦截器对象
+        registry.addInterceptor(loginCheckInterceptor)
+                // 设置拦截的请求路径（ /** 表示拦截所有请求）
+                .addPathPatterns("/**");
+    }
+}
+```
+
+
+
+### 拦截路径
+
+在拦截器中可以通过 `addPathPatterns` 设置拦截路径，下面是一些常见拦截路径配置：
+
+| 拦截路径  | 含义                 | 举例                                                        |
+| --------- | -------------------- | ----------------------------------------------------------- |
+| /*        | 一级路径             | 能匹配：/depts，/emps，/login   <br />不能匹配：/depts/1    |
+| /**       | 任意级路径           | 能匹配：/depts，/depts/1，/depts/1/2                        |
+| /depts/*  | /depts下的一级路径   | 能匹配：/depts/1<br />不能匹配：/depts/1/2，/depts          |
+| /depts/** | /depts下的任意级路径 | 能匹配：/depts，/depts/1，/depts/1/2<br />不能匹配：/emps/1 |
+
+
+
+### 执行流程
+
+假如过滤器与拦截器同时存在，那么会优先执行过滤器，过滤器放行后才会执行拦截器，反之不会执行拦截器
+
+
+
+**过滤器**
+
+```java
+@WebFilter(urlPatterns = "/*")
+public class DemoFilter implements Filter {
+    // 每次网络请求时调用
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        System.out.println("拦截到了请求");
+
+        System.out.println("放行前");
+        chain.doFilter(request, response);
+        System.out.println("放行后");
+    }
+}
+```
+
+
+
+**拦截器**
+
+```java
+@Component
+public class LoginCheckInterceptor implements HandlerInterceptor {
+    // 在请求处理之前被调用
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        System.out.println("preHandle...");
+        return true;
+    }
+
+    // 在目标方法执行之后被调用
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        System.out.println("postHandle ... ");
+        System.out.println(modelAndView);
+    }
+
+    // 在整个请求处理完毕之后，无论成功或失败，都会被调用
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        System.out.println("afterCompletion .... ");
+    }
+}
+```
+
+![image-20240226175212445](./image/image-20240226175212445.png)
+
+
+
+**过滤器和拦截器之间的区别主要是以下两点：**
+
+- 接口规范不同：过滤器需要实现 `Filter` 接口，而拦截器需要实现 `HandlerInterceptor` 接口。
+- 拦截范围不同：过滤器 `Filter` 会拦截所有的资源，而 `Interceptor` 只会拦截 `Spring` 环境中的资源。
+
+
+
+### 登录校验
+
+```java
+package yang.interceptor;
+
+import com.alibaba.fastjson.JSONObject;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+import yang.pojo.Result;
+import yang.utils.JwtUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Component
+public class LoginCheckInterceptor implements HandlerInterceptor {
+    // 在请求处理之前被调用
+    @Override
+    public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws IOException {
+        // 获取请求的URL
+        String url = req.getRequestURI().toString();
+
+        // 如果访问的是登录接口，就直接放行
+        if (url.contains("/login") || url.contains("/swagger") || url.contains("/v3/api-docs")) {
+            return true;
+        }
+
+        // 拿到请求头中的Token
+        String token = req.getHeader("token");
+
+        // token不能为空
+        if (token == null) {
+            res.setCharacterEncoding("UTF-8");
+
+            Result data = Result.error("Token不能为空");
+            String result = JSONObject.toJSONString(data);
+            res.setContentType("application/json;charset=utf-8");
+
+            res.getWriter().write(result);
+            return false;
+        }
+
+        // 如果解析Token失败则表示过期或无效
+        try {
+            JwtUtils.parseJWT(token);
+        } catch (Exception e) {
+            Result data = Result.error(e.getMessage());
+            String result = JSONObject.toJSONString(data);
+            res.setContentType("application/json;charset=utf-8");
+
+            res.getWriter().write(result);
+        }
+
+        return true;
+    }
+}
+```
+
+
+
 ## 配置
 
 ### 自定义配置
@@ -2007,28 +2440,93 @@ spring
 
 
 
-## 单元测试
+## 文件上传
 
-```xml
-       <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test</artifactId>
-        </dependency>
+```java
+package yang.controller;
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>compile</scope>
-        </dependency>
+import java.util.UUID;
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+
+@RestController
+@RequestMapping("/upload")
+public class UploadController {
+    @PostMapping
+    public void upload(@RequestPart MultipartFile file) throws IOException {
+        // 获取文件名
+        String fileName = file.getOriginalFilename();
+        // 获取文件扩展名
+        String extName = fileName.substring(fileName.lastIndexOf("."));
+        // 获取项目根目录
+        String root = System.getProperty("user.dir");
+        // 获取文件存放目录
+        String fileDir = "/src/main/java/yang/upload/";
+
+        // 如果目标目录不存在就创建
+        File dir = new File(root + fileDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        // 生成不重复的文件名称
+        String uuidName = UUID.randomUUID().toString() + extName;
+
+        // 文件上传的位置
+        String uploadDir = root + fileDir + uuidName;
+
+        // 上传文件
+        file.transferTo(new File(uploadDir));
+    }
+}
 ```
 
 
 
-## application
+## 单元测试
 
-`application.yml` 用于配置应用程序，如端口号、数据库连接等
+引入相关依赖
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-test</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+</dependency>
+```
+
+
+
+测试获取数据
+
+```java
+@SpringBootTest
+@RunWith(SpringRunner.class)
+public class Run {
+
+    @Resource
+    private UserMapper userMapper;
+
+    @Test
+    public void testQueryUserById() {
+        System.out.println(userMapper.queryUserById(1L));
+    }
+}
+```
+

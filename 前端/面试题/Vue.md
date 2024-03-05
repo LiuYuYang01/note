@@ -9,8 +9,9 @@
 **Vue的优势：**
 
 1. 支持组件化开发，提高代码复用性以及扩展性
-2. 数据双向绑定，数据发生变化既视图发生变化
-2. 数据与视图完全分离，提高代码可读性
+2. 虚拟 `Dom`，提高网站性能
+3. 数据双向绑定，数据发生变化既视图发生变化
+4. 数据与视图完全分离，提高代码可读性
 
 
 
@@ -62,7 +63,7 @@
 **.stop：** 阻止事件冒泡
 **.prevent： ** 阻止默认行为
 **.capture：** 与事件冒泡的方向相反，事件捕获由外到内
-**.self：** 只会有被绑定事件的那个元素才能被触发
+**.self：** 只有被绑定事件的那个元素才能被触发
 **.once：** 使该事件只触发一次
 
 ## ref 和 reactive 的区别
@@ -166,7 +167,9 @@
 
 ## Vue 获取数据在哪个生命周期函数?
 
-一般在 `created`、`beforeMount`、`mounted` 中， 如果要操作 `DOM` ，必须在  `beforeMount` 之后才能操作
+一般在 `created`、`beforeMount`、`mounted` 中， 
+
+如果要操作 `DOM` ，必须在  `beforeMount` 之后才能操作
 
 
 
@@ -198,9 +201,9 @@
 
  
 
-## Vue 中 key 值的作用是什么
+## v-for 为什么一定要绑定 key ?
 
-需要使用 `key` 来给每个节点做一个唯一标识，`Diff算法`就可以正确的识别此节点，找到正确的位置区插入新的节点
+在循环中，如果没有唯一 `key` ,  页面上删除 一条数据，由于并不知道删除的是那一条！所以就会把全部虚拟 `dom` 重新渲染，如果知道 `key` 为 `x` ，当数据被删除掉，只需要把渲染的 `dom` 为 `x` 的数据去掉即可！这样一来对性能上有非常大的提高
 
 
 
@@ -224,14 +227,30 @@
 
 ## Vue的生命周期
 
-**beforeCreate：** 在实例创建之间执行，数据是未加载状态。
-**created：** 在实例创建、数据加载后，能初始化数据，DOM渲染之前执行。
-**beforeMount： **虚拟DOM已创建完成，在数据渲染前最后一次更改数据。el未挂载。
-**mounted：** 页面、数据渲染完成。el挂载完毕。可以访问DOM节点。
-**beforeUpdate：** 重新渲染之前触发。不会造成重渲染。
-**Updated： **数据已经更新完成，DOM也重新render完成，更改数据会陷入死循环。
-**beforeDestroy： **实例销毁前执行，实例仍然完全可用。
-**destroyed： **实例销毁后执行，这时候只剩下DOM空壳。
+**Vue2**
+
+**beforeCreate：** 这个阶段还不能访问 `data` 中的属性以及 `method` 中的方法，因为 `Vue` 实例还没有初始化成功。
+**created：** 此时 `Vue` 的实例已经挂载完毕，可以访问 `data` 和 `method` 了，一般在这里发起 `axios` 网络请求并赋值给 `data` 中的数据。但是还不能获取或修改 `dom` 元素，因为 `dom` 还没有挂载成功。如果情况特殊，可以使用 `nextTick` 来操作 `dom` 
+**beforeMount： ** 此时还是无法获取 `dom`，因为 `dom` 还没有挂载到页面上。
+**mounted：** 到这一步 `dom` 就挂载成功了，可以进行操作了。
+**beforeUpdate：** 此时 `Vue` 中数据虽然发生了变化，但页面还没开始重新渲染
+**Updated： ** 这时候页面重新渲染完成，数据是最新的
+**beforeDestroy： ** 此时 `Vue` 实例仍然可用，可以访问 `data`、`method` 等，一般在这里进行一些清理工作或者在销毁之前做一些操作
+**destroyed： ** 此时 `Vue` 的实例已经被销毁了，不能再访问 `data`、`method` 等
+
+
+
+**Vue2 -> Vue3**
+
+- `beforeCreate` -> 使用 `setup()`
+- `created` -> 使用 `setup()`
+- `beforeMount` -> `onBeforeMount`
+- `mounted` -> `onMounted`
+- `beforeUpdate` -> `onBeforeUpdate`
+- `updated` -> `onUpdated`
+- `beforeDestroy` -> `onBeforeUnmount`
+- `destroyed` -> `onUnmounted`
+- `errorCaptured` -> `onErrorCaptured`
 
 
 
@@ -336,4 +355,8 @@ vue3 采用的是 `Object.defineProperty`
 ## 路由守卫
 
 ## 监听组件原生事件
+
+
+
+## Vue 最早可以在哪个生命周期发起请求？
 

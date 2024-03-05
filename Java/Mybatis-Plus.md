@@ -24,12 +24,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--MySQL数据库驱动-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
         <!--支持lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -42,10 +36,17 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
+        <!--核心依赖-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.4.0</version>
+        </dependency>
+        
+        <!--MySQL数据库驱动-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
     </dependencies>
 ~~~
@@ -305,6 +306,70 @@ public class TestMain {
     }
 }
 ```
+
+
+
+## 注解
+
+### @TableName
+
+类似于 `Mybatis` 中的 `@Table` 注解，
+
+不同的是它还可以通过 `keepGlobalPrefix` 属性设置表前缀
+
+```java
+@Data
+@TableName(value = "customer") // 核心代码
+public class Customer {}
+```
+
+
+
+### @TableId
+
+类似于 `Mybatis` 中的 `@Id` 注解
+
+不同的是它还可以通过 `type` 属性设置主键类型
+
+| 注解                                | 含义                                                         |
+| ----------------------------------- | ------------------------------------------------------------ |
+| @TableId(type = IdType.ASSIGN_UUID) | 插入数据后 会自动生成一个唯一的 `UUID` 值作为主键(string)    |
+| @TableId(type = IdType.ASSIGN_ID)   | 插入数据时 需要手动赋值一个唯一的 `ID` 作为主键 **默认**     |
+| @TableId(type = IdType.INPUT)       | 插入数据时，需要手动赋值ID值                                 |
+| @TableId(type = IdType.AUTO)        | 插入数据时，数据库会自动给该字段生成一个唯一的递增值作为主键 |
+
+```java
+@Data
+@TableName(value = "customer")
+public class Customer {
+    @TableId(type = IdType.AUTO) // 根据数据库中的主键自动增长
+    private Integer cid;
+}
+```
+
+
+
+### @TableField
+
+结合了 `Mybatis` 中的 `Column` 与 `@Transient` 注解的功能
+
+```java
+@Data
+@TableName(value = "customer")
+public class Customer {
+    // 映射数据库字段
+    @TableField(value = "c_id")
+    private Integer cid;
+
+    // 设置为临时数据，不需要存储到数据库
+    @TableField(exist = false)
+    private List<Integer> ids;
+}
+```
+
+**注意：** 当使用了 `@TableId` 注解主键后，就不能再使用 `@TableField` 注解映射对应的数据库字段了，可以使用 `@TableId(value = "字段名", type = IdType.AUTO)`
+
+
 
 
 
