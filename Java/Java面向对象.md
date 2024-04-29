@@ -2271,6 +2271,9 @@ public class Gender {
 
 ```java
 public enum Gender {
+    // public static final Gender FEMALE = new Gender(1, "女");
+    // public static final Gender MALE = new Gender(2, "男");
+    
     MALE(1, "女"), FEMALE(2, "男");
 
     private int id;

@@ -143,7 +143,18 @@ if __name__ == "__main__":
 @app.route("/<id>")
 def index(id): # 必须定义同名形参接收路由变量的值
     print(id) # 100
-    return f"<h1>{id}</h1>"
+```
+
+
+
+**默认值**
+
+```python
+# http://127.0.0.1:5000/100/200
+
+@app.route("/<a>/<int:b>/<c>")
+def index(a, b, c=300): # 必须定义同名形参接收路由变量的值
+    print(a, b, c) # 100 200 300
 ```
 
 
@@ -156,7 +167,6 @@ def index(id): # 必须定义同名形参接收路由变量的值
 @app.route("/<id>")
 def index(id):
     print(type(id)) # <class 'str'>
-    return f"<h1>{id}</h1>"
 ```
 
 
@@ -167,7 +177,6 @@ def index(id):
 @app.route("/<int:id>")
 def index(id):
     print(type(id)) # <class 'int'>
-    return f"<h1>{id}</h1>"
 ```
 
 
@@ -1377,4 +1386,3 @@ pip3 install -r requirements.txt
 ```
 pip3 uninstall -y -r requirements.txt
 ```
-

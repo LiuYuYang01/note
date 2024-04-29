@@ -2480,7 +2480,7 @@ console.log(user);
 
 ```ts
 语法：Omit<接口类型, "需要忽略的属性">
-例如：Omit<User, "hobby"
+例如：Omit<User, "hobby" | "age">
 ```
 
 
@@ -2493,21 +2493,18 @@ interface User {
 }
 
 // 把User的hobby属性忽略掉
-type newUser = Omit<User, "hobby">;
+type newUser = Omit<User, "hobby" | "age">;
 
 // 现在newUser的属性相当于
 // type newUser = {
 //   name: string;
-//   age: number;
 // }
 
 const user: newUser = {
   name: "Lyy",
-  age: 20,
+  // age: 20,
   // hobby:"写代码"
 };
-console.log(user);
-// { name: 'Lyy', age: 20 }
 ```
 
 
