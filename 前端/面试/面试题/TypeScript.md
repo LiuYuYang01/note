@@ -32,3 +32,20 @@ public void fn(Integer data) {}
 public void fn(Boolean data) {}
 ```
 
+
+
+## interface 与 type 的区别？
+
+**interface**
+
+1. 只能声明对象类型，不能声明基本、联合等类型
+2. 可以被 `class` 类通过 `implements` 接口实现
+3. 可以继承其他接口类型
+
+
+
+**type**
+
+1. 可以声明任意类型
+2. 不能被类实现
+3. 不能继承类型，只能合并类型

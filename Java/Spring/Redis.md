@@ -622,3 +622,171 @@ public class SpringDataRedisTest {
 }
 ```
 
+
+
+## Spring Cache
+
+Spring Cache 是一个框架，实现了基于注解的缓存功能，只需要简单地加一个注解，就能实现缓存功能。
+
+Spring Cache 提供了一层抽象，底层可以切换不同的缓存实现，例如：
+
+- EHCache
+- Caffeine
+- Redis(常用)
+
+**Maven依赖：**
+
+```xml
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-cache</artifactId>  		            		       	 		     		<version>2.7.3</version> 
+</dependency>
+```
+
+
+
+### 快速上手
+
+在 `SpringCache` 中提供了很多缓存操作的注解，常见的是以下的几个：
+
+| **注解**       | **说明**                                                     |
+| -------------- | ------------------------------------------------------------ |
+| @EnableCaching | 开启缓存注解功能，通常加在启动类上                           |
+| @Cacheable     | 在方法执行前先查询缓存中是否有数据，如果有数据，则直接返回缓存数据；如果没有缓存数据，调用方法并将方法返回值放到缓存中 |
+| @CachePut      | 将方法的返回值放到缓存中                                     |
+| @CacheEvict    | 将一条或多条数据从缓存中删除                                 |
+
+在 `Spring Boot` 项目中，使用缓存技术只需在项目中导入相关缓存技术的依赖包，并在启动类上使用 `@EnableCaching` 开启缓存支持即可。
+
+例如，使用 `Redis` 作为缓存技术，只需要导入 `Spring data Redis` 的 `maven` 坐标即可。
+
+```xml
+<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+```
+
+
+
+#### @CachePut
+
+**作用：** 将方法返回值，放入缓存
+
+**value：** 缓存的名称, 每个缓存名称下面可以有很多 `key`
+
+**key：** 缓存的key  ----------> 支持 `Spring` 的表达式语言 `SPEL` 语法
+
+
+
+在 `save` 方法上加注解 `@CachePut`
+
+当前 `UserController` 的 `save` 方法是用来保存用户信息的，我们希望在该用户信息保存到数据库的同时，也往缓存中缓存一份数据，我们可以在 `save` 方法上加上注解 `@CachePut`，用法如下：
+
+```java
+	@PostMapping
+    @CachePut(value = "userCache", key = "#user.id") // 相当于Redis命令：set userCache::100 100
+    public User save(@RequestBody User user){
+        userMapper.insert(user);
+        return user;
+    }
+```
+
+**说明： key 的写法如下**
+
+**#user.id：** `#user` 指的是方法形参的名称,  `id` 指的是 `user` 的 `id` 属性 , 也就是使用 `user` 的 `id` 属性作为 `key` ;
+
+**#result.id：** `#result` 代表方法返回值，该表达式 代表以返回对象的 `id` 属性作为 `key`；
+
+**#p0.id：** `#p0` 指的是方法中的第一个参数，`id` 指的是第一个参数的 `id` 属性,也就是使用第一个参数的 `id` 属性作为 `key` ;
+
+**#a0.id：** `#a0` 指的是方法中的第一个参数，`id` 指的是第一个参数的 `id` 属性,也就是使用第一个参数的 `id` 属性作为 `key`;
+
+**#root.args[0].id：** `#root.args[0]` 指的是方法中的第一个参数，`id` 指的是第一个参数的 `id` 属性,也就是使用第一个参数
+
+的 `id` 属性作为 `key` ;
+
+
+
+#### @Cacheable
+
+**作用：** 在方法执行前，`spring` 先查看缓存中是否有数据，如果有数据，则直接返回缓存数据；若没有数据，调用方法并将方法返回值放到缓存中
+
+**value：** 缓存的名称，每个缓存名称下面可以有多个 `key`
+
+**key：** 缓存的 `key`  ----------> 支持 `Spring` 的表达式语言 `SPEL` 语法
+
+
+
+**我们先来看一下之前的写法：** 如果缓存中有数据，就用缓存的数据，没有就查询数据库
+
+```java
+	@GetMapping("/list")
+    @ApiOperation("根据分类id查询菜品")
+    public Result<List<Dish>> list(Integer categoryId) {
+        // 1. 核心代码
+        String key = "dish_" + categoryId;
+
+        // 2. 核心代码
+        List<Dish> data = (List<Dish>) redisTemplate.opsForValue().get(key);
+
+        // 3. 核心代码：查询redis中是否有当前的数据，如果有就从缓存中取
+        if (data != null && !data.isEmpty()) {
+            return Result.success(data);
+        }
+
+        data = dishService.CateByIdDish(categoryId);
+
+        // 4. 核心代码：如果缓存中没有，那么就将查询的数据存在缓存中
+        redisTemplate.opsForValue().set(key, data);
+
+        return Result.success(data);
+    }
+```
+
+
+
+**再对比一下 Cache 的写法：** 在 `getById` 上加注解 `@Cacheable`
+
+```java
+	@GetMapping
+    @Cacheable(cacheNames = "userCache", key="#id") // 相当于Redis命令：get userCache::100
+    public User getById(Long id){
+        User user = userMapper.getById(id);
+        return user;
+    }
+```
+
+第一次访问，会请求我们 `controller` 的方法，查询数据库。
+
+后面再查询相同的 `id`，就直接从 `Redis` 中查询数据，不用再查询数据库也就意味着方法不会执行了
+
+
+
+#### @CacheEvict注解
+
+**作用：** 清理指定缓存
+
+**value：** 缓存的名称，每个缓存名称下面可以有多个 `key`
+
+**key：** 缓存的 `key`  ----------> 支持 `Spring` 的表达式语言 `SPEL` 语法
+
+
+
+在 `delete` 方法上加注解 `@CacheEvict`
+
+```java
+	@DeleteMapping
+    @CacheEvict(cacheNames = "userCache", key = "#id") // 相当于Redis命令：del userCache::100
+    public void deleteById(Long id){
+        userMapper.deleteById(id);
+    }
+
+	@DeleteMapping("/delAll")
+    @CacheEvict(cacheNames = "userCache", allEntries = true) // 删除userCache的所有数据
+    public void deleteAll(){
+        userMapper.deleteAll();
+    }
+```
+
+上述代码会删除数据库的数据同时删除缓存中的数据

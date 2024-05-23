@@ -195,7 +195,119 @@ page {
 
 
 
+## 项目打包
+
+按照 `uniapp` 规范开发可保证多平台兼容，但每个平台都有一些自己的特性，比如网页端不支持使用微信平台授权登录，这时就可以使用条件编译，让代码按条件编译到不同平台
+
+**条件编译语法： **`#ifdef` 或 `#ifndef` 加 平台名称开头，然后以 `#endif` 结尾
+
+通过条件编译实现在 `H5` 端显示 `H5` 的代码，小程序端显示小程序的代码
+
+```html
+<!-- 网页端表单登录 -->
+<!-- #ifdef H5 -->
+  <input class="input" type="text" placeholder="请输入用户名/手机号码" />
+  <input class="input" type="text" password placeholder="请输入密码" />
+  <button class="button phone">登录</button>
+<!-- #endif -->
+
+<!-- 小程序端授权登录 -->
+<!-- #ifdef MP-WEIXIN -->
+  <button class="button phone" open-type="getPhoneNumber" @getphonenumber="onGetphonenumber">
+    <text class="icon icon-phone"></text>
+    手机号快捷登录
+  </button>
+<!-- #endif -->
 ```
 
+`JavaScript` 中可以这么写
+
+```javascript
+// #ifdef MP-WEIXIN
+
+// 登录凭证
+let code: string = ''
+
+onLoad(async () => {
+  const res = await wx.login()
+  code = res.code
+})
+
+// 获取用户手机号码
+const onGetphonenumber: UniHelper.ButtonOnGetphonenumber = async (ev) => {
+  // 获取参数
+  const encryptedData = ev.detail.encryptedData!
+  const iv = ev.detail.iv!
+  // 登录请求
+  await postLoginWxMinAPI({ code, encryptedData, iv })
+  // 成功提示
+  uni.showToast({ icon: 'none', title: '登录成功' })
+}
+
+// #endif
 ```
 
+
+
+假如有这样的需求，我们小程序、APP的代码一致，只有H5的需要更改，可以这么做
+
+```css
+#ifdef MP-WEIXIN || APP-PLUS
+	/* ... */
+#endif
+```
+
+
+
+## 多端差异
+
+### 本地存储
+
+### 样式隔离
+
+`H5` 和 `APP` 端都具有样式隔离效果，会导致样式错乱的效果，此时我们就需要给组件内再引入一次样式
+
+```css
+/* #ifdef H5 || APP-PLUS */
+@import '@/components/styles/XtxSwiper.scss';
+@import './styles/CategoryPanel.scss';
+@import './styles/HotPanel.scss';
+@import '@/components/styles/XtxGuess.scss';
+/* #endif */
+```
+
+
+
+### 样式选择器
+
+
+
+### 组件差异
+
+比如小程序端特有的API在H5以及APP端无法使用，这时候我们可以将这个组件通过条件编译去除掉
+
+
+
+### 视口
+
+`H5` 端视口是所有可视区，而小程序和 `APP` 视口不包含顶部和底部 `TabBar`，这样的话就会导致布局差异
+
+<img src="./image/image-20240503195321932.png" alt="image-20240503195321932" style="zoom: 33%;" />
+
+我们可以通过 `uniapp` 提供的 `css` 变量来解决这个问题
+
+```css
+.toolbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  padding-bottom: var(--window-bottom);
+  ...
+ }
+```
+
+在小程序与APP端 `var(--window-bottom)` 的值为0，在 `H5` 端他的值为 `TabBar` 的高度
+
+
+
+骨架屏

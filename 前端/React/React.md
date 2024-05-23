@@ -5,13 +5,15 @@
 ### 表达式
 
 ```react
-const msg = 'this is message'
-
-function getAge(){
-  return 18
-}
-
 function App(){
+  const msg = 'this is message'
+
+  function getAge(){
+    return 18
+  }
+    
+  const list = [<div>1</div>, <div>2</div>, <div>3</div>]
+    
   return (
     <div>
       <h1>this is title</h1>
@@ -23,26 +25,41 @@ function App(){
       {msg}
       {/* 函数调用 渲染为函数的返回值 */}
       {getAge()}
+      {/* 渲染数组的数据 */}
+      {list}
+      {/* 三元表达式 */}
+      {true ? <h1>H1</h1> : <h2>H2</h2>}
+      {/* 条件表达式 */}
+   	  <h3>{isShow && '显示'}</h3>
+
+      {/* JSX本身也可以当做表达式放在插值符号中，往往配合其它的使用方式 */}
+      <h4>{<span>123</span>}</h4>
     </div>
   )
 }
 ```
+
+**注意：**
+
+1、 `null`、`undefined`、`boolean` 不会在 `JSX` 表达式中显示
+
+2、对象不能直接放在 `JSX` 当中，会报错
 
 
 
 ### 列表渲染
 
 ```react
-const list = [
-  {id:1001, name:'Vue'},
-  {id:1002, name: 'React'},
-  {id:1003, name: 'Angular'}
-]
-
 function App(){
+  const list = [
+    {id:1001, name:'Vue'},
+    {id:1002, name: 'React'},
+    {id:1003, name: 'Angular'}
+  ]
+    
   return (
     <ul>
-      {list.map(item=><li key={item.id}>{item}</li>)}
+      {list.map(item=><li key={item.id}>{item.name}</li>)}
     </ul>
   )
 }
@@ -239,21 +256,61 @@ export default App;
 import "./index.css"
 
 function App() {
-  const sty = { color: 'red' }
+  // 属性名不可以连写，必须遵循大驼峰命名
+  const sty = { backgroundColor: 'red' }
 
   return (
     <>
-      {/* <h1 style={{ color: 'red' }}>Hello World!</h1> */}
+      {/* 设置数值可以不加单位，默认就是px */}
+      <h1 style={{ fontSize: 20 }}>Hello World!</h1>
       <h1 style={sty}>Hello World!</h1>
 
-      {/* 推荐 */}
+      {/* 推荐写法 */}
       <h1 className="sty">Hello World!</h1>
       <h1 className={`sty ${1 === 1 && 'axtive'}`}>Hello World!</h1>
     </>
-  );
+  )
 }
 
 export default App;
+```
+
+
+
+## 事件
+
+```react
+const App = () => {
+  const btn = () => {
+    console.log('事件触发了')
+  }
+
+  return (
+    <>
+      <button onClick={btn}>按钮</button>
+    </>
+  )
+}
+
+export default App
+```
+
+**注意：** `onClick` 事件需要接收的是一个函数，所以它的值不能是函数的调用，但这样的话就不能传参了，那么我们可以这么做
+
+```react
+const App = () => {
+  const btn = (n: number) => {
+    console.log(n)
+  }
+
+  return (
+    <>
+      <button onClick={() => btn(100)}>按钮</button>
+    </>
+  )
+}
+
+export default App
 ```
 
 
@@ -314,12 +371,14 @@ export default App;
 ### 父传子
 
 ```react
+// 子组件
 const Son = (props) => {
   console.log(props); // {msg: 'Hello World!', age: 20, is: true, list: Array(3), obj: {…}, …}
 
   return <h1>{props.msg}</h1>
 }
 
+// 父组件
 function App() {
   return (
     <>
@@ -336,12 +395,14 @@ export default App;
 当给组件中传递一个html标签，可以在组件中通过children来接收
 
 ```react
+// 子组件
 const Son = (props) => {
   console.log(props); // {children: {…}}
 
   return props.children
 }
 
+// 父组件
 function App() {
   return (
     <>
@@ -360,10 +421,12 @@ export default App;
 ### 子传父
 
 ```react
+// 子组件
 const Son = ({ onGetMsg }) => {
   return <h1 onClick={() => onGetMsg('Hello World!')}>Hello World!</h1>
 }
 
+// 父组件
 function App() {
   const getMsg = (msg) => {
     console.log(msg);

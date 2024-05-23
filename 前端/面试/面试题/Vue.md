@@ -1,6 +1,6 @@
 # Vue
 
-## Vue 的最大的优势是什么？
+## 1. Vue 的最大的优势是什么？
 
 `Vue` 是一款轻量级前端框架，简单易学、数据双向绑定、支持组件化开发、数据与视图完全分离、虚拟DOM运行速度更快 并且作者尤雨溪是中国人，Vue相应的文档也是中文的，对国内比较友好。所以Vue是前端开发人员首选的入门框架
 
@@ -15,7 +15,7 @@
 
 
 
-## Vue3 性能提升主要是通过哪几方面体现的？
+## 2. ⭐Vue3 性能提升主要是通过哪几方面体现的？
 
 **体积变小**
 
@@ -29,7 +29,7 @@
 
 
 
-## Vue2 与 Vue3的响应式有什么区别？
+## 3. ⭐Vue2 与 Vue3 的响应式有什么区别？
 
 `Vue2` 采用的是 `Object.defineProperty`，因为它需要遍历对象的所有属性，并将他们转换为 `getter`、`setter`，这样会导致性能不太友好
 
@@ -37,7 +37,7 @@
 
 
 
-## Vue 项目中如何解决跨域问题？
+## 4. ⭐Vue 项目中如何解决跨域问题？
 
 **反向代理**
 
@@ -80,7 +80,7 @@ module.exports = {
 
 
 
-## SPA 单页面应用的优缺点
+## 5. ⭐SPA 单页面应用的优缺点
 
 **优点**
 
@@ -98,7 +98,7 @@ module.exports = {
 
 
 
-## Vue 与 jQuery 的区别
+## 6. Vue 与 jQuery 的区别
 
 `jQuery` 是直接操作的真实 `DOM` 需要先获取元素然后进行赋值，数据与视图是在一起的
 
@@ -106,7 +106,7 @@ module.exports = {
 
 
 
-## Vue 的常用指令
+## 7. Vue 的常用指令
 
 1. `v-bind`：动态绑定数据
 2. `v-on`：绑定事件监听器
@@ -117,7 +117,7 @@ module.exports = {
 
 
 
-## Vue 常用的修饰符
+## 8. Vue 常用的修饰符
 
 **.stop：** 阻止事件冒泡
 **.prevent： ** 阻止默认行为
@@ -127,7 +127,7 @@ module.exports = {
 
 
 
-## Vue ref 和 reactive 的区别
+## 9. Vue ref 和 reactive 的区别
 
 1. `ref` 既可以定义基本类型也可以定义引用类型的数据，而 `reactive` 只能用来定义引用类型数据
 
@@ -136,7 +136,7 @@ module.exports = {
 
 
 
-## Vue 性能优化有哪方面
+## 10. ⭐Vue 性能优化有哪方面
 
 **一、尽可能使用 v-show 替换 v-if**
 
@@ -301,7 +301,41 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue watch 和 watchEffect 的区别
+## 11. 组件中写 name 选项有什么作用？
+
+1、项目使用 `keep-alive` 时，可搭配组件 `name` 进行缓存过滤
+
+2、`DOM` 做递归组件时需要调用自身 `name`
+
+3、`vue-devtools` 调试工具里显示的组见名称是由 `vue` 中组件 `name` 决定的
+
+
+
+## 12. 怎么在组件中监听路由参数的变化？
+
+使用 `watch` 直接监听路由
+
+或
+
+使用 `onBeforeRouteUpdate` 监听路由的变化，他的有三个参数，分别是当前路由，即将去往的路由，以及 `next` 是否放行
+
+
+
+## 13. 怎么捕获 Vue 组件的错误信息？
+
+1、**errorCaptured** 是组件内部钩子，当捕获一个来自子孙组件的错误时被调用，接收 `error、 vm、info` 三个参数，`return false` 后可以阻止错误继续向上抛出
+
+2、**errorHandler** 为全局钩子，使用 `Vue.config.errorHandler` 配置，接收参数与 `errorCaptured` 一 致，2.6后可捕捉 `v-on` 与`promise` 链的错误，可用于统一错误处理与错误兜底
+
+
+
+## 14. 00 Vue 该如何实现组件缓存?
+
+## 15. 00 跟 keep-alive 有关的生命周期是哪些？
+
+
+
+## 16. Vue3 watch 和 watchEffect 的区别
 
 1. `watch` 可以访问新值和旧值(如果监视对象的话不行，因为新旧值相等)，`watchEffect` 只能监听最新的值。
 
@@ -311,7 +345,7 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue 数据响应式原理是什么
+## 17. ⭐Vue 数据响应式原理是什么
 
 **Vue2** 响应式原理是遍历 `data` 对象中的每一个属性，如果是基本数据类型就直接通过 `Object.defineProperty` 把 `data` 对象上的每个属性转换具有 `getter` 和 `setter` 的拦截器属性。
 
@@ -327,15 +361,15 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue computed 和 watch 属性的区别以及应用场景
+## 18. Vue computed 和 watch 属性的区别以及应用场景
 
 **区别**
 
-1、计算属性具有缓存功能，只有当依赖的值发生变化时才会触发，而侦听属性没有缓存，只要值被修改就会触发
+1、计算属性具有缓存功能，只有当依赖的值发生变化时才会触发，而 `watch` 没有缓存，只要值被修改就会触发
 
-2、计算属性不支持异步，而侦听属性支持异步
+2、计算属性不支持异步，而 `watch` 支持异步
 
-3、计算属性必须要有return 返回值，而 侦听属性不能写return 会导致获取不到数据
+3、计算属性必须要有 `return` 返回值，而 `watch` 不能写 `return` 会导致获取不到数据
 
  
 
@@ -351,17 +385,17 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue 组件的 data 为什么必须是函数
+## 19. ⭐Vue 组件的 data 为什么必须是函数
 
 组件中的 `data` 函数返回值形式定义，这样每复用组件时就会返回一个新的 `data`，相当于给每个组件实例创建一个互不影响的私有数据空间。而写成对象形式就会导致所有组件实例共用了一个 `data`，就会造成一个数据发生变化，所有 `data` 数据都会变化这种情况
 
 
 
-## Vue组件之间的通信有几种方式
+## 20. ⭐Vue 组件之间的通信有几种方式
 
 1. props：父组件可以通过 `props` 属性传递数据给子组件。子组件可以通过 `props` 选项接收并使用这些数据。
 2. $emit：子组件可以通过 `$emit` 方法触发自定义事件，并向上传递消息给父组件。父组件可以通过监听子组件触发的事件，并处理相应的逻辑。
-3. 使用事件总线：可以通过创建一个公共的Vue实例作为事件总线来实现组件之间的通信。在某个组件中通过事件总线实例触发事件，其他组件通过事件总线实例监听该事件并执行相应操作，从而实现组件之间的通信。
+3. 使用事件总线：可以通过创建一个公共的 `Vue` 实例作为事件总线来实现组件之间的通信。在某个组件中通过事件总线实例触发事件，其他组件通过事件总线实例监听该事件并执行相应操作，从而实现组件之间的通信。
 4. Vuex：可以在不同的组件之间共享数据，并通过定义的 `mutations` 来修改共享状态。
 
 
@@ -370,7 +404,7 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue 兄弟组件如何通信
+## 21. Vue 兄弟组件如何通信
 
 - 事件总线：EventBus  [Vue.prototype.$bus = new Vue()]
 - 全局数据共享：Vuex
@@ -381,19 +415,19 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue 指令 v-el 的作用是什么
+## 22. Vue 指令 v-el 的作用是什么
 
 提供一个在页面上已存在的 `DOM` 元素作为 `Vue` 实例的挂载目标，可以是 `css` 选择器，也可以是一个 `HTMLElement` 实例
 
 
 
-## Vue 第一次页面加载会触发哪些钩子？
+## 23. ⭐Vue 第一次页面加载会触发哪些钩子？
 
 `beforeCreate`、`created`、`beforeMount`、`mounted`
 
 
 
-## Vue 获取数据在哪个生命周期函数?
+## 24. ⭐Vue 获取数据在哪个生命周期函数?
 
 一般在 `created`、`beforeMount`、`mounted` 中， 
 
@@ -401,13 +435,13 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue 如何去除 URL 中的 #
+## 25. Vue 如何去除 URL 中的 #
 
 将路由的 `hash` 模式改为 `history` 模式
 
 
 
-## Vue $route 和 $router 的区别
+## 26. Vue $route 和 $router 的区别
 
 `$router` 为 `VueRouter` 实例，`$route` 为当前路由
 
@@ -415,7 +449,7 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue 数据双向绑定原理
+## 27. Vue 数据双向绑定原理
 
 `v-model` 主要用于双向绑定数据，他给元素绑定时，不同元素做法也不同
 
@@ -429,7 +463,7 @@ window.addEventListener("scroll", debouncedScroll);
 
  
 
-## Vue v-for 为什么一定要绑定 key ?
+## 28. ⭐Vue v-for 为什么一定要绑定 key ?
 
 在删除数据时，由于没有绑定 `key`，不确定删除的是哪个，就会把整个虚拟 `dom` 重新渲染，这样对性能不太友好。
 
@@ -437,7 +471,7 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue v-show 和 v-if 指令的共同点与不同点
+## 30. ⭐Vue v-show 和 v-if 指令的共同点与不同点
 
 **相同点**
 
@@ -455,7 +489,7 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue 的生命周期有哪些
+## 31. ⭐Vue 的生命周期有哪些
 
 **Vue2**
 
@@ -484,7 +518,7 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vuex 的出现解决了什么问题
+## 32. Vuex 的出现解决了什么问题
 
 主要解决了以下两个问题 
 
@@ -494,11 +528,11 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue nextTick的作用以及应用场景
+## 33. ⭐Vue nextTick的作用以及应用场景
 
 等 `DOM` 元素渲染完毕之后，在下一次更新循环结束时自动执行回调函数中的代码
 
-**为什么要在下一次？** 因为本次的 `DOM` 数据还没有更新，在下一次更新结束后 是最新的数据
+**为什么要在下一次？** 因为本次的 `DOM` 数据还没有更新，在下一次更新才是最新的数据
 
 
 
@@ -510,7 +544,7 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue keep-alive的作用以及应用场景
+## 34. Vue keep-alive的作用以及应用场景
 
 可以实现组件缓存，当组件切换时只会触发一次组件的生命周期
 它具有 `include`、`exclude` 这两个属性，可以有条件的进行组件缓存
@@ -526,7 +560,7 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue 一般在哪个生命周期请求异步数据
+## 35. Vue 一般在哪个生命周期请求异步数据
 
 我们可以在钩子函数 `created`、`beforeMount`、`mounted` 中进行请求异步数据，因为在这三个钩子函数中，`data` 已经创建，可以将服务端端返回的数据进行赋值。
 
@@ -538,25 +572,25 @@ window.addEventListener("scroll", debouncedScroll);
 
 
 
-## Vue 怎么使 watch 立即被调用
+## 36. Vue 怎么使 watch 立即被调用
 
  在参数中指定 `immediate: true` 将会在页面加载完毕后立即执行一次 `watch` 中的回调
 
 
 
-## Vue 怎么使 watch 深度监听
+## 37. Vue 怎么使 watch 深度监听
 
 在参数中指定 `deep: true` 将会开启 `watch` 深度监听
 
 
 
-## Vue computed 中的属性名和 data 中的属性名可以相同吗 
+## 38. ⭐Vue computed 中的属性名和 data 中的属性名可以相同吗 
 
 不能同名，因为 `computed、data、props` 都会被挂载到 `vm vue` 的实例对象中，所以他们不能同名
 
 
 
-## 谈谈Pinia是什么
+## 39. 谈谈 Pinia 是什么
 
 一个集中式状态管理方案，通常用于管理多个组件共享的状态数据
 
@@ -564,13 +598,13 @@ window.addEventListener("scroll", debouncedScroll);
 
 没有 mutations 流程更简洁
 
-TypeScript支持更加友好
+TypeScript 支持更加友好
 
 Pinia 模块定义即可使用，不用汇总
 
 
 
-## Vue2/3 采用的数据响应式原理分别是？
+## 40. Vue2/3 采用的数据响应式原理分别是？
 
 vue2 采用的是 `Object.defineProperty `
 
@@ -578,15 +612,58 @@ vue3 采用的是 `Proxy`
 
 
 
-## params 和 query的区别
+## 41. 00 params 和 query的区别
 
-## 简述 Vue 的 MVVM模式
+## 42. 00 简述 Vue 的 MVVM模式
 
-## 路由守卫
+## 43. 00 路由守卫
 
-## 监听组件原生事件
+## 44. 00 监听组件原生事件
+
+## 45. 00 Vue-router 原理是什么？
+
+## 46. ⭐00 怎样理解 Vue 的单向数据流？
 
 
 
-## Vue 最早可以在哪个生命周期发起请求？
+## 47. ⭐如何对 Vue 首屏加载实现优化? 
 
+1、把不常改变的库放到 `index.html` 中，通过 `cdn` 引入
+
+2、`vue` 路由的懒加载
+
+3、不生成 `map` 文件
+
+4．`vue` 组件尽量不要全局引l入
+
+5．使用更轻量级的工具库
+
+6、开启 `gzip` 压缩
+
+7、首页单独做服务端渲染
+
+
+
+## 48. ⭐谈一谈你对 MVVM 的理解？
+
+`MVVM` 是 `Model-View-ViewModel` 的缩写
+
+简单来说就是 `Model` 表示数据模型，也就是定义的变量数据
+
+而 `View` 表示视图，也就是 `HTML` 模板
+
+`ViewModel` 表示 `Model` 与 `View` 连接的桥梁，数据会绑定到 `ViewModel` 层并自动渲染到视图，视图发生变化会通过 `ViewModel` 层来更新数据
+
+
+
+## 49. ⭐v-model 的原理是什么？
+
+`v-model` 本质是个语法糖，就拿 `input` 来说，他的原理无非就是通过 `@input` 事件来监听数据的变化，然后给 `value` 赋值从而实现数据双向绑定
+
+
+
+### 50. 组件中写 name 选项有哪些好处？
+
+1. 可以通过 `name` 属性实现缓存功能（keep-alive）
+2. 可以通过 `name` 来标识组件（跨组件通信）
+3. 在使用调试工具时，里面显示的组件名称是 `name` 定义的名称
