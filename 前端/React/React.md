@@ -184,66 +184,6 @@ export default App;
 
 
 
-## useState
-
-`useState` 的返回值是一个数组
-
-第一个参数是状态变量，第二个参数是 `set` 函数，用来修改状态变量，而 `useState` 的参数作为初始值
-
-```react
-import { useState } from "react";
-
-function App() {
-  const [num, setNum] = useState(1)
-
-  const btn = () => {
-    // num = num + 1 不能赋值, 只能修改
-    setNum(num + 1)
-  }
-
-  return (
-    <>
-      <h1>{num}</h1>
-      <button onClick={btn}>按钮</button>
-    </>
-  );
-}
-
-export default App;
-```
-
-需要注意的 `useState` 的状态变量是只读的，不能直接给赋值，会丢失响应式。需要通过 `set` 函数修改
-
-
-
-**修改复杂数据**
-
-```react
-import { useState } from "react";
-
-function App() {
-  const [obj, setObj] = useState({ name: "yuyang", age: 21 })
-
-  const btn = () => {
-    setObj({
-      ...obj,
-      age: 22
-    })
-  }
-
-  return (
-    <>
-      <h1>{obj.name} {obj.age}</h1>
-      <button onClick={btn}>按钮</button>
-    </>
-  );
-}
-
-export default App;
-```
-
-
-
 ## 样式
 
 ```css
@@ -513,7 +453,70 @@ export default App;
 
 
 
-## useEffect
+### 展开props
+
+```react
+const MyInput = (props: { type: string, placeholder: string }) => {
+  return (
+    <>
+      <input {...props} />
+      {/* 等价于：<input type="text" placeholder="请输入账号" /> */}
+    </>
+  )
+}
+
+const App = () => {
+  return (
+    <>
+      <MyInput type="text" placeholder="请输入账号"></MyInput>
+    </>
+  )
+}
+
+export default App
+```
+
+
+
+## Hooks
+
+自定义 `Hook` 是以 `use` 开头的函数，通过自定义 `Hook` 函数可以用来实现逻辑的封装和复用
+
+**注意：** 自定义 `Hook` 不能在函数组件外部调用并且不能嵌套在 if、for、其他函数中
+
+```react
+import { useState } from "react";
+
+// 自定义Hooks
+const useToggle = () => {
+  const [value, setValue] = useState()
+
+  const toggle = () => {
+    setValue(!value)
+  }
+
+  return { value, toggle }
+}
+
+// const { value, toggle } = useToggle() 不能在这里调用！！
+
+function App() {
+  const { value, toggle } = useToggle()
+
+  return (
+    <>
+      <button onClick={toggle}>按钮</button>
+      {value && <h1>Hello World!</h1>}
+    </>
+  );
+}
+
+export default App;
+```
+
+
+
+### useEffect
 
 等组件渲染成功后触发useEffect里面的代码，通常用于发起网络请求、操作dom等
 
@@ -638,40 +641,221 @@ export default App;
 
 
 
-## Hooks
+### useMemo
 
-自定义 `Hook` 是以 `use` 开头的函数，通过自定义 `Hook` 函数可以用来实现逻辑的封装和复用
+### useCallback
 
-**注意：** 自定义 `Hook` 不能在函数组件外部调用并且不能嵌套在 if、for、其他函数中
+### useState
+
+`useState` 的返回值是一个数组
+
+第一个参数是状态变量，第二个参数是 `set` 函数，用来修改状态变量，而 `useState` 的参数作为初始值
 
 ```react
 import { useState } from "react";
 
-// 自定义Hooks
-const useToggle = () => {
-  const [value, setValue] = useState()
-
-  const toggle = () => {
-    setValue(!value)
-  }
-
-  return { value, toggle }
-}
-
-// const { value, toggle } = useToggle() 不能在这里调用！！
-
 function App() {
-  const { value, toggle } = useToggle()
+  const [num, setNum] = useState(1)
+
+  const btn = () => {
+    // num = num + 1 不能赋值, 只能修改
+    setNum(num + 1)
+  }
 
   return (
     <>
-      <button onClick={toggle}>按钮</button>
-      {value && <h1>Hello World!</h1>}
+      <h1>{num}</h1>
+      <button onClick={btn}>按钮</button>
     </>
   );
 }
 
 export default App;
+```
+
+需要注意的 `useState` 的状态变量是只读的，不能直接给赋值，会丢失响应式。需要通过 `set` 函数修改
+
+
+
+**修改复杂数据**
+
+```react
+import { useState } from "react";
+
+function App() {
+  const [obj, setObj] = useState({ name: "yuyang", age: 21 })
+
+  const btn = () => {
+    setObj({
+      ...obj,
+      age: 22
+    })
+  }
+
+  return (
+    <>
+      <h1>{obj.name} {obj.age}</h1>
+      <button onClick={btn}>按钮</button>
+    </>
+  );
+}
+
+export default App;
+```
+
+
+
+### useRef
+
+
+
+### React.memo
+
+允许组件在 `Props` 没有改变的情况下跳过渲染
+
+默认情况下父组件的数据发生变化就会引发组件重新渲染，从而也会影响到子组件的重新渲染，如果我们不想让子组件重新渲染可以这么做，通过 `React.memo` 做一个缓存，只要 `props` 的值不发生变化，就不会重新渲染子组件
+
+```react
+import { memo, useState } from "react";
+
+const Son = memo(() => {
+  console.log("子组件重新渲染");
+
+  return (
+    <>
+      <h1>Son</h1>
+    </>
+  )
+})
+
+const App = () => {
+  console.log("父组件重新渲染");
+
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+      <Son/>
+      <button onClick={() => setCount(count + 1)}>按钮</button>
+    </>
+  )
+}
+
+export default App
+```
+
+
+
+**props比较机制**
+
+如果是基本数据类型那么在值修改时候他会对比旧值，如果没有发生变化就不会触发子组件重新渲染。
+
+但如果是引用类型，比如数组在更新时候他的引用地址变了，就会导致与之前旧值的地址不一样，从而就会触发子组件重新渲染
+
+```react
+import { memo, useState } from "react";
+
+const Son = memo(({ list }: { list: number[] }) => {
+  console.log("子组件重新渲染");
+
+  return (
+    <>
+      <h1>Son</h1>
+    </>
+  )
+})
+
+const App = () => {
+  console.log("父组件重新渲染");
+
+  const [list, setList] = useState([1, 2, 3])
+
+  return (
+    <>
+      <Son list={list}></Son>
+      <button onClick={() => setList([1, 2, 3])}>按钮</button>
+    </>
+  )
+}
+```
+
+
+
+### React.forwardRef
+
+`forwardRef` 用于在组件中转发 `ref` 属性到子组件，以便可以从父组件访问子组件的 `DOM` 元素或实例，简单来说就是可以在父组件中拿到子组件的 `dom` 元素并进行一些操作，如：表单聚焦
+
+```react
+import { useRef, useState, forwardRef } from "react";
+import type { LegacyRef } from 'react'
+
+const MyInput = forwardRef((props, ref: LegacyRef<HTMLInputElement>) => {
+  return (
+    <>
+    	<input type="text" placeholder="请输入账号" ref={ref} />
+    </>
+  )
+})
+
+const App = () => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  return (
+    <>
+      <MyInput ref={inputRef}></MyInput>
+      <button onClick={() => inputRef.current?.focus()}>聚焦</button>
+    </>
+  )
+}
+
+export default App
+```
+
+
+
+### useImperativeHandle
+
+`useImperativeHandle` 的作用是搭配 `forwardRef` 暴露自定义的函数或属性给外部组件
+
+```react
+"use client"
+
+import { useRef, forwardRef, useImperativeHandle, useEffect } from "react";
+
+const MyInput = forwardRef((props, ref) => {
+  const data = "Hello World!"
+
+  // 定义暴露给父组件的属性或方法
+  // 定义之后会自动添加到对应的ref上
+  useImperativeHandle(ref, () => ({
+    data,
+    fn: () => console.log(data)
+  }))
+
+  return (
+    <>
+      <h1>{data}</h1>
+    </>
+  )
+})
+
+const App = () => {
+  const myInputRef = useRef<{ data: string, fn: () => void }>(null)
+
+  useEffect(() => {
+    // 调用子组件的属性或方法
+    console.log(myInputRef.current?.data);
+    myInputRef.current?.fn()
+  }, [])
+
+  return (
+    <>
+      <MyInput ref={myInputRef}></MyInput>
+    </>
+  )
+}
+
+export default Home
 ```
 
 
