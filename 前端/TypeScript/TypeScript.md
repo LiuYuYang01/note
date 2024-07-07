@@ -2721,11 +2721,23 @@ console.log(stringSort);
 // @ts-nocheck
 ```
 
-
-
 屏蔽指定行的类型错误
 
 ```
 // @ts-ignore
+```
+
+
+
+在根目录定义 `global.d.ts` 定义全局类型 
+
+```typescript
+// 给window定义类型
+interface Window {
+  
+}
+
+// 定义全局变量类型
+declare const win: { ipcRenderer: IPCRenderer };
 ```
 

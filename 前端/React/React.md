@@ -643,7 +643,140 @@ export default App;
 
 ### useMemo
 
+默认情况下 `React` 组件中的状态发生变化就会导致整个组件重新渲染
+
+就比如下面这段代码：当我们点击 `5` 次 按钮 `A`，此时就会调用 `5` 次 `fn` 函数。而当我们点击了按钮 `B` 改变了 `b` 的状态，此时也会触发`5` 次 `fn` 函数
+
+这种情况是因为状态每次发生变化时都会重新渲染组件，重新触发循环打印数据
+
+```react
+import { useMemo, useState } from "react";
+
+const Home = () => {
+  const [a, setA] = useState(1)
+  const [b, setB] = useState(1)
+
+  const fn = () => {
+    let n = 0;
+
+    for (let i = 1; i <= a; i++) {
+      console.log(i);
+      n += i
+    }
+
+    return n
+  }
+
+  fn()
+
+  return (
+    <>
+      <button onClick={() => setA(a + 1)}>按钮 A</button>
+      <button onClick={() => setB(b + 1)}>按钮 B</button>
+    </>
+  )
+}
+
+export default Home
+```
+
+
+
+我们可以通过 `useMemo` 来解决这个问题
+
+```react
+import { useMemo, useState } from "react";
+
+const Home = () => {
+  const [a, setA] = useState(1)
+  const [b, setB] = useState(1)
+
+  const fn = () => {
+    let n = 0;
+
+    for (let i = 1; i <= a; i++) {
+      console.log(i);
+      n += i
+    }
+
+    return n
+  }
+
+  const n = useMemo(fn, [a])
+
+  return (
+    <>
+      <h1>{n}</h1>
+      <button onClick={() => setA(a + 1)}>按钮 A</button>
+      <button onClick={() => setB(b + 1)}>按钮 B</button>
+    </>
+  )
+}
+
+export default Home
+```
+
+这样的话只有依赖的数据 `a` 发生变化才会重新触发 `fn` 函数，如果没有发生变化，就会将 `a` 的值缓存起来
+
+
+
 ### useCallback
+
+### useContext
+
+当我们的组件越来越复杂时，组件通信就会非常繁琐，需要将数据一层一层的传递下去，这显然不是一个很好的办法，所以我们可以使用`useContext` 来解决这个问题
+
+**演示：** 多层组件的数据传递与接收
+
+```react
+import { useContext, createContext } from "react";
+
+const MyContext = createContext<string>("")
+
+const Home = () => {
+  const data = "Hello World!"
+
+  return (
+    <>
+      {/* 传递数据 */}
+      <MyContext.Provider value={data}>
+        <AAA></AAA>
+      </MyContext.Provider>
+    </>
+  )
+}
+
+const AAA = () => {
+  return (
+    <>
+      <BBB></BBB>
+    </>
+  )
+}
+const BBB = () => {
+  return (
+    <>
+      <CCC></CCC>
+    </>
+  )
+}
+const CCC = () => {
+  // 接收数据
+  const data = useContext(MyContext)
+
+  return (
+    <>
+      <h1>{data}</h1>
+    </>
+  )
+}
+
+export default Home
+```
+
+当然不止 `CCC` 组件可以接收，只要是在 `<MyContext.Provider>` 标签包裹的组件都可以接收传递过来的数据
+
+
 
 ### useState
 

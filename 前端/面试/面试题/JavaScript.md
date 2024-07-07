@@ -99,11 +99,9 @@
 
 ```javascript
 function Person(){
-
     this.name="monster1935";
     this.age='24';
     this.sex="male";
-
 }
 
 // 如果不new的话就跟普通函数没有区别了
