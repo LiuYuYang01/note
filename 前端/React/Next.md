@@ -113,6 +113,8 @@ const Cate = ({ params, searchParams }) => {
 export default Cate
 ```
 
+**注意：** 直接通过 `{ params, searchParams }` 解构的方式获取参数只支持页面使用
+
 
 
 ### 插槽路由
